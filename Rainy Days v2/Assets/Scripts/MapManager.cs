@@ -26,32 +26,37 @@ public class MapManager : MonoBehaviour
 
         SpawnPlayer();
 
-        //
-
     }
 
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector3Int gridPosition = map.WorldToCell(mousePosition);
-            TileBase clickedTile = map.GetTile(gridPosition);
-            int poisonLevel = dataFromTiles[clickedTile].PoisonLevel;
-            TileType type = dataFromTiles[clickedTile].Type;
-            Debug.Log($"At position {gridPosition} there is a {type} tile with poison level {poisonLevel}.");
-        }
-
         // find a* path on click
         if (Input.GetMouseButtonDown(0) && player.State == PlayerState.Neutral)
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int gridPosition = map.WorldToCell(mousePosition);
             APath path = FindAPath(player.currentGridPosition, gridPosition);
+            Debug.Log(path);
+            StopAllCoroutines();
+            StartCoroutine(WalkPath(path));
         }
 
     }
+
+    public IEnumerator WalkPath(APath path)
+    {
+        Field[] fields = path.Fields.ToArray();
+        for (int i = 1; i < fields.Length; i++)
+        {
+            player.startTime = Time.time;
+            Vector3 nf = map.CellToWorld(fields[i].GridPosition);
+            player.nextField = new(nf.x, nf.y + 0.25f, 1);
+            yield return new WaitForSeconds(1f);
+        }
+        player.currentGridPosition = fields[fields.Length - 1].GridPosition;
+    }
+
 
     public APath FindAPath(Vector3Int start, Vector3Int finish)
     {
@@ -61,6 +66,7 @@ public class MapManager : MonoBehaviour
         lastX = firstX + map.size.x;
         lastY = firstY + map.size.y;
         Dictionary<Vector3Int, Field> fields = new();
+        const float heuristicScale = 1.5f;
         // browse all tiles
         for (int x = firstX; x <= lastX; x++)
         {
@@ -72,7 +78,7 @@ public class MapManager : MonoBehaviour
                     TileData tile = dataFromTiles[map.GetTile(gridPos)];
                     if (CheckIfTileIsWalkable(tile))
                     {
-                        float heuristic = Vector3Int.Distance(start, finish);
+                        float heuristic = Vector3Int.Distance(start, finish) * heuristicScale;
                         Field field = new(gridPos, tile, heuristic);
                         fields.Add(gridPos, field);
                     }
@@ -80,49 +86,136 @@ public class MapManager : MonoBehaviour
 
             }
         }
-        // test
-        foreach (Field field in fields.Values)
-        {
-            Debug.Log(field);
-        }
-        /*
-        foreach (Field field in fields.Values)
-        {
-            // neighbours
 
-            for (int x = -1; x <= 1; x++)
+        // neighbours
+        foreach (Field field in fields.Values)
+        {
+            // south
+            Vector3Int s = new(field.GridPosition.x - 1, field.GridPosition.y);
+            if (map.GetTile(s) != null)
             {
-                for (int y = -1; x <= 1; y++)
+                TileData tile = dataFromTiles[map.GetTile(s)];
+                if (CheckIfTileIsWalkable(tile))
                 {
-                    if (x != 0 && y != 0)
-                    {
-                        Vector3Int gridPos = new(field.GridPosition.x + x, field.GridPosition.y + y);
-                        if (map.GetTile(gridPos) != null)
-                        {
-                            TileData tile = dataFromTiles[map.GetTile(gridPos)];
-                            if (CheckIfTileIsWalkable(tile))
-                            {
-                                field.Neighbours.Add(fields[gridPos]);
-                            }
-                        }
-                    }
+                    field.Neighbours.Add(fields[s]);
+                }
+            }
+            // north
+            Vector3Int n = new(field.GridPosition.x + 1, field.GridPosition.y);
+            if (map.GetTile(n) != null)
+            {
+                TileData tile = dataFromTiles[map.GetTile(n)];
+                if (CheckIfTileIsWalkable(tile))
+                {
+                    field.Neighbours.Add(fields[n]);
+                }
+            }
+            // east
+            Vector3Int e = new(field.GridPosition.x, field.GridPosition.y - 1);
+            if (map.GetTile(e) != null)
+            {
+                TileData tile = dataFromTiles[map.GetTile(e)];
+                if (CheckIfTileIsWalkable(tile))
+                {
+                    field.Neighbours.Add(fields[e]);
+                }
+            }
+            // west
+            Vector3Int w = new(field.GridPosition.x, field.GridPosition.y + 1);
+            if (map.GetTile(w) != null)
+            {
+                TileData tile = dataFromTiles[map.GetTile(w)];
+                if (CheckIfTileIsWalkable(tile))
+                {
+                    field.Neighbours.Add(fields[w]);
+                }
+            }
+            // north east
+            Vector3Int ne = new(field.GridPosition.x + 1, field.GridPosition.y - 1);
+            if (map.GetTile(ne) != null)
+            {
+                TileData tile = dataFromTiles[map.GetTile(ne)];
+                if (CheckIfTileIsWalkable(tile))
+                {
+                    field.Neighbours.Add(fields[ne]);
+                }
+            }
+            // north west
+            Vector3Int nw = new(field.GridPosition.x + 1, field.GridPosition.y + 1);
+            if (map.GetTile(nw) != null)
+            {
+                TileData tile = dataFromTiles[map.GetTile(nw)];
+                if (CheckIfTileIsWalkable(tile))
+                {
+                    field.Neighbours.Add(fields[nw]);
+                }
+            }
+            // south east
+            Vector3Int se = new(field.GridPosition.x - 1, field.GridPosition.y - 1);
+            if (map.GetTile(se) != null)
+            {
+                TileData tile = dataFromTiles[map.GetTile(se)];
+                if (CheckIfTileIsWalkable(tile))
+                {
+                    field.Neighbours.Add(fields[se]);
+                }
+            }
+            // south west
+            Vector3Int sw = new(field.GridPosition.x - 1, field.GridPosition.y + 1);
+            if (map.GetTile(sw) != null)
+            {
+                TileData tile = dataFromTiles[map.GetTile(sw)];
+                if (CheckIfTileIsWalkable(tile))
+                {
+                    field.Neighbours.Add(fields[sw]);
                 }
             }
         }
-        // test
-        /*
-        foreach (Field field in fields.Values)
-        {
-            string s = $"I am {field} and my neighbours are: ";
-            foreach (Field neighbour in field.Neighbours)
-            {
-                s += neighbour + "    ";
-            }
-            Debug.Log(s);
-        }
-        */
 
-        return null;
+        List<Field> done = new();
+        Field startField = fields[start];
+        Field finishField = fields[finish];
+        Field currentField = startField;
+        FieldsPriorityQueue queue = new();
+        startField.BestScore = 0 + startField.Heuristic;
+        startField.DijkstraScore = 0;
+        startField.Path.Add(startField);
+
+        while (currentField != finishField)
+        {
+            foreach (Field f in currentField.Neighbours)
+            {
+                if (!done.Contains(f))
+                {
+                    float score = currentField.DijkstraScore + Distance(currentField, f);
+                    if (score + f.Heuristic < f.BestScore)
+                    {
+                        f.BestScore = score + f.Heuristic;
+                        f.DijkstraScore = score;
+                        queue.Enqueue(f);
+
+                        f.Path.Clear();
+                        foreach (Field field in currentField.Path)
+                        {
+                            f.Path.Add(field);
+                        }
+                        f.Path.Add(f);
+                    }
+                }
+            }
+            done.Add(currentField);
+            currentField = queue.Dequeue();
+        }
+
+        APath bestPath = new(finishField.Path, finishField.BestScore);
+
+        return bestPath;
+    }
+
+    private float Distance(Field from, Field to)
+    {
+        float result = 1f; // scale it perchance
+        return result * to.TileData.PoisonLevel;
     }
 
     public bool CheckIfTileIsWalkable(TileData tile)
@@ -135,6 +228,8 @@ public class MapManager : MonoBehaviour
 
     public void SpawnPlayer()
     {
-        Instantiate(player, map.CellToWorld(player.spawnGridPosition), Quaternion.identity);
+        Vector3Int spawn = new(player.spawnGridPosition.x, player.spawnGridPosition.y, 1);
+        player = Instantiate(player, map.CellToWorld(spawn), Quaternion.identity);
+        player.currentGridPosition = player.spawnGridPosition;
     }
 }
