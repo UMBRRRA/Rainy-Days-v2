@@ -10,6 +10,7 @@ public class MapManager : MonoBehaviour
     public List<TileData> tileDatas;
     public Dictionary<TileBase, TileData> dataFromTiles;
     public Player player;
+    public float timeForPlayerMove;
 
     void Start()
     {
@@ -34,6 +35,7 @@ public class MapManager : MonoBehaviour
         // find a* path on click
         if (Input.GetMouseButtonDown(0) && player.State == PlayerState.Neutral)
         {
+            player.State = PlayerState.Moving;
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int gridPosition = map.WorldToCell(mousePosition);
             APath path = FindAPath(player.currentGridPosition, gridPosition);
@@ -49,12 +51,24 @@ public class MapManager : MonoBehaviour
         Field[] fields = path.Fields.ToArray();
         for (int i = 1; i < fields.Length; i++)
         {
-            player.startTime = Time.time;
+            Vector3 cf = map.CellToWorld(fields[i - 1].GridPosition);
             Vector3 nf = map.CellToWorld(fields[i].GridPosition);
-            player.nextField = new(nf.x, nf.y + 0.25f, 1);
-            yield return new WaitForSeconds(1f);
+            Vector3 ne = new(1, 0, 0);
+            Vector3 sw = new(-1, 0, 0);
+            if (nf - cf == ne || nf - cf == sw)
+            {
+                timeForPlayerMove = 0.5f;
+            }
+            else
+            {
+                timeForPlayerMove = 0.3f;
+            }
+            player.NextField = new(nf.x, nf.y + 0.25f, player.playerZ);
+            yield return new WaitForSeconds(timeForPlayerMove);
+            StartCoroutine(player.MoveToPosition(new(nf.x, nf.y + 0.25f, player.playerZ), timeForPlayerMove));
         }
         player.currentGridPosition = fields[fields.Length - 1].GridPosition;
+        player.State = PlayerState.Neutral;
     }
 
 
@@ -215,6 +229,11 @@ public class MapManager : MonoBehaviour
     private float Distance(Field from, Field to)
     {
         float result = 1f; // scale it perchance
+        if (from.GridPosition.x != to.GridPosition.x &&
+            from.GridPosition.y != to.GridPosition.y) // that went suprisingly well...
+        {
+            result *= 1.41f;
+        }
         return result * to.TileData.PoisonLevel;
     }
 
