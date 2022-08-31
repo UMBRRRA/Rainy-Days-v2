@@ -11,6 +11,7 @@ public class MapManager : MonoBehaviour
     public Dictionary<TileBase, TileData> dataFromTiles;
     public Player player;
     public float timeForPlayerMove;
+    public List<Vector3Int> OccupiedFields { get; set; } = new();
 
     void Start()
     {
@@ -37,13 +38,16 @@ public class MapManager : MonoBehaviour
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int gridPosition = map.WorldToCell(mousePosition);
-            if (dataFromTiles[map.GetTile(gridPosition)].Type != TileType.Locked)
+            if (map.GetTile(gridPosition) != null)
             {
-                player.State = PlayerState.Moving;
-                APath path = FindAPath(player.currentGridPosition, gridPosition);
-                Debug.Log(path);
-                StopAllCoroutines();
-                StartCoroutine(WalkPath(path));
+                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(gridPosition)]) && CheckIfFieldIsFree(gridPosition))
+                {
+                    player.State = PlayerState.Moving;
+                    APath path = FindAPath(player.currentGridPosition, gridPosition);
+                    Debug.Log(path);
+                    StopAllCoroutines();
+                    StartCoroutine(WalkPath(path));
+                }
             }
 
         }
@@ -60,7 +64,7 @@ public class MapManager : MonoBehaviour
             nf = map.CellToWorld(fields[i].GridPosition);
             Vector3 ne = new(1, 0, 0);
             Vector3 sw = new(-1, 0, 0);
-
+            /*
             if (nf - cf == ne || nf - cf == sw)
             {
                 timeForPlayerMove = 0.5f;
@@ -69,7 +73,7 @@ public class MapManager : MonoBehaviour
             {
                 timeForPlayerMove = 0.3f;
             }
-
+            */
             player.NextField = new(nf.x, nf.y + 0.25f, player.playerZ);
             yield return new WaitForSeconds(timeForPlayerMove);
             StartCoroutine(player.MoveToPosition(new(nf.x, nf.y + 0.25f, player.playerZ), timeForPlayerMove));
@@ -80,15 +84,6 @@ public class MapManager : MonoBehaviour
         Vector3Int idleDir = fields[fields.Length - 1].GridPosition - fields[fields.Length - 2].GridPosition;
         StartCoroutine(player.PlayIdle(idleDir, nf));
 
-        // this would be better for walking anims
-        if (idleDir.x == 1 && idleDir.y == -1)
-        {
-            //player.IdleNE();
-        }
-        else if (idleDir.x == 0 && idleDir.y == -1)
-        {
-            //player.IdleE();
-        }
     }
 
 
@@ -110,7 +105,7 @@ public class MapManager : MonoBehaviour
                 if (map.GetTile(gridPos) != null)
                 {
                     TileData tile = dataFromTiles[map.GetTile(gridPos)];
-                    if (CheckIfTileIsWalkable(tile))
+                    if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(gridPos))
                     {
                         float heuristic = Vector3Int.Distance(start, finish) * heuristicScale;
                         Field field = new(gridPos, tile, heuristic);
@@ -129,7 +124,7 @@ public class MapManager : MonoBehaviour
             if (map.GetTile(s) != null)
             {
                 TileData tile = dataFromTiles[map.GetTile(s)];
-                if (CheckIfTileIsWalkable(tile))
+                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(s))
                 {
                     field.Neighbours.Add(fields[s]);
                 }
@@ -139,7 +134,7 @@ public class MapManager : MonoBehaviour
             if (map.GetTile(n) != null)
             {
                 TileData tile = dataFromTiles[map.GetTile(n)];
-                if (CheckIfTileIsWalkable(tile))
+                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(n))
                 {
                     field.Neighbours.Add(fields[n]);
                 }
@@ -149,7 +144,7 @@ public class MapManager : MonoBehaviour
             if (map.GetTile(e) != null)
             {
                 TileData tile = dataFromTiles[map.GetTile(e)];
-                if (CheckIfTileIsWalkable(tile))
+                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(e))
                 {
                     field.Neighbours.Add(fields[e]);
                 }
@@ -159,7 +154,7 @@ public class MapManager : MonoBehaviour
             if (map.GetTile(w) != null)
             {
                 TileData tile = dataFromTiles[map.GetTile(w)];
-                if (CheckIfTileIsWalkable(tile))
+                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(w))
                 {
                     field.Neighbours.Add(fields[w]);
                 }
@@ -169,7 +164,7 @@ public class MapManager : MonoBehaviour
             if (map.GetTile(ne) != null)
             {
                 TileData tile = dataFromTiles[map.GetTile(ne)];
-                if (CheckIfTileIsWalkable(tile))
+                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(ne))
                 {
                     field.Neighbours.Add(fields[ne]);
                 }
@@ -179,7 +174,7 @@ public class MapManager : MonoBehaviour
             if (map.GetTile(nw) != null)
             {
                 TileData tile = dataFromTiles[map.GetTile(nw)];
-                if (CheckIfTileIsWalkable(tile))
+                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(nw))
                 {
                     field.Neighbours.Add(fields[nw]);
                 }
@@ -189,7 +184,7 @@ public class MapManager : MonoBehaviour
             if (map.GetTile(se) != null)
             {
                 TileData tile = dataFromTiles[map.GetTile(se)];
-                if (CheckIfTileIsWalkable(tile))
+                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(se))
                 {
                     field.Neighbours.Add(fields[se]);
                 }
@@ -199,7 +194,7 @@ public class MapManager : MonoBehaviour
             if (map.GetTile(sw) != null)
             {
                 TileData tile = dataFromTiles[map.GetTile(sw)];
-                if (CheckIfTileIsWalkable(tile))
+                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(sw))
                 {
                     field.Neighbours.Add(fields[sw]);
                 }
@@ -260,6 +255,14 @@ public class MapManager : MonoBehaviour
     public bool CheckIfTileIsWalkable(TileData tile)
     {
         if (tile.Type == TileType.Locked)
+            return false;
+        else
+            return true;
+    }
+
+    private bool CheckIfFieldIsFree(Vector3Int gridPos)
+    {
+        if (OccupiedFields.Contains(gridPos))
             return false;
         else
             return true;
