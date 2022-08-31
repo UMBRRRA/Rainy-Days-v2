@@ -94,6 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5960890699162566552}
   - component: {fileID: 3282145238433749452}
+  - component: {fileID: 6160619923393280736}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -130,9 +131,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerZ: 1.5
-  spawnGridPosition: {x: 0, y: -6, z: 0}
+  spawnGridPosition: {x: -2, y: -1, z: 0}
   currentGridPosition: {x: 0, y: -6, z: 0}
   mapManager: {fileID: 0}
-  walkDelayTime: 51
-  speed: 1
-  timeToReachTarget: 60
+  spawnDirection: 1
+--- !u!95 &6160619923393280736
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5960890699162566554}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 97e7fe64c61ad3c46bdef6aea272f4f8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

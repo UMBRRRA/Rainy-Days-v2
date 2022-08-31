@@ -35,26 +35,32 @@ public class MapManager : MonoBehaviour
         // find a* path on click
         if (Input.GetMouseButtonDown(0) && player.State == PlayerState.Neutral)
         {
-            player.State = PlayerState.Moving;
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int gridPosition = map.WorldToCell(mousePosition);
-            APath path = FindAPath(player.currentGridPosition, gridPosition);
-            Debug.Log(path);
-            StopAllCoroutines();
-            StartCoroutine(WalkPath(path));
+            if (dataFromTiles[map.GetTile(gridPosition)].Type != TileType.Locked)
+            {
+                player.State = PlayerState.Moving;
+                APath path = FindAPath(player.currentGridPosition, gridPosition);
+                Debug.Log(path);
+                StopAllCoroutines();
+                StartCoroutine(WalkPath(path));
+            }
+
         }
 
     }
 
     public IEnumerator WalkPath(APath path)
     {
+        Vector3 nf = new(0, 0, 0);
         Field[] fields = path.Fields.ToArray();
         for (int i = 1; i < fields.Length; i++)
         {
             Vector3 cf = map.CellToWorld(fields[i - 1].GridPosition);
-            Vector3 nf = map.CellToWorld(fields[i].GridPosition);
+            nf = map.CellToWorld(fields[i].GridPosition);
             Vector3 ne = new(1, 0, 0);
             Vector3 sw = new(-1, 0, 0);
+
             if (nf - cf == ne || nf - cf == sw)
             {
                 timeForPlayerMove = 0.5f;
@@ -63,12 +69,26 @@ public class MapManager : MonoBehaviour
             {
                 timeForPlayerMove = 0.3f;
             }
+
             player.NextField = new(nf.x, nf.y + 0.25f, player.playerZ);
             yield return new WaitForSeconds(timeForPlayerMove);
             StartCoroutine(player.MoveToPosition(new(nf.x, nf.y + 0.25f, player.playerZ), timeForPlayerMove));
+            Vector3Int walkDir = fields[i].GridPosition - fields[i - 1].GridPosition;
+            player.PlayWalk(walkDir);
         }
         player.currentGridPosition = fields[fields.Length - 1].GridPosition;
-        player.State = PlayerState.Neutral;
+        Vector3Int idleDir = fields[fields.Length - 1].GridPosition - fields[fields.Length - 2].GridPosition;
+        StartCoroutine(player.PlayIdle(idleDir, nf));
+
+        // this would be better for walking anims
+        if (idleDir.x == 1 && idleDir.y == -1)
+        {
+            //player.IdleNE();
+        }
+        else if (idleDir.x == 0 && idleDir.y == -1)
+        {
+            //player.IdleE();
+        }
     }
 
 
