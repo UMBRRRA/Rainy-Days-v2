@@ -11,6 +11,8 @@ public enum PlayerState
 
 public class Player : MonoBehaviour
 {
+    private Player singleton;
+
     public float playerZ = 1.2f;
     public Vector3Int spawnGridPosition;
     public Vector3Int currentGridPosition;
@@ -31,6 +33,21 @@ public class Player : MonoBehaviour
             _state = value;
         }
     }
+
+    private void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+        if (singleton == null)
+        {
+            singleton = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+
+    }
+
 
 
     void Start()
