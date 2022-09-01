@@ -57,8 +57,6 @@ public class Player : MonoBehaviour
         float ti = 0f;
         while (true)
         {
-            //transform.position = Vector3.MoveTowards(transform.position, position, 2f);
-
             ti += Time.deltaTime / timeTo;
             transform.position = Vector3.Lerp(currentPos, position, ti);
 
