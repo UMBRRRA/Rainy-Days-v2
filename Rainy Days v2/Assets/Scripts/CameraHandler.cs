@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CameraHandler : MonoBehaviour
 {
-    public CameraFollow cameraFollow;
-    private Player player;
+    public CameraFollow CameraFollow { get; set; }
+    public Player Player { get; set; }
     public Vector3 cameraSpawnPos;
 
     void Start()
@@ -16,7 +16,13 @@ public class CameraHandler : MonoBehaviour
 
     public IEnumerator FindPlayer()
     {
-        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
-        cameraFollow.Setup(() => player.transform.position);
+        yield return new WaitUntil(() => (Player = FindObjectOfType<Player>()) != null);
+        StartCoroutine(FindCamera());
+    }
+
+    public IEnumerator FindCamera()
+    {
+        yield return new WaitUntil(() => (CameraFollow = FindObjectOfType<CameraFollow>()) != null);
+        CameraFollow.Setup(() => Player.transform.position);
     }
 }
