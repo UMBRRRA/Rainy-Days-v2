@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Managers : MonoBehaviour
+public class EventSystemSingleton : MonoBehaviour
 {
-    private static Managers singleton;
-
+    private static EventSystemSingleton singleton;
     private void Awake()
     {
         DontDestroyOnLoad(this.gameObject);
@@ -19,5 +18,4 @@ public class Managers : MonoBehaviour
         }
 
     }
-
 }

@@ -15,6 +15,14 @@ public class MapManager : MonoBehaviour
 
     void Start()
     {
+        Setup();
+    }
+
+    public void Setup()
+    {
+        OccupiedFields.Clear();
+        StartCoroutine(FindMap());
+        SpawnPlayer();
         // reading all kinds of tiles
         dataFromTiles = new Dictionary<TileBase, TileData>();
         foreach (var tileData in tileDatas)
@@ -25,9 +33,11 @@ public class MapManager : MonoBehaviour
 
             }
         }
+    }
 
-        SpawnPlayer();
-
+    public IEnumerator FindMap()
+    {
+        yield return new WaitUntil(() => (map = FindObjectOfType<Tilemap>()) != null);
     }
 
 
@@ -65,6 +75,11 @@ public class MapManager : MonoBehaviour
             Vector3 ne = new(1, 0, 0);
             Vector3 sw = new(-1, 0, 0);
             /*
+            
+            */
+            player.NextField = new(nf.x, nf.y + 0.25f, player.playerZ);
+            yield return new WaitForSeconds(timeForPlayerMove);
+
             if (nf - cf == ne || nf - cf == sw)
             {
                 timeForPlayerMove = 0.5f;
@@ -73,9 +88,7 @@ public class MapManager : MonoBehaviour
             {
                 timeForPlayerMove = 0.3f;
             }
-            */
-            player.NextField = new(nf.x, nf.y + 0.25f, player.playerZ);
-            yield return new WaitForSeconds(timeForPlayerMove);
+
             StartCoroutine(player.MoveToPosition(new(nf.x, nf.y + 0.25f, player.playerZ), timeForPlayerMove));
             Vector3Int walkDir = fields[i].GridPosition - fields[i - 1].GridPosition;
             player.PlayWalk(walkDir);
@@ -233,6 +246,13 @@ public class MapManager : MonoBehaviour
                 }
             }
             done.Add(currentField);
+
+            if (queue.Entries.Count == 0)
+            {
+                Debug.Log("Can't find path.");
+
+            }
+
             currentField = queue.Dequeue();
         }
 

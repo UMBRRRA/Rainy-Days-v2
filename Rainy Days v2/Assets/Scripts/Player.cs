@@ -2,16 +2,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum PlayerState
 {
     Neutral,
-    Moving
+    Moving,
+    Pause
 }
 
 public class Player : MonoBehaviour
 {
-    private Player singleton;
+    private static Player singleton;
 
     public float playerZ = 1.2f;
     public Vector3Int spawnGridPosition;
@@ -20,6 +22,7 @@ public class Player : MonoBehaviour
     public int spawnDirection;
     private Animator animator;
     public Vector3 NextField { get; set; }
+    private PauseMenuFunctions pauseMenu;
     private PlayerState _state = PlayerState.Neutral;
     public PlayerState State
     {
@@ -33,6 +36,7 @@ public class Player : MonoBehaviour
             _state = value;
         }
     }
+
 
     private void Awake()
     {
@@ -62,7 +66,17 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Escape) && State == PlayerState.Neutral)
+        {
+            State = PlayerState.Pause;
+            StartCoroutine(OpenPauseMenu());
+        }
+    }
 
+    public IEnumerator OpenPauseMenu()
+    {
+        yield return new WaitUntil(() => (pauseMenu = FindObjectOfType<PauseMenuFunctions>()) != null);
+        pauseMenu.ActivatePauseMenu();
     }
 
     public IEnumerator MoveToPosition(Vector3 position, float timeTo)

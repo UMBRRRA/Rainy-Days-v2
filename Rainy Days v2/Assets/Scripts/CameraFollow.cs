@@ -7,6 +7,7 @@ public class CameraFollow : MonoBehaviour
 {
     private Func<Vector3> GetCameraFollowPosFunc;
     public float cameraMoveSpeed = 0.7f;
+    private MainCanvas canvas;
 
     public void Setup(Func<Vector3> GetCameraFollowPosFunc)
     {
@@ -16,6 +17,17 @@ public class CameraFollow : MonoBehaviour
     public void SetGetCameraFollowPosFunc(Func<Vector3> GetCameraFollowPosFunc)
     {
         this.GetCameraFollowPosFunc = GetCameraFollowPosFunc;
+    }
+
+    private void Start()
+    {
+        StartCoroutine(FindCanvas());
+    }
+
+    public IEnumerator FindCanvas()
+    {
+        yield return new WaitUntil(() => (canvas = FindObjectOfType<MainCanvas>()) != null);
+        canvas.ChangeLevel();
     }
 
     // Update is called once per frame
