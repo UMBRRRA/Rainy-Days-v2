@@ -68,8 +68,6 @@ public class MapManager : MonoBehaviour
                 Debug.Log("Transiting");
             }
 
-            TransitionFields.Keys.ToList().ForEach(tf => Debug.Log(tf));
-
         }
 
     }
