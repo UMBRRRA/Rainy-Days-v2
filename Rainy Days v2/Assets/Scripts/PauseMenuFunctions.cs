@@ -33,11 +33,18 @@ public class PauseMenuFunctions : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        StartCoroutine(DestroyPlayer());
-        child.SetActive(false);
-        mainMenu.child.SetActive(true);
-        SceneManager.LoadScene(0);
+        Shadow shadow = FindObjectOfType<Shadow>();
+        shadow.CloseShadow();
+        StartCoroutine(ReturnToMM(shadow));
+    }
 
+    public IEnumerator ReturnToMM(Shadow shadow)
+    {
+        yield return new WaitUntil(() => shadow.doneAnimating);
+        StartCoroutine(DestroyPlayer());
+        DeactivatePauseMenu();
+        mainMenu.ActivateMainMenu();
+        SceneManager.LoadScene(0);
     }
 
     public IEnumerator DestroyPlayer()

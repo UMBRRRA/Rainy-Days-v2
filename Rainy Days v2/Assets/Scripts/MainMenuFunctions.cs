@@ -10,7 +10,16 @@ public class MainMenuFunctions : MonoBehaviour
 
     public void StartGame()
     {
+        Shadow shadow = FindObjectOfType<Shadow>();
+        shadow.CloseShadow();
+        StartCoroutine(StartGameCoroutine(shadow));
+    }
+
+    public IEnumerator StartGameCoroutine(Shadow shadow)
+    {
+        yield return new WaitUntil(() => shadow.doneAnimating);
         SceneManager.LoadScene(1);
+        DeactivateMainMenu();
     }
 
     public void ActivateMainMenu()

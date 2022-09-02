@@ -10,6 +10,7 @@ public class TransitionField : MonoBehaviour
     public Vector3Int spawnPos;
     public int spawnDir;
     private Player player;
+    private Shadow shadow;
 
     void Start()
     {
@@ -33,6 +34,14 @@ public class TransitionField : MonoBehaviour
     public IEnumerator WaitForPlayer()
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        shadow = FindObjectOfType<Shadow>();
+        shadow.CloseShadow();
+        StartCoroutine(WaitForShadow(shadow));
+    }
+
+    public IEnumerator WaitForShadow(Shadow shadow)
+    {
+        yield return new WaitUntil(() => shadow.doneAnimating);
         player.spawnGridPosition = spawnPos;
         player.spawnDirection = spawnDir;
         player.ChangeRoom();
