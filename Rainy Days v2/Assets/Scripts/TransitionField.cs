@@ -35,6 +35,7 @@ public class TransitionField : MonoBehaviour
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
         player.spawnGridPosition = spawnPos;
         player.spawnDirection = spawnDir;
+        player.ChangeRoom();
         SceneManager.LoadScene(level);
     }
 }

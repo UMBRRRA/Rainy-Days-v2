@@ -303,8 +303,17 @@ public class MapManager : MonoBehaviour
 
     public void SpawnPlayer()
     {
-        Vector3Int spawn = new(player.spawnGridPosition.x, player.spawnGridPosition.y, 1);
-        player = Instantiate(player, map.CellToWorld(spawn), Quaternion.identity);
-        player.currentGridPosition = player.spawnGridPosition;
+        Player test = FindObjectOfType<Player>();
+        if (test == null)
+        {
+            Vector3Int spawn = new(player.spawnGridPosition.x, player.spawnGridPosition.y, 1);
+            player = Instantiate(player, map.CellToWorld(spawn), Quaternion.identity);
+            player.currentGridPosition = player.spawnGridPosition;
+        }
+        else
+        {
+            player = test;
+            player.mapManager = this;
+        }
     }
 }

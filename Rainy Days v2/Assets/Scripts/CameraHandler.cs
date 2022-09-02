@@ -10,7 +10,6 @@ public class CameraHandler : MonoBehaviour
 
     void Start()
     {
-        transform.position = new Vector3(cameraSpawnPos.x, cameraSpawnPos.y, transform.position.z);
         StartCoroutine(FindPlayer());
     }
 
@@ -23,6 +22,7 @@ public class CameraHandler : MonoBehaviour
     public IEnumerator FindCamera()
     {
         yield return new WaitUntil(() => (CameraFollow = FindObjectOfType<CameraFollow>()) != null);
+        CameraFollow.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y, CameraFollow.transform.position.z);
         CameraFollow.Setup(() => Player.transform.position);
     }
 }

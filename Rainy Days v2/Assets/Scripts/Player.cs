@@ -63,6 +63,14 @@ public class Player : MonoBehaviour
         animator.SetInteger("IdleDirection", spawnDirection);
     }
 
+    public void ChangeRoom()
+    {
+        currentGridPosition = spawnGridPosition;
+        Vector3 pos = mapManager.map.CellToWorld(spawnGridPosition);
+        transform.position = new Vector3(pos.x, pos.y + 0.25f, playerZ);
+        animator.SetInteger("IdleDirection", spawnDirection);
+    }
+
 
     void Update()
     {
