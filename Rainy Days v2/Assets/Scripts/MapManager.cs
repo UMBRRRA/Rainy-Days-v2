@@ -12,6 +12,7 @@ public class MapManager : MonoBehaviour
     public Player player;
     public float timeForPlayerMove;
     public List<Vector3Int> OccupiedFields { get; set; } = new();
+    public Dictionary<Vector3Int, TransitionField> TransitionFields { get; set; } = new();
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class MapManager : MonoBehaviour
     public void Setup()
     {
         OccupiedFields.Clear();
+        TransitionFields.Clear();
         StartCoroutine(FindMap());
         SpawnPlayer();
         // reading all kinds of tiles
@@ -60,8 +62,22 @@ public class MapManager : MonoBehaviour
                 }
             }
 
+            if (TransitionFields.Keys.Contains(gridPosition))
+            {
+                StartCoroutine(Transition(gridPosition));
+                Debug.Log("Transiting");
+            }
+
+            TransitionFields.Keys.ToList().ForEach(tf => Debug.Log(tf));
+
         }
 
+    }
+
+    public IEnumerator Transition(Vector3Int gridPos)
+    {
+        yield return new WaitUntil(() => player.State == PlayerState.Neutral);
+        TransitionFields[gridPos].MakeTransition();
     }
 
     public IEnumerator WalkPath(APath path)
@@ -74,9 +90,6 @@ public class MapManager : MonoBehaviour
             nf = map.CellToWorld(fields[i].GridPosition);
             Vector3 ne = new(1, 0, 0);
             Vector3 sw = new(-1, 0, 0);
-            /*
-            
-            */
             player.NextField = new(nf.x, nf.y + 0.25f, player.playerZ);
             yield return new WaitForSeconds(timeForPlayerMove);
 
