@@ -8,7 +8,8 @@ public enum PlayerState
 {
     Neutral,
     Moving,
-    Pause
+    Pause,
+    Dialogue
 }
 
 public class Player : MonoBehaviour
