@@ -438,6 +438,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: TransitionField
       objectReference: {fileID: 0}
+    - target: {fileID: 7451871836008878048, guid: a7237a9775ad1f342ba9268e681dc85f, type: 3}
+      propertyPath: spawnDir
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451871836008878048, guid: a7237a9775ad1f342ba9268e681dc85f, type: 3}
+      propertyPath: spawnPos.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7237a9775ad1f342ba9268e681dc85f, type: 3}
 --- !u!4 &635076029 stripped
@@ -499,6 +507,14 @@ PrefabInstance:
     - target: {fileID: 2285730960575897311, guid: a7237a9775ad1f342ba9268e681dc85f, type: 3}
       propertyPath: m_Name
       value: TransitionField (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451871836008878048, guid: a7237a9775ad1f342ba9268e681dc85f, type: 3}
+      propertyPath: spawnDir
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451871836008878048, guid: a7237a9775ad1f342ba9268e681dc85f, type: 3}
+      propertyPath: spawnPos.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7237a9775ad1f342ba9268e681dc85f, type: 3}
@@ -2323,6 +2339,14 @@ PrefabInstance:
     - target: {fileID: 2285730960575897311, guid: a7237a9775ad1f342ba9268e681dc85f, type: 3}
       propertyPath: m_Name
       value: TransitionField (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451871836008878048, guid: a7237a9775ad1f342ba9268e681dc85f, type: 3}
+      propertyPath: spawnDir
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7451871836008878048, guid: a7237a9775ad1f342ba9268e681dc85f, type: 3}
+      propertyPath: spawnPos.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7237a9775ad1f342ba9268e681dc85f, type: 3}

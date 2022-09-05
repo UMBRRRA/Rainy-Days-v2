@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: TestLockedTile
   m_EditorClassIdentifier: 
   Tiles:
-  - {fileID: 11400000, guid: cd8b30662277f0c41abf73792662ac9f, type: 2}
-  - {fileID: 11400000, guid: 6822781f88413a641b1aea1bb7aa9ed4, type: 2}
+  - {fileID: 11400000, guid: 70048c24f360d3c4abe987e92a8968c8, type: 2}
+  - {fileID: 11400000, guid: 21e7503d00272b14784ebeb8ab48b45c, type: 2}
   - {fileID: 11400000, guid: 86e51d41b858fa94b8bd092b1f72ed8e, type: 2}
   - {fileID: 11400000, guid: 47bde3e3744a9bc4bbd45c5759cd2b3d, type: 2}
   - {fileID: 11400000, guid: 2e5294c2d760976438c335ebcf6eddb5, type: 2}
   - {fileID: 11400000, guid: a9c07733693fe1c40ae9ab738bf191c4, type: 2}
+  - {fileID: 11400000, guid: fcfaea0c6aec7c14f8acaaa87b289fd2, type: 2}
+  - {fileID: 11400000, guid: 71cf1cf996882864aa06cd9221742c41, type: 2}
   Type: 2
   PoisonLevel: 0
   Neighbours: []
