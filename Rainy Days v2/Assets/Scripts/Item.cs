@@ -11,7 +11,9 @@ public class Item : MonoBehaviour
     public void AddItem()
     {
         inventory.AddItem(item, amount);
+        FindObjectOfType<HudFunctions>().UpdateAmounts();
     }
+
 
 }
 

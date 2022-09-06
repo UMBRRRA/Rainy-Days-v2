@@ -14,6 +14,8 @@ public class MapManager : MonoBehaviour
     public List<Vector3Int> OccupiedFields { get; set; } = new();
     public Dictionary<Vector3Int, TransitionField> TransitionFields { get; set; } = new();
 
+    public Dictionary<Vector3Int, DialogueField> DialogueFields { get; set; } = new();
+
     void Start()
     {
         Setup();
@@ -50,7 +52,7 @@ public class MapManager : MonoBehaviour
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Vector3Int gridPosition = map.WorldToCell(mousePosition);
-            if (map.GetTile(gridPosition) != null)
+            if (map.GetTile(gridPosition) != null && gridPosition != player.currentGridPosition)
             {
                 if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(gridPosition)]) && CheckIfFieldIsFree(gridPosition))
                 {
@@ -60,16 +62,39 @@ public class MapManager : MonoBehaviour
                     StopAllCoroutines();
                     StartCoroutine(WalkPath(path));
                 }
+
+                if (DialogueFields.Keys.Contains(gridPosition))
+                {
+
+                    Vector3Int approachDialogue = new(gridPosition.x - 1, gridPosition.y, gridPosition.z);
+                    if (approachDialogue != player.currentGridPosition)
+                    {
+                        player.State = PlayerState.Moving;
+                        APath path = FindAPath(player.currentGridPosition, approachDialogue);
+                        StopAllCoroutines();
+                        StartCoroutine(WalkPath(path));
+                    }
+                    StartCoroutine(ApproachDialogue(gridPosition));
+                }
+
+                if (TransitionFields.Keys.Contains(gridPosition))
+                {
+                    StartCoroutine(Transition(gridPosition));
+                    Debug.Log("Transiting");
+                }
             }
 
-            if (TransitionFields.Keys.Contains(gridPosition))
-            {
-                StartCoroutine(Transition(gridPosition));
-                Debug.Log("Transiting");
-            }
+            // todo
+
 
         }
 
+    }
+
+    public IEnumerator ApproachDialogue(Vector3Int gridPos)
+    {
+        yield return new WaitUntil(() => player.State == PlayerState.Neutral);
+        DialogueFields[gridPos].StartDialogue();
     }
 
     public IEnumerator Transition(Vector3Int gridPos)
@@ -298,6 +323,7 @@ public class MapManager : MonoBehaviour
         else
             return true;
     }
+
 
     public void SpawnPlayer()
     {

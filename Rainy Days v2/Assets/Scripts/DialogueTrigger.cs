@@ -14,6 +14,10 @@ public class DialogueTrigger : MonoBehaviour
     void Start()
     {
         dialogueManager = FindObjectOfType<DialogueManager>();
+        if (dialogueManager.DialoguesSave.ContainsKey(id))
+        {
+            spawnDialogue = dialogueManager.DialoguesSave[id];
+        }
         currentDialogue = spawnDialogue;
     }
 
@@ -58,6 +62,7 @@ public class DialogueTrigger : MonoBehaviour
     {
         spawnDialogue = id;
         currentDialogue = spawnDialogue;
+        dialogueManager.DialoguesSave.Add(this.id, id);
     }
 
 }

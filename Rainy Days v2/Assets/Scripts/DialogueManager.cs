@@ -14,6 +14,8 @@ public class DialogueManager : MonoBehaviour
 
     public float dialogueSpeed = 0.05f;
 
+    public Dictionary<int, int> DialoguesSave { get; set; } = new();
+
     public void ActivateDialogueWindow()
     {
         child.SetActive(true);
