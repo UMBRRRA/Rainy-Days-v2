@@ -16,4 +16,6 @@ public class OpenShadowOnStart : MonoBehaviour
         yield return new WaitUntil(() => (shadow = FindObjectOfType<Shadow>()) != null);
         shadow.OpenShadow();
     }
+
+
 }

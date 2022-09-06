@@ -4,20 +4,27 @@ using UnityEngine;
 
 public class MainMenu : MonoBehaviour
 {
-    public DialogueManager dialogueManager;
+    private DialogueManager dialogueManager;
     public InventoryObject inventory;
-    public HudFunctions hud;
+    private HudFunctions hud;
     void Start()
     {
         Debug.Log("Clearing save data.");
-        dialogueManager.DialoguesSave.Clear();
         inventory.list.Clear();
-        StartCoroutine(WaitAndUpdateAmounts());
+        StartCoroutine(WaitForDialogueManager());
+        StartCoroutine(WaitForHUD());
     }
 
-    public IEnumerator WaitAndUpdateAmounts()
+    public IEnumerator WaitForDialogueManager()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitUntil(() => (dialogueManager = FindObjectOfType<DialogueManager>()) != null);
+        dialogueManager.DialoguesSave.Clear();
+    }
+
+    public IEnumerator WaitForHUD()
+    {
+        yield return new WaitUntil(() => (hud = FindObjectOfType<HudFunctions>()) != null);
         hud.UpdateAmounts();
     }
+
 }

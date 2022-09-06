@@ -36,6 +36,9 @@ public class TransitionField : MonoBehaviour
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
         shadow = FindObjectOfType<Shadow>();
         shadow.CloseShadow();
+
+        FindObjectOfType<HudFunctions>().DeactivateHud();
+
         StartCoroutine(WaitForShadow(shadow));
     }
 
