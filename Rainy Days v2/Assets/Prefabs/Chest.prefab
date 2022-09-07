@@ -93,7 +93,7 @@ MonoBehaviour:
   - {x: 0.30147734, y: 0.02788964, z: 0}
   m_ShapePathHash: 791906389
   m_Mesh: {fileID: 0}
-  m_InstanceId: 45928
+  m_InstanceId: 64164
 --- !u!95 &88148034091966163
 Animator:
   serializedVersion: 4
@@ -201,6 +201,18 @@ MonoBehaviour:
         - m_Target: {fileID: 5027261280635080159}
           m_TargetAssemblyTypeName: DialogueTrigger, Assembly-CSharp
           m_MethodName: EndDialogue
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1672142459743900629}
+          m_TargetAssemblyTypeName: Chest, Assembly-CSharp
+          m_MethodName: OpenChest
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

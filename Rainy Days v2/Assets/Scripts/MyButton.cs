@@ -35,4 +35,9 @@ public class MyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         text.color = normalColor;
     }
 
+    private void OnMouseDown()
+    {
+        Debug.Log("I'm clicked");
+    }
+
 }

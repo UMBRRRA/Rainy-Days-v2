@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
+using UnityEngine.EventSystems;
 
 public class MapManager : MonoBehaviour
 {
@@ -48,9 +49,11 @@ public class MapManager : MonoBehaviour
     void Update()
     {
         // find a* path on click
-        if (Input.GetMouseButtonDown(0) && player.State == PlayerState.Neutral)
+        if (Input.GetMouseButtonDown(0) && player.State == PlayerState.Neutral && !EventSystem.current.IsPointerOverGameObject())
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+
             Vector3Int gridPosition = map.WorldToCell(mousePosition);
             if (map.GetTile(gridPosition) != null && gridPosition != player.currentGridPosition)
             {
@@ -83,8 +86,6 @@ public class MapManager : MonoBehaviour
                     Debug.Log("Transiting");
                 }
             }
-
-            // todo
 
 
         }
