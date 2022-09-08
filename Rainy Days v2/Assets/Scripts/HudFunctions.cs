@@ -15,6 +15,9 @@ public class HudFunctions : MonoBehaviour
     public ItemObject potion;
     public ItemObject antidote;
     public Slider healthSlider, toxicitySlider, apSlider;
+    public Text maxHealth, currentHealth, maxToxicity, currentToxicity, maxAP, currentAP;
+
+    private Player player;
 
     public void ActivateHud()
     {
@@ -62,31 +65,59 @@ public class HudFunctions : MonoBehaviour
     public void SetMaxHealth(int health)
     {
         healthSlider.maxValue = health;
+        maxHealth.text = $"{health}";
     }
 
     public void SetHealth(int health)
     {
         healthSlider.value = health;
+        currentHealth.text = $"{health}";
     }
 
     public void SetMaxToxicity(int toxicity)
     {
         toxicitySlider.maxValue = toxicity;
+        maxToxicity.text = $"{toxicity}";
     }
 
     public void SetToxicity(int toxicity)
     {
         toxicitySlider.value = toxicity;
+        currentToxicity.text = $"{toxicity}";
     }
 
     public void SetMaxAp(int ap)
     {
         apSlider.maxValue = ap;
+        maxAP.text = $"{ap}";
     }
 
     public void SetAp(int ap)
     {
         apSlider.value = ap;
+        currentAP.text = $"{ap}";
+    }
+
+    public void DrinkPotion()
+    {
+        StartCoroutine(FindPlayerAndDrinkPotion());
+    }
+
+    public IEnumerator FindPlayerAndDrinkPotion()
+    {
+        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        player.DrinkPotion();
+    }
+
+    public void DrinkAntidote()
+    {
+        StartCoroutine(FindPlayerAndDrinkAntidote());
+    }
+
+    public IEnumerator FindPlayerAndDrinkAntidote()
+    {
+        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        player.DrinkAntidote();
     }
 
 }

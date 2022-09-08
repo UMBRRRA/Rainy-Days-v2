@@ -215,7 +215,7 @@ MonoBehaviour:
   - {x: 0.03892839, y: 0.017054081, z: 0}
   m_ShapePathHash: 1792717929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 46678
+  m_InstanceId: 48032
 --- !u!1 &5960890699162566554
 GameObject:
   m_ObjectHideFlags: 0
@@ -263,11 +263,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4db21be359f0ed47aad117bad473d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startHealth: 120
+  startToxicity: 200
+  startAP: 20
   playerZ: 1.5
   spawnGridPosition: {x: -4, y: 3, z: 0}
   currentGridPosition: {x: 0, y: -6, z: 0}
   mapManager: {fileID: 0}
   spawnDirection: 8
+  currentDirection: 0
+  potionStrength: 0.33
+  potionTime: 1.3
+  potion: {fileID: 11400000, guid: eff49184128e38247b1304b2b16530e3, type: 2}
+  antidote: {fileID: 11400000, guid: 4322cd3af0989ac4b808506b06a672c2, type: 2}
+  inventory: {fileID: 11400000, guid: defb09385ec82d74a8d7b5e8f2866dfe, type: 2}
 --- !u!95 &6160619923393280736
 Animator:
   serializedVersion: 4

@@ -9,11 +9,18 @@ public enum PlayerState
     Neutral,
     Moving,
     Pause,
-    Dialogue
+    Dialogue,
+    Action
 }
 
 public class Player : MonoBehaviour
 {
+    public int startHealth;
+    public int startToxicity;
+    public int startAP;
+
+    public PlayerStats Stats { get; set; }
+
     private static Player singleton;
 
     public float playerZ = 1.2f;
@@ -25,6 +32,13 @@ public class Player : MonoBehaviour
     private Animator animator;
     public Vector3 NextField { get; set; }
     private PauseMenuFunctions pauseMenu;
+    private HudFunctions hud;
+    public float potionStrength = 0.33f;
+    public float potionTime = 1f;
+
+    public ItemObject potion, antidote;
+    public InventoryObject inventory;
+
     private PlayerState _state = PlayerState.Neutral;
     public PlayerState State
     {
@@ -38,6 +52,8 @@ public class Player : MonoBehaviour
             _state = value;
         }
     }
+
+
 
 
     private void Awake()
@@ -58,11 +74,25 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        Stats = new PlayerStats(startHealth, startAP, startToxicity);
         currentGridPosition = spawnGridPosition;
         NextField = transform.position;
         mapManager = FindObjectOfType<MapManager>();
         animator = GetComponent<Animator>();
         IdleDirection(spawnDirection);
+        StartCoroutine(FindHud());
+    }
+
+    public IEnumerator FindHud()
+    {
+        yield return new WaitUntil(() => (hud = FindObjectOfType<HudFunctions>()) != null);
+        hud.SetMaxHealth(Stats.MaxHealth);
+        hud.SetHealth(Stats.CurrentHealth);
+        hud.SetMaxToxicity(Stats.MaxToxicity);
+        hud.SetToxicity(Stats.CurrentToxicity);
+        hud.SetMaxAp(Stats.MaxAP);
+        hud.SetAp(Stats.CurrentAP);
+        Debug.Log("Am i here?");
     }
 
     public void ChangeRoom()
@@ -194,6 +224,116 @@ public class Player : MonoBehaviour
         currentDirection = dir;
     }
 
+    public void RestoreHealth(int amount)
+    {
+        if (Stats.CurrentHealth + amount >= Stats.MaxHealth)
+        {
+            Stats.CurrentHealth = Stats.MaxHealth;
+        }
+        else
+        {
+            Stats.CurrentHealth += amount;
+        }
+        hud.SetHealth(Stats.CurrentHealth);
+    }
 
+    public void DamageHealth(int amount)
+    {
+        if (Stats.CurrentHealth - amount <= 0)
+        {
+            Stats.CurrentHealth = 0;
+            // dead
+        }
+        else
+        {
+            Stats.CurrentHealth -= amount;
+        }
+        hud.SetHealth(Stats.CurrentHealth);
+    }
+
+    public void DrinkPotion()
+    {
+        if (State == PlayerState.Neutral && inventory.HasItem(potion, 1)) // also fight and action points...
+        {
+            State = PlayerState.Action;
+            inventory.TakeItem(potion, 1);
+            hud.UpdateAmounts();
+            animator.SetInteger("IdleDirection", 0);
+            animator.SetBool("Idle", false);
+            animator.SetBool("Potion", true);
+            animator.SetInteger("PotionDirection", currentDirection);
+
+            int amount = (int)Math.Round(Stats.MaxHealth * potionStrength);
+            RestoreHealth(amount);
+            StartCoroutine(WaitAndGoBackFromDrinkingPotion());
+
+        }
+    }
+
+    public IEnumerator WaitAndGoBackFromDrinkingPotion()
+    {
+        yield return new WaitForSeconds(potionTime);
+        animator.SetBool("Potion", false);
+        animator.SetBool("Idle", true);
+        animator.SetInteger("PotionDirection", 0);
+        animator.SetInteger("IdleDirection", currentDirection);
+        State = PlayerState.Neutral;
+    }
+
+    public void HealToxicity(int amount)
+    {
+        if (Stats.CurrentToxicity - amount <= 0)
+        {
+            Stats.CurrentToxicity = 0;
+        }
+        else
+        {
+            Stats.CurrentToxicity -= amount;
+        }
+        hud.SetToxicity(Stats.CurrentToxicity);
+    }
+
+    public void IncreaseToxicity(int amount)
+    {
+        if (Stats.CurrentToxicity + amount >= Stats.MaxToxicity)
+        {
+            Stats.CurrentToxicity = Stats.MaxToxicity;
+            // dead
+        }
+        else
+        {
+            Stats.CurrentToxicity += amount;
+        }
+        hud.SetToxicity(Stats.CurrentToxicity);
+    }
+
+    public void DrinkAntidote()
+    {
+        if (State == PlayerState.Neutral && inventory.HasItem(antidote, 1)) // also fight and action points...
+        {
+            State = PlayerState.Action;
+            inventory.TakeItem(antidote, 1);
+            hud.UpdateAmounts();
+            animator.SetInteger("IdleDirection", 0);
+            animator.SetBool("Idle", false);
+            animator.SetBool("Antidote", true);
+            animator.SetInteger("AntidoteDirection", currentDirection);
+
+            int amount = (int)Math.Round(Stats.MaxToxicity * potionStrength);
+            HealToxicity(amount);
+            StartCoroutine(WaitAndGoBackFromDrinkingAntidote());
+
+        }
+    }
+
+    public IEnumerator WaitAndGoBackFromDrinkingAntidote()
+    {
+        yield return new WaitForSeconds(potionTime);
+        animator.SetBool("Antidote", false);
+        animator.SetBool("Idle", true);
+        animator.SetInteger("AntidoteDirection", 0);
+        animator.SetInteger("IdleDirection", currentDirection);
+        State = PlayerState.Neutral;
+    }
 
 }
