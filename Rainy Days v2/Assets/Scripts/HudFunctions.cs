@@ -14,6 +14,7 @@ public class HudFunctions : MonoBehaviour
     public ItemObject ammo;
     public ItemObject potion;
     public ItemObject antidote;
+    public Slider healthSlider, toxicitySlider, apSlider;
 
     public void ActivateHud()
     {
@@ -56,6 +57,36 @@ public class HudFunctions : MonoBehaviour
         {
             antidoteAmount.text = "0";
         }
+    }
+
+    public void SetMaxHealth(int health)
+    {
+        healthSlider.maxValue = health;
+    }
+
+    public void SetHealth(int health)
+    {
+        healthSlider.value = health;
+    }
+
+    public void SetMaxToxicity(int toxicity)
+    {
+        toxicitySlider.maxValue = toxicity;
+    }
+
+    public void SetToxicity(int toxicity)
+    {
+        toxicitySlider.value = toxicity;
+    }
+
+    public void SetMaxAp(int ap)
+    {
+        apSlider.maxValue = ap;
+    }
+
+    public void SetAp(int ap)
+    {
+        apSlider.value = ap;
     }
 
 }

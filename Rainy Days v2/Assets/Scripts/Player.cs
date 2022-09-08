@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public Vector3Int currentGridPosition;
     public MapManager mapManager;
     public int spawnDirection;
+    public int currentDirection;
     private Animator animator;
     public Vector3 NextField { get; set; }
     private PauseMenuFunctions pauseMenu;
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour
         NextField = transform.position;
         mapManager = FindObjectOfType<MapManager>();
         animator = GetComponent<Animator>();
-        animator.SetInteger("IdleDirection", spawnDirection);
+        IdleDirection(spawnDirection);
     }
 
     public void ChangeRoom()
@@ -69,7 +70,7 @@ public class Player : MonoBehaviour
         currentGridPosition = spawnGridPosition;
         Vector3 pos = mapManager.map.CellToWorld(spawnGridPosition);
         transform.position = new Vector3(pos.x, pos.y + 0.25f, playerZ);
-        animator.SetInteger("IdleDirection", spawnDirection);
+        IdleDirection(spawnDirection);
     }
 
 
@@ -117,35 +118,35 @@ public class Player : MonoBehaviour
         animator.SetBool("Idle", true);
         if (idleDir.x == 0 && idleDir.y == -1)
         {
-            animator.SetInteger("IdleDirection", 1);
+            IdleDirection(1);
         }
         else if (idleDir.x == 1 && idleDir.y == -1)
         {
-            animator.SetInteger("IdleDirection", 2);
+            IdleDirection(2);
         }
         else if (idleDir.x == 1 && idleDir.y == 0)
         {
-            animator.SetInteger("IdleDirection", 3);
+            IdleDirection(3);
         }
         else if (idleDir.x == 1 && idleDir.y == 1)
         {
-            animator.SetInteger("IdleDirection", 4);
+            IdleDirection(4);
         }
         else if (idleDir.x == 0 && idleDir.y == 1)
         {
-            animator.SetInteger("IdleDirection", 5);
+            IdleDirection(5);
         }
         else if (idleDir.x == -1 && idleDir.y == 1)
         {
-            animator.SetInteger("IdleDirection", 6);
+            IdleDirection(6);
         }
         else if (idleDir.x == -1 && idleDir.y == 0)
         {
-            animator.SetInteger("IdleDirection", 7);
+            IdleDirection(7);
         }
         else if (idleDir.x == -1 && idleDir.y == -1)
         {
-            animator.SetInteger("IdleDirection", 8);
+            IdleDirection(8);
         }
 
         State = PlayerState.Neutral;
@@ -186,4 +187,13 @@ public class Player : MonoBehaviour
             animator.SetInteger("WalkDirection", 8);
         }
     }
+
+    private void IdleDirection(int dir)
+    {
+        animator.SetInteger("IdleDirection", dir);
+        currentDirection = dir;
+    }
+
+
+
 }
