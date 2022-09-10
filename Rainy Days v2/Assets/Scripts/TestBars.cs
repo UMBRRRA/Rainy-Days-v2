@@ -12,6 +12,7 @@ public class TestBars : MonoBehaviour
         {
             FindObjectOfType<Player>().DamageHealth(10);
             FindObjectOfType<Player>().IncreaseToxicity(15);
+            FindObjectOfType<Player>().UseAmmo();
         }
     }
 }

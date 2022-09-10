@@ -229,7 +229,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.0000009536743}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1177,6 +1177,18 @@ PrefabInstance:
       propertyPath: m_Navigation.m_Mode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7900899144975902787, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1100867180}
+    - target: {fileID: 7900899144975902787, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Reload
+      objectReference: {fileID: 0}
+    - target: {fileID: 7900899144975902787, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HudFunctions, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7900899144975902796, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1440,11 +1452,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7900899144027390918, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
       propertyPath: m_Text
-      value: 
+      value: 4/4
       objectReference: {fileID: 0}
     - target: {fileID: 7900899144027390918, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
       propertyPath: m_FontData.m_Alignment
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7900899144027390919, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
       propertyPath: m_Pivot.y
@@ -2632,7 +2644,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0.0000009536743}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2992,6 +3004,7 @@ MonoBehaviour:
   currentToxicity: {fileID: 257327480}
   maxAP: {fileID: 1735914758}
   currentAP: {fileID: 830949975}
+  magazine: {fileID: 1124125748}
 --- !u!1001 &1105172224
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3309,7 +3322,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3351,6 +3364,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1114365343}
   m_CullTransparentMesh: 1
+--- !u!114 &1124125748 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7900899144027390918, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
+  m_PrefabInstance: {fileID: 404619333}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1179753372 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7900899144027390918, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}

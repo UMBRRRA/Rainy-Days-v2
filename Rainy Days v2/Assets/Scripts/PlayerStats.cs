@@ -8,7 +8,10 @@ public class PlayerStats : Stats
     public int MaxToxicity { get; set; }
     public int CurrentToxicity { get; set; }
 
-    public PlayerStats(int maxHealth, int maxAP, int maxToxicity)
+    public int MagazineSize { get; set; }
+    public int CurrentMagazine { get; set; }
+
+    public PlayerStats(int maxHealth, int maxAP, int maxToxicity, int magazine)
     {
         this.MaxHealth = maxHealth;
         this.CurrentHealth = maxHealth;
@@ -16,6 +19,8 @@ public class PlayerStats : Stats
         this.CurrentToxicity = 0;
         this.MaxAP = maxAP;
         this.CurrentAP = maxAP;
+        this.MagazineSize = magazine;
+        this.CurrentMagazine = magazine;
     }
 
 }

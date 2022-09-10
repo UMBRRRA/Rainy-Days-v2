@@ -15,7 +15,7 @@ public class HudFunctions : MonoBehaviour
     public ItemObject potion;
     public ItemObject antidote;
     public Slider healthSlider, toxicitySlider, apSlider;
-    public Text maxHealth, currentHealth, maxToxicity, currentToxicity, maxAP, currentAP;
+    public Text maxHealth, currentHealth, maxToxicity, currentToxicity, maxAP, currentAP, magazine;
 
     private Player player;
 
@@ -118,6 +118,28 @@ public class HudFunctions : MonoBehaviour
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
         player.DrinkAntidote();
+    }
+
+    public void Reload()
+    {
+        StartCoroutine(FindPlayerAndReload());
+    }
+
+    public IEnumerator FindPlayerAndReload()
+    {
+        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        player.Reload();
+    }
+
+    public void UpdateMagazine()
+    {
+        StartCoroutine(UpdateMag());
+    }
+
+    private IEnumerator UpdateMag()
+    {
+        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        magazine.text = $"{player.Stats.CurrentMagazine}/{player.Stats.MagazineSize}";
     }
 
 }

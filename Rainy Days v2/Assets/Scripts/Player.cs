@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public enum PlayerState
 {
@@ -18,6 +19,7 @@ public class Player : MonoBehaviour
     public int startHealth;
     public int startToxicity;
     public int startAP;
+    public int startMag;
 
     public PlayerStats Stats { get; set; }
 
@@ -35,8 +37,9 @@ public class Player : MonoBehaviour
     private HudFunctions hud;
     public float potionStrength = 0.33f;
     public float potionTime = 1f;
+    public float reloadTime = 1f;
 
-    public ItemObject potion, antidote;
+    public ItemObject potion, antidote, ammo;
     public InventoryObject inventory;
 
     private PlayerState _state = PlayerState.Neutral;
@@ -74,7 +77,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        Stats = new PlayerStats(startHealth, startAP, startToxicity);
+        Stats = new PlayerStats(startHealth, startAP, startToxicity, startMag);
         currentGridPosition = spawnGridPosition;
         NextField = transform.position;
         mapManager = FindObjectOfType<MapManager>();
@@ -336,4 +339,55 @@ public class Player : MonoBehaviour
         State = PlayerState.Neutral;
     }
 
+
+    public void Reload()
+    {
+        if (State == PlayerState.Neutral && inventory.HasItem(ammo, 1) && Stats.CurrentMagazine != Stats.MagazineSize)
+        {
+            State = PlayerState.Action;
+            animator.SetInteger("IdleDirection", 0);
+            animator.SetBool("Idle", false);
+            animator.SetBool("Reload", true);
+            animator.SetInteger("ReloadDirection", currentDirection);
+            int empty = Stats.MagazineSize - Stats.CurrentMagazine;
+            if (inventory.HasItem(ammo, empty))
+            {
+                inventory.TakeItem(ammo, empty);
+                Stats.CurrentMagazine = Stats.MagazineSize;
+            }
+            else
+            {
+                int howMuch = inventory.list.Where(item => item.item == ammo).First().amount;
+                inventory.TakeItem(ammo, howMuch);
+                Stats.CurrentMagazine += howMuch;
+            }
+            hud.UpdateMagazine();
+            hud.UpdateAmounts();
+            StartCoroutine(WaitAndGoBackFromReload());
+        }
+    }
+
+    public IEnumerator WaitAndGoBackFromReload()
+    {
+        yield return new WaitForSeconds(reloadTime);
+        animator.SetBool("Reload", false);
+        animator.SetBool("Idle", true);
+        animator.SetInteger("ReloadDirection", 0);
+        animator.SetInteger("IdleDirection", currentDirection);
+        State = PlayerState.Neutral;
+    }
+
+    public bool UseAmmo()
+    {
+        if (Stats.CurrentMagazine > 0)
+        {
+            Stats.CurrentMagazine -= 1;
+            hud.UpdateMagazine();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
