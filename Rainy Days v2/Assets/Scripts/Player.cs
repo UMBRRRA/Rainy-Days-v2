@@ -34,7 +34,34 @@ public class Player : MonoBehaviour
     public Vector3Int currentGridPosition;
     public MapManager mapManager;
     public int spawnDirection;
-    public int currentDirection;
+    private int _currentDirection;
+    public int currentDirection
+    {
+        get
+        {
+            return _currentDirection;
+        }
+        set
+        {
+            _currentDirection = value;
+            if (currentDirection == 1)
+                gunLight.transform.position = transform.position + new Vector3(0.4f, -0.2f, 0);
+            else if (currentDirection == 2)
+                gunLight.transform.position = transform.position + new Vector3(0.6f, 0, 0);
+            else if (currentDirection == 3)
+                gunLight.transform.position = transform.position + new Vector3(0.4f, 0.2f, 0);
+            else if (currentDirection == 4)
+                gunLight.transform.position = transform.position + new Vector3(0, 0.4f, 0);
+            else if (currentDirection == 5)
+                gunLight.transform.position = transform.position + new Vector3(-0.4f, 0.2f, 0);
+            else if (currentDirection == 6)
+                gunLight.transform.position = transform.position + new Vector3(-0.6f, 0, 0);
+            else if (currentDirection == 7)
+                gunLight.transform.position = transform.position + new Vector3(-0.4f, -0.2f, 0);
+            else
+                gunLight.transform.position = transform.position + new Vector3(0, -0.4f, 0);
+        }
+    }
     private Animator animator;
     public Vector3 NextField { get; set; }
     private PauseMenuFunctions pauseMenu;
@@ -52,6 +79,8 @@ public class Player : MonoBehaviour
     public InventoryObject inventory;
 
     public bool inFight = false;
+    public GameObject gunLight;
+    public float beforeGunLight, afterGunLight;
 
     private PlayerState _state = PlayerState.Neutral;
     public PlayerState State
@@ -452,7 +481,7 @@ public class Player : MonoBehaviour
 
     public void EndTurn()
     {
-        if (State == PlayerState.Neutral)
+        if (State == PlayerState.Neutral && inFight)
         {
             Stats.CurrentAP = Stats.MaxAP;
             hud.SetAp(Stats.CurrentAP);
@@ -468,7 +497,11 @@ public class Player : MonoBehaviour
             Stats.CurrentAP -= amount;
             hud.SetAp(Stats.CurrentAP);
             if (Stats.CurrentAP == 0)
+            {
+                StopAllCoroutines();
+                State = PlayerState.NotMyTurn;
                 StartCoroutine(WaitAndEndTurn());
+            }
             return true;
         }
         else
@@ -478,6 +511,7 @@ public class Player : MonoBehaviour
     public IEnumerator WaitAndEndTurn()
     {
         yield return new WaitForSeconds(2f);
+        State = PlayerState.Neutral;
         EndTurn();
     }
 
@@ -496,9 +530,23 @@ public class Player : MonoBehaviour
                 currentDirection = shootDir;
                 Stats.CurrentMagazine -= 1;
                 hud.UpdateMagazine();
+                StartCoroutine(WaitForGunLight());
                 StartCoroutine(WaitAndGoBackFromShooting());
             }
         }
+    }
+
+    private IEnumerator WaitForGunLight()
+    {
+        yield return new WaitForSeconds(beforeGunLight);
+        gunLight.SetActive(true);
+        StartCoroutine(WaitForGunLightShut());
+    }
+
+    private IEnumerator WaitForGunLightShut()
+    {
+        yield return new WaitForSeconds(afterGunLight);
+        gunLight.SetActive(false);
     }
 
     public int ChooseDir(Vector3 me, Vector3 they)
@@ -510,19 +558,20 @@ public class Player : MonoBehaviour
 
         Vector3 normal = (newMe - newThey).normalized;
         Debug.Log(normal);
-        if (normal.x <= -0.28 && normal.y >= 0.38)
+        float lowPoint = 0.4f;
+        if (normal.x <= -lowPoint && normal.y >= lowPoint)
             return 1;
-        else if (normal.x <= -0.28 && (normal.y > -0.28 && normal.y < 0.38))
+        else if (normal.x <= -lowPoint && (normal.y > -lowPoint && normal.y < lowPoint))
             return 2;
-        else if (normal.x <= -0.28 && normal.y <= -0.28)
+        else if (normal.x <= -lowPoint && normal.y <= -lowPoint)
             return 3;
-        else if ((normal.x > -0.28 && normal.x < 0.38) && normal.y <= -0.28)
+        else if ((normal.x > -lowPoint && normal.x < lowPoint) && normal.y <= -lowPoint)
             return 4;
-        else if (normal.x >= 0.38 && normal.y <= -0.28)
+        else if (normal.x >= lowPoint && normal.y <= -lowPoint)
             return 5;
-        else if (normal.x >= 0.38 && (normal.y > -0.28 && normal.y < 0.38))
+        else if (normal.x >= lowPoint && (normal.y > -lowPoint && normal.y < lowPoint))
             return 6;
-        else if (normal.x >= 0.38 && normal.y >= 0.38)
+        else if (normal.x >= lowPoint && normal.y >= lowPoint)
             return 7;
         else
             return 8;

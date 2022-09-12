@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7014793708102311338}
   - component: {fileID: 7014793708102311337}
   - component: {fileID: 7014793708102311336}
+  - component: {fileID: 2493027906481199217}
   m_Layer: 0
   m_Name: Lantern
   m_TagString: Untagged
@@ -46,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 799aaba304a63894988e8c4f9c1e5c51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  additionalFields: []
 --- !u!114 &7014793708102311336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +127,35 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &2493027906481199217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7014793708102311339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 0
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000abbeaf127514d956
+  m_ShapePath:
+  - {x: -0.026352674, y: -0.052345525, z: 0}
+  - {x: -0.07349372, y: -0.0051734857, z: 0}
+  - {x: -0.032128893, y: 0.037905097, z: 0}
+  - {x: 0.04079313, y: 0.035016976, z: 0}
+  - {x: 0.082463324, y: -0.002285391, z: 0}
+  - {x: 0.035016954, y: -0.055233598, z: 0}
+  m_ShapePathHash: 276780781
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -370824
 --- !u!1 &7014793709548741648
 GameObject:
   m_ObjectHideFlags: 0

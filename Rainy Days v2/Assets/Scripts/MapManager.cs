@@ -68,7 +68,7 @@ public class MapManager : MonoBehaviour
                     StartCoroutine(WalkPath(path));
                 }
 
-                if (DialogueFields.Keys.Contains(gridPosition))
+                if (DialogueFields.Keys.Contains(gridPosition) && !player.inFight)
                 {
 
                     Vector3Int approachDialogue = new(gridPosition.x - 1, gridPosition.y, gridPosition.z);
@@ -88,7 +88,7 @@ public class MapManager : MonoBehaviour
                     Debug.Log("Transiting");
                 }
 
-                if (EncounterFields.Keys.Contains(gridPosition))
+                if (EncounterFields.Keys.Contains(gridPosition) && !player.inFight)
                 {
                     StartCoroutine(StartEncounter(gridPosition));
                 }
@@ -355,4 +355,6 @@ public class MapManager : MonoBehaviour
             player.mapManager = this;
         }
     }
+
+
 }
