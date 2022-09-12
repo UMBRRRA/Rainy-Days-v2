@@ -12,7 +12,9 @@ public enum PlayerState
     Pause,
     Dialogue,
     Action,
-    NotMyTurn
+    NotMyTurn,
+    Shooting,
+    Meleeing
 }
 
 public class Player : MonoBehaviour
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour
     public float potionStrength = 0.33f;
     public float potionTime = 1f;
     public float reloadTime = 1f;
+    public float shootTime = 1.2f;
     public int potionApCost = 1;
     public int reloadApCost = 1;
     public int gunApCost = 1;
@@ -121,6 +124,14 @@ public class Player : MonoBehaviour
         {
             State = PlayerState.Pause;
             StartCoroutine(OpenPauseMenu());
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (State == PlayerState.Shooting || State == PlayerState.Meleeing)
+            {
+                State = PlayerState.Neutral;
+            }
         }
     }
 
@@ -423,17 +434,12 @@ public class Player : MonoBehaviour
         State = PlayerState.Neutral;
     }
 
-    public bool UseAmmo()
+    public void UseAmmo()
     {
         if (Stats.CurrentMagazine > 0)
         {
             Stats.CurrentMagazine -= 1;
             hud.UpdateMagazine();
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 
@@ -473,5 +479,60 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(2f);
         EndTurn();
+    }
+
+    public void Shoot(Enemy enemy)
+    {
+        if (Stats.CurrentMagazine > 0)
+        {
+            if (UseAP(gunApCost))
+            {
+                State = PlayerState.Action;
+                animator.SetInteger("IdleDirection", 0);
+                animator.SetBool("Idle", false);
+                animator.SetBool("Shoot", true);
+                int shootDir = ChooseDir(transform.position, enemy.transform.position);
+                animator.SetInteger("ShootDirection", shootDir);
+                currentDirection = shootDir;
+                Stats.CurrentMagazine -= 1;
+                hud.UpdateMagazine();
+                StartCoroutine(WaitAndGoBackFromShooting());
+            }
+        }
+    }
+
+    public int ChooseDir(Vector3 me, Vector3 they)
+    {
+        Vector3 newMe = new(me.x, me.y, 0);
+        Vector3 newThey = new(they.x, they.y, 0);
+        Debug.Log(newMe - newThey);
+        Vector3 normal = (newMe - newThey).normalized;
+        Debug.Log(normal);
+        if (normal.x <= -0.32 && normal.y >= 0.34)
+            return 1;
+        else if (normal.x <= -0.32 && (normal.y > -0.32 && normal.y < 0.34))
+            return 2;
+        else if (normal.x <= -0.32 && normal.y <= -0.32)
+            return 3;
+        else if ((normal.x > -0.32 && normal.x < 0.34) && normal.y <= -0.32)
+            return 4;
+        else if (normal.x >= 0.34 && normal.y <= -0.32)
+            return 5;
+        else if (normal.x >= 0.34 && (normal.y > -0.32 && normal.y < 0.34))
+            return 6;
+        else if (normal.x >= 0.34 && normal.y >= 0.34)
+            return 7;
+        else
+            return 8;
+    }
+
+    public IEnumerator WaitAndGoBackFromShooting()
+    {
+        yield return new WaitForSeconds(shootTime);
+        animator.SetBool("Shoot", false);
+        animator.SetBool("Idle", true);
+        animator.SetInteger("ShootDirection", 0);
+        animator.SetInteger("IdleDirection", currentDirection);
+        State = PlayerState.Neutral;
     }
 }

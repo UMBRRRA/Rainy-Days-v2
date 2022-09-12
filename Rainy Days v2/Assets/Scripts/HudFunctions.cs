@@ -164,4 +164,18 @@ public class HudFunctions : MonoBehaviour
         player.EndTurn();
     }
 
+    public void Shoot()
+    {
+        StartCoroutine(ShootCo());
+    }
+
+    private IEnumerator ShootCo()
+    {
+        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        if (player.State == PlayerState.Neutral && player.inFight)
+        {
+            player.State = PlayerState.Shooting;
+        }
+    }
+
 }
