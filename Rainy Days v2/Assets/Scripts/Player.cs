@@ -506,21 +506,23 @@ public class Player : MonoBehaviour
         Vector3 newMe = new(me.x, me.y, 0);
         Vector3 newThey = new(they.x, they.y, 0);
         Debug.Log(newMe - newThey);
+
+
         Vector3 normal = (newMe - newThey).normalized;
         Debug.Log(normal);
-        if (normal.x <= -0.32 && normal.y >= 0.34)
+        if (normal.x <= -0.28 && normal.y >= 0.38)
             return 1;
-        else if (normal.x <= -0.32 && (normal.y > -0.32 && normal.y < 0.34))
+        else if (normal.x <= -0.28 && (normal.y > -0.28 && normal.y < 0.38))
             return 2;
-        else if (normal.x <= -0.32 && normal.y <= -0.32)
+        else if (normal.x <= -0.28 && normal.y <= -0.28)
             return 3;
-        else if ((normal.x > -0.32 && normal.x < 0.34) && normal.y <= -0.32)
+        else if ((normal.x > -0.28 && normal.x < 0.38) && normal.y <= -0.28)
             return 4;
-        else if (normal.x >= 0.34 && normal.y <= -0.32)
+        else if (normal.x >= 0.38 && normal.y <= -0.28)
             return 5;
-        else if (normal.x >= 0.34 && (normal.y > -0.32 && normal.y < 0.34))
+        else if (normal.x >= 0.38 && (normal.y > -0.28 && normal.y < 0.38))
             return 6;
-        else if (normal.x >= 0.34 && normal.y >= 0.34)
+        else if (normal.x >= 0.38 && normal.y >= 0.38)
             return 7;
         else
             return 8;
