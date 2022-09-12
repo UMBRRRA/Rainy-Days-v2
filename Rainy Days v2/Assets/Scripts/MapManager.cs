@@ -17,6 +17,8 @@ public class MapManager : MonoBehaviour
 
     public Dictionary<Vector3Int, DialogueField> DialogueFields { get; set; } = new();
 
+    public Dictionary<Vector3Int, Encounter> EncounterFields { get; set; } = new();
+
     void Start()
     {
         Setup();
@@ -85,12 +87,24 @@ public class MapManager : MonoBehaviour
                     StartCoroutine(Transition(gridPosition));
                     Debug.Log("Transiting");
                 }
+
+                if (EncounterFields.Keys.Contains(gridPosition))
+                {
+                    StartCoroutine(StartEncounter(gridPosition));
+                }
             }
 
 
         }
 
     }
+
+    public IEnumerator StartEncounter(Vector3Int gridPos)
+    {
+        yield return new WaitUntil(() => player.State == PlayerState.Neutral);
+        EncounterFields[gridPos].StartEncounter();
+    }
+
 
     public IEnumerator ApproachDialogue(Vector3Int gridPos)
     {

@@ -16,6 +16,7 @@ public class HudFunctions : MonoBehaviour
     public ItemObject antidote;
     public Slider healthSlider, toxicitySlider, apSlider;
     public Text maxHealth, currentHealth, maxToxicity, currentToxicity, maxAP, currentAP, magazine;
+    public GameObject endTurn;
 
     private Player player;
 
@@ -140,6 +141,27 @@ public class HudFunctions : MonoBehaviour
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
         magazine.text = $"{player.Stats.CurrentMagazine}/{player.Stats.MagazineSize}";
+    }
+
+    public void StartEncounter()
+    {
+        endTurn.SetActive(true);
+    }
+
+    public void EndEncounter()
+    {
+        endTurn.SetActive(false);
+    }
+
+    public void EndTurn()
+    {
+        StartCoroutine(EndTurnCo());
+    }
+
+    public IEnumerator EndTurnCo()
+    {
+        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        player.EndTurn();
     }
 
 }

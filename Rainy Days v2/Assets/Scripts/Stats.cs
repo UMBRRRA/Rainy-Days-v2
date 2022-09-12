@@ -13,4 +13,6 @@ public abstract class Stats
     public float Movement { get; set; }
 
 
+    public abstract void MakeTurn();
+
 }

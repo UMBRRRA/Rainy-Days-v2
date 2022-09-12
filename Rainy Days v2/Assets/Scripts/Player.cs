@@ -11,7 +11,8 @@ public enum PlayerState
     Moving,
     Pause,
     Dialogue,
-    Action
+    Action,
+    NotMyTurn
 }
 
 public class Player : MonoBehaviour
@@ -20,6 +21,7 @@ public class Player : MonoBehaviour
     public int startToxicity;
     public int startAP;
     public int startMag;
+    public int startInitative;
 
     public PlayerStats Stats { get; set; }
 
@@ -38,9 +40,15 @@ public class Player : MonoBehaviour
     public float potionStrength = 0.33f;
     public float potionTime = 1f;
     public float reloadTime = 1f;
+    public int potionApCost = 1;
+    public int reloadApCost = 1;
+    public int gunApCost = 1;
+    public int meleeApCost = 1;
 
     public ItemObject potion, antidote, ammo;
     public InventoryObject inventory;
+
+    public bool inFight = false;
 
     private PlayerState _state = PlayerState.Neutral;
     public PlayerState State
@@ -77,7 +85,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        Stats = new PlayerStats(startHealth, startAP, startToxicity, startMag);
+        Stats = new PlayerStats(this, startHealth, startAP, startInitative, startToxicity, startMag);
         currentGridPosition = spawnGridPosition;
         NextField = transform.position;
         mapManager = FindObjectOfType<MapManager>();
@@ -258,19 +266,31 @@ public class Player : MonoBehaviour
     {
         if (State == PlayerState.Neutral && inventory.HasItem(potion, 1)) // also fight and action points...
         {
-            State = PlayerState.Action;
-            inventory.TakeItem(potion, 1);
-            hud.UpdateAmounts();
-            animator.SetInteger("IdleDirection", 0);
-            animator.SetBool("Idle", false);
-            animator.SetBool("Potion", true);
-            animator.SetInteger("PotionDirection", currentDirection);
-
-            int amount = (int)Math.Round(Stats.MaxHealth * potionStrength);
-            RestoreHealth(amount);
-            StartCoroutine(WaitAndGoBackFromDrinkingPotion());
-
+            if (inFight)
+            {
+                if (UseAP(potionApCost))
+                    DrinkPotionAfterCheck();
+            }
+            else
+            {
+                DrinkPotionAfterCheck();
+            }
         }
+    }
+
+    private void DrinkPotionAfterCheck()
+    {
+        State = PlayerState.Action;
+        inventory.TakeItem(potion, 1);
+        hud.UpdateAmounts();
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Potion", true);
+        animator.SetInteger("PotionDirection", currentDirection);
+
+        int amount = (int)Math.Round(Stats.MaxHealth * potionStrength);
+        RestoreHealth(amount);
+        StartCoroutine(WaitAndGoBackFromDrinkingPotion());
     }
 
     public IEnumerator WaitAndGoBackFromDrinkingPotion()
@@ -314,19 +334,32 @@ public class Player : MonoBehaviour
     {
         if (State == PlayerState.Neutral && inventory.HasItem(antidote, 1)) // also fight and action points...
         {
-            State = PlayerState.Action;
-            inventory.TakeItem(antidote, 1);
-            hud.UpdateAmounts();
-            animator.SetInteger("IdleDirection", 0);
-            animator.SetBool("Idle", false);
-            animator.SetBool("Antidote", true);
-            animator.SetInteger("AntidoteDirection", currentDirection);
 
-            int amount = (int)Math.Round(Stats.MaxToxicity * potionStrength);
-            HealToxicity(amount);
-            StartCoroutine(WaitAndGoBackFromDrinkingAntidote());
-
+            if (inFight)
+            {
+                if (UseAP(potionApCost))
+                    DrinkAntidoteAfterCheck();
+            }
+            else
+            {
+                DrinkAntidoteAfterCheck();
+            }
         }
+    }
+
+    private void DrinkAntidoteAfterCheck()
+    {
+        State = PlayerState.Action;
+        inventory.TakeItem(antidote, 1);
+        hud.UpdateAmounts();
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Antidote", true);
+        animator.SetInteger("AntidoteDirection", currentDirection);
+
+        int amount = (int)Math.Round(Stats.MaxToxicity * potionStrength);
+        HealToxicity(amount);
+        StartCoroutine(WaitAndGoBackFromDrinkingAntidote());
     }
 
     public IEnumerator WaitAndGoBackFromDrinkingAntidote()
@@ -344,27 +377,40 @@ public class Player : MonoBehaviour
     {
         if (State == PlayerState.Neutral && inventory.HasItem(ammo, 1) && Stats.CurrentMagazine != Stats.MagazineSize)
         {
-            State = PlayerState.Action;
-            animator.SetInteger("IdleDirection", 0);
-            animator.SetBool("Idle", false);
-            animator.SetBool("Reload", true);
-            animator.SetInteger("ReloadDirection", currentDirection);
-            int empty = Stats.MagazineSize - Stats.CurrentMagazine;
-            if (inventory.HasItem(ammo, empty))
+            if (inFight)
             {
-                inventory.TakeItem(ammo, empty);
-                Stats.CurrentMagazine = Stats.MagazineSize;
+                if (UseAP(reloadApCost))
+                    ReloadAfterCheck();
             }
             else
             {
-                int howMuch = inventory.list.Where(item => item.item == ammo).First().amount;
-                inventory.TakeItem(ammo, howMuch);
-                Stats.CurrentMagazine += howMuch;
+                ReloadAfterCheck();
             }
-            hud.UpdateMagazine();
-            hud.UpdateAmounts();
-            StartCoroutine(WaitAndGoBackFromReload());
         }
+    }
+
+    private void ReloadAfterCheck()
+    {
+        State = PlayerState.Action;
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Reload", true);
+        animator.SetInteger("ReloadDirection", currentDirection);
+        int empty = Stats.MagazineSize - Stats.CurrentMagazine;
+        if (inventory.HasItem(ammo, empty))
+        {
+            inventory.TakeItem(ammo, empty);
+            Stats.CurrentMagazine = Stats.MagazineSize;
+        }
+        else
+        {
+            int howMuch = inventory.list.Where(item => item.item == ammo).First().amount;
+            inventory.TakeItem(ammo, howMuch);
+            Stats.CurrentMagazine += howMuch;
+        }
+        hud.UpdateMagazine();
+        hud.UpdateAmounts();
+        StartCoroutine(WaitAndGoBackFromReload());
     }
 
     public IEnumerator WaitAndGoBackFromReload()
@@ -389,5 +435,43 @@ public class Player : MonoBehaviour
         {
             return false;
         }
+    }
+
+    public void MakeTurn()
+    {
+        State = PlayerState.Neutral;
+        Debug.Log($"I am player and its my turn, my initative is {Stats.Initiative}");
+        FindObjectOfType<CameraFollow>().Setup(() => this.transform.position);
+    }
+
+    public void EndTurn()
+    {
+        if (State == PlayerState.Neutral)
+        {
+            Stats.CurrentAP = Stats.MaxAP;
+            hud.SetAp(Stats.CurrentAP);
+            FindObjectOfType<EncounterManager>().NextTurn();
+            State = PlayerState.NotMyTurn;
+        }
+    }
+
+    public bool UseAP(int amount)
+    {
+        if (Stats.CurrentAP - amount >= 0)
+        {
+            Stats.CurrentAP -= amount;
+            hud.SetAp(Stats.CurrentAP);
+            if (Stats.CurrentAP == 0)
+                StartCoroutine(WaitAndEndTurn());
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public IEnumerator WaitAndEndTurn()
+    {
+        yield return new WaitForSeconds(2f);
+        EndTurn();
     }
 }
