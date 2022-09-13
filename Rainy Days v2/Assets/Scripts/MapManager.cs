@@ -201,7 +201,7 @@ public class MapManager : MonoBehaviour
                     TileData tile = dataFromTiles[map.GetTile(gridPos)];
                     if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(gridPos))
                     {
-                        float heuristic = Vector3Int.Distance(start, finish) * heuristicScale;
+                        float heuristic = Vector3Int.Distance(gridPos, finish) * heuristicScale;
                         Field field = new(gridPos, tile, heuristic);
                         fields.Add(gridPos, field);
                     }
