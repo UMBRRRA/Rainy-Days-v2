@@ -76,9 +76,17 @@ public class MapManager : MonoBehaviour
 
                 if (DialogueFields.Keys.Contains(gridPosition))
                 {
-                    APath path = ChooseBestAPath(player.currentGridPosition, FindNeighboursOfRange(gridPosition, 1));
-                    StartMoving(path);
-                    StartCoroutine(ApproachDialogue(gridPosition));
+                    int dialogueRange = 1;
+                    if (player.CheckIfTargetIsInRange(gridPosition, dialogueRange))
+                    {
+                        StartCoroutine(ApproachDialogue(gridPosition));
+                    }
+                    else
+                    {
+                        APath path = ChooseBestAPath(player.currentGridPosition, FindNeighboursOfRange(gridPosition, dialogueRange));
+                        StartMoving(path);
+                        StartCoroutine(ApproachDialogue(gridPosition));
+                    }
                 }
 
                 if (TransitionFields.Keys.Contains(gridPosition))
@@ -382,42 +390,48 @@ public class MapManager : MonoBehaviour
         for (int x = -range; x <= range; x++)
         {
             Vector3Int neighbourPosUp = new(pos.x + x, pos.y + range);
-            if (map.GetTile(neighbourPosUp) != null && neighbourPosUp != player.currentGridPosition)
+            if (map.GetTile(neighbourPosUp) != null)
             {
-                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosUp)]) && CheckIfFieldIsFree(neighbourPosUp) && !neighbours.Contains(neighbourPosUp))
+                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosUp)]) && CheckIfFieldIsFree(neighbourPosUp))
                 {
                     neighbours.Add(neighbourPosUp);
                 }
             }
             Vector3Int neighbourPosDown = new(pos.x + x, pos.y - range);
-            if (map.GetTile(neighbourPosDown) != null && neighbourPosDown != player.currentGridPosition)
+            if (map.GetTile(neighbourPosDown) != null)
             {
-                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosDown)]) && CheckIfFieldIsFree(neighbourPosDown) && !neighbours.Contains(neighbourPosDown))
+                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosDown)]) && CheckIfFieldIsFree(neighbourPosDown))
                 {
                     neighbours.Add(neighbourPosDown);
                 }
             }
         }
 
-        for (int y = -range; y <= range; y++)
+        for (int y = -range + 1; y < range; y++)
         {
             Vector3Int neighbourPosUp = new(pos.x + range, pos.y + y);
-            if (map.GetTile(neighbourPosUp) != null && neighbourPosUp != player.currentGridPosition)
+            if (map.GetTile(neighbourPosUp) != null)
             {
-                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosUp)]) && CheckIfFieldIsFree(neighbourPosUp) && !neighbours.Contains(neighbourPosUp))
+                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosUp)]) && CheckIfFieldIsFree(neighbourPosUp))
                 {
                     neighbours.Add(neighbourPosUp);
                 }
             }
             Vector3Int neighbourPosDown = new(pos.x - range, pos.y + y);
-            if (map.GetTile(neighbourPosDown) != null && neighbourPosDown != player.currentGridPosition)
+            if (map.GetTile(neighbourPosDown) != null)
             {
-                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosDown)]) && CheckIfFieldIsFree(neighbourPosDown) && !neighbours.Contains(neighbourPosDown))
+                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosDown)]) && CheckIfFieldIsFree(neighbourPosDown))
                 {
                     neighbours.Add(neighbourPosDown);
                 }
             }
         }
+
+        foreach (Vector3Int n in neighbours)
+        {
+            Debug.Log(n);
+        }
+
         return neighbours;
     }
 
