@@ -210,90 +210,7 @@ public class MapManager : MonoBehaviour
             }
         }
 
-        // neighbours
-        foreach (Field field in fields.Values)
-        {
-            // south
-            Vector3Int s = new(field.GridPosition.x - 1, field.GridPosition.y);
-            if (map.GetTile(s) != null)
-            {
-                TileData tile = dataFromTiles[map.GetTile(s)];
-                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(s))
-                {
-                    field.Neighbours.Add(fields[s]);
-                }
-            }
-            // north
-            Vector3Int n = new(field.GridPosition.x + 1, field.GridPosition.y);
-            if (map.GetTile(n) != null)
-            {
-                TileData tile = dataFromTiles[map.GetTile(n)];
-                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(n))
-                {
-                    field.Neighbours.Add(fields[n]);
-                }
-            }
-            // east
-            Vector3Int e = new(field.GridPosition.x, field.GridPosition.y - 1);
-            if (map.GetTile(e) != null)
-            {
-                TileData tile = dataFromTiles[map.GetTile(e)];
-                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(e))
-                {
-                    field.Neighbours.Add(fields[e]);
-                }
-            }
-            // west
-            Vector3Int w = new(field.GridPosition.x, field.GridPosition.y + 1);
-            if (map.GetTile(w) != null)
-            {
-                TileData tile = dataFromTiles[map.GetTile(w)];
-                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(w))
-                {
-                    field.Neighbours.Add(fields[w]);
-                }
-            }
-            // north east
-            Vector3Int ne = new(field.GridPosition.x + 1, field.GridPosition.y - 1);
-            if (map.GetTile(ne) != null)
-            {
-                TileData tile = dataFromTiles[map.GetTile(ne)];
-                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(ne))
-                {
-                    field.Neighbours.Add(fields[ne]);
-                }
-            }
-            // north west
-            Vector3Int nw = new(field.GridPosition.x + 1, field.GridPosition.y + 1);
-            if (map.GetTile(nw) != null)
-            {
-                TileData tile = dataFromTiles[map.GetTile(nw)];
-                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(nw))
-                {
-                    field.Neighbours.Add(fields[nw]);
-                }
-            }
-            // south east
-            Vector3Int se = new(field.GridPosition.x - 1, field.GridPosition.y - 1);
-            if (map.GetTile(se) != null)
-            {
-                TileData tile = dataFromTiles[map.GetTile(se)];
-                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(se))
-                {
-                    field.Neighbours.Add(fields[se]);
-                }
-            }
-            // south west
-            Vector3Int sw = new(field.GridPosition.x - 1, field.GridPosition.y + 1);
-            if (map.GetTile(sw) != null)
-            {
-                TileData tile = dataFromTiles[map.GetTile(sw)];
-                if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(sw))
-                {
-                    field.Neighbours.Add(fields[sw]);
-                }
-            }
-        }
+
 
         List<Field> done = new();
         Field startField = fields[start];
@@ -304,8 +221,12 @@ public class MapManager : MonoBehaviour
         startField.DijkstraScore = 0;
         startField.Path.Add(startField);
 
+
+
         while (currentField != finishField)
         {
+            FindNeighbours(currentField, fields);
+
             foreach (Field f in currentField.Neighbours)
             {
                 if (!done.Contains(f))
@@ -337,6 +258,89 @@ public class MapManager : MonoBehaviour
         }
         APath bestPath = new(finishField.Path, finishField.BestScore, finishField.DijkstraScore);
         return bestPath;
+    }
+
+    private void FindNeighbours(Field field, Dictionary<Vector3Int, Field> fields)
+    {
+        Vector3Int s = new(field.GridPosition.x - 1, field.GridPosition.y);
+        if (map.GetTile(s) != null)
+        {
+            TileData tile = dataFromTiles[map.GetTile(s)];
+            if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(s))
+            {
+                field.Neighbours.Add(fields[s]);
+            }
+        }
+        // north
+        Vector3Int n = new(field.GridPosition.x + 1, field.GridPosition.y);
+        if (map.GetTile(n) != null)
+        {
+            TileData tile = dataFromTiles[map.GetTile(n)];
+            if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(n))
+            {
+                field.Neighbours.Add(fields[n]);
+            }
+        }
+        // east
+        Vector3Int e = new(field.GridPosition.x, field.GridPosition.y - 1);
+        if (map.GetTile(e) != null)
+        {
+            TileData tile = dataFromTiles[map.GetTile(e)];
+            if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(e))
+            {
+                field.Neighbours.Add(fields[e]);
+            }
+        }
+        // west
+        Vector3Int w = new(field.GridPosition.x, field.GridPosition.y + 1);
+        if (map.GetTile(w) != null)
+        {
+            TileData tile = dataFromTiles[map.GetTile(w)];
+            if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(w))
+            {
+                field.Neighbours.Add(fields[w]);
+            }
+        }
+        // north east
+        Vector3Int ne = new(field.GridPosition.x + 1, field.GridPosition.y - 1);
+        if (map.GetTile(ne) != null)
+        {
+            TileData tile = dataFromTiles[map.GetTile(ne)];
+            if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(ne))
+            {
+                field.Neighbours.Add(fields[ne]);
+            }
+        }
+        // north west
+        Vector3Int nw = new(field.GridPosition.x + 1, field.GridPosition.y + 1);
+        if (map.GetTile(nw) != null)
+        {
+            TileData tile = dataFromTiles[map.GetTile(nw)];
+            if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(nw))
+            {
+                field.Neighbours.Add(fields[nw]);
+            }
+        }
+        // south east
+        Vector3Int se = new(field.GridPosition.x - 1, field.GridPosition.y - 1);
+        if (map.GetTile(se) != null)
+        {
+            TileData tile = dataFromTiles[map.GetTile(se)];
+            if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(se))
+            {
+                field.Neighbours.Add(fields[se]);
+            }
+        }
+        // south west
+        Vector3Int sw = new(field.GridPosition.x - 1, field.GridPosition.y + 1);
+        if (map.GetTile(sw) != null)
+        {
+            TileData tile = dataFromTiles[map.GetTile(sw)];
+            if (CheckIfTileIsWalkable(tile) && CheckIfFieldIsFree(sw))
+            {
+                field.Neighbours.Add(fields[sw]);
+            }
+        }
     }
 
     private float Distance(Field from, Field to)
