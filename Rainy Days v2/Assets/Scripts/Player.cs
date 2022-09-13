@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     public int startAP;
     public int startMag;
     public int startInitative;
+    public float startMovement;
 
     public PlayerStats Stats { get; set; }
 
@@ -74,6 +75,7 @@ public class Player : MonoBehaviour
     public int reloadApCost = 1;
     public int gunApCost = 1;
     public int meleeApCost = 1;
+    public int gunRange = 5;
 
     public ItemObject potion, antidote, ammo;
     public InventoryObject inventory;
@@ -117,7 +119,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        Stats = new PlayerStats(this, startHealth, startAP, startInitative, startToxicity, startMag);
+        Stats = new PlayerStats(this, startHealth, startAP, startInitative, startMovement, startToxicity, startMag);
         currentGridPosition = spawnGridPosition;
         NextField = transform.position;
         mapManager = FindObjectOfType<MapManager>();
@@ -230,7 +232,6 @@ public class Player : MonoBehaviour
             IdleDirection(8);
         }
 
-        State = PlayerState.Neutral;
     }
 
     public void PlayWalk(Vector3Int walkDir)
@@ -273,6 +274,7 @@ public class Player : MonoBehaviour
     {
         animator.SetInteger("IdleDirection", dir);
         currentDirection = dir;
+        State = PlayerState.Neutral;
     }
 
     public void RestoreHealth(int amount)
@@ -475,7 +477,7 @@ public class Player : MonoBehaviour
     public void MakeTurn()
     {
         State = PlayerState.Neutral;
-        Debug.Log($"I am player and its my turn, my initative is {Stats.Initiative}");
+        //Debug.Log($"I am player and its my turn, my initative is {Stats.Initiative}");
         FindObjectOfType<CameraFollow>().Setup(() => this.transform.position);
     }
 
@@ -519,21 +521,54 @@ public class Player : MonoBehaviour
     {
         if (Stats.CurrentMagazine > 0)
         {
-            if (UseAP(gunApCost))
+            if (CheckIfTargetIsInRange(enemy.currentGridPosition, gunRange))
             {
-                State = PlayerState.Action;
-                animator.SetInteger("IdleDirection", 0);
-                animator.SetBool("Idle", false);
-                animator.SetBool("Shoot", true);
-                int shootDir = ChooseDir(transform.position, enemy.transform.position);
-                animator.SetInteger("ShootDirection", shootDir);
-                currentDirection = shootDir;
-                Stats.CurrentMagazine -= 1;
-                hud.UpdateMagazine();
-                StartCoroutine(WaitForGunLight());
-                StartCoroutine(WaitAndGoBackFromShooting());
+                if (UseAP(gunApCost))
+                {
+                    ShootAfterChecks(enemy);
+                }
+            }
+            else
+            {
+                APath path = mapManager.ChooseBestAPath(currentGridPosition, mapManager.FindNeighboursOfRange(enemy.currentGridPosition, gunRange));
+                int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
+                if (apcost == 0)
+                    apcost = 1;
+                apcost += gunApCost;
+                if (UseAP(apcost))
+                {
+                    mapManager.StartMoving(path);
+                    StartCoroutine(WaitForMoveAndShoot(enemy));
+                }
             }
         }
+    }
+
+    private IEnumerator WaitForMoveAndShoot(Enemy enemy)
+    {
+        yield return new WaitUntil(() => State == PlayerState.Neutral);
+        StartCoroutine(WaitJustABit(enemy));
+    }
+
+    private IEnumerator WaitJustABit(Enemy enemy)
+    {
+        yield return new WaitForSeconds(0.2f);
+        ShootAfterChecks(enemy);
+    }
+
+    private void ShootAfterChecks(Enemy enemy)
+    {
+        State = PlayerState.Action;
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Shoot", true);
+        int shootDir = ChooseDir(transform.position, enemy.transform.position);
+        animator.SetInteger("ShootDirection", shootDir);
+        currentDirection = shootDir;
+        Stats.CurrentMagazine -= 1;
+        hud.UpdateMagazine();
+        StartCoroutine(WaitForGunLight());
+        StartCoroutine(WaitAndGoBackFromShooting());
     }
 
     private IEnumerator WaitForGunLight()
@@ -553,11 +588,7 @@ public class Player : MonoBehaviour
     {
         Vector3 newMe = new(me.x, me.y, 0);
         Vector3 newThey = new(they.x, they.y, 0);
-        Debug.Log(newMe - newThey);
-
-
         Vector3 normal = (newMe - newThey).normalized;
-        Debug.Log(normal);
         float lowPoint = 0.4f;
         if (normal.x <= -lowPoint && normal.y >= lowPoint)
             return 1;
@@ -586,4 +617,20 @@ public class Player : MonoBehaviour
         animator.SetInteger("IdleDirection", currentDirection);
         State = PlayerState.Neutral;
     }
+
+    public bool CheckIfTargetIsInRange(Vector3Int targetPos, int range)
+    {
+        int xDistance = Math.Abs(currentGridPosition.x - targetPos.x);
+        int yDistance = Math.Abs(currentGridPosition.y - targetPos.y);
+        if (xDistance <= range && yDistance <= range)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
 }

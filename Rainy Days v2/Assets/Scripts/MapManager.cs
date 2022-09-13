@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Linq;
 using UnityEngine.EventSystems;
+using System;
 
 public class MapManager : MonoBehaviour
 {
@@ -54,31 +55,29 @@ public class MapManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && player.State == PlayerState.Neutral && !EventSystem.current.IsPointerOverGameObject())
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-
             Vector3Int gridPosition = map.WorldToCell(mousePosition);
+            WhenClicked(gridPosition);
+        }
+
+    }
+
+
+    public void WhenClicked(Vector3Int gridPosition)
+    {
+        if (!player.inFight)
+        {
             if (map.GetTile(gridPosition) != null && gridPosition != player.currentGridPosition)
             {
                 if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(gridPosition)]) && CheckIfFieldIsFree(gridPosition))
                 {
-                    player.State = PlayerState.Moving;
                     APath path = FindAPath(player.currentGridPosition, gridPosition);
-                    Debug.Log(path);
-                    StopAllCoroutines();
-                    StartCoroutine(WalkPath(path));
+                    StartMoving(path);
                 }
 
-                if (DialogueFields.Keys.Contains(gridPosition) && !player.inFight)
+                if (DialogueFields.Keys.Contains(gridPosition))
                 {
-
-                    Vector3Int approachDialogue = new(gridPosition.x - 1, gridPosition.y, gridPosition.z);
-                    if (approachDialogue != player.currentGridPosition)
-                    {
-                        player.State = PlayerState.Moving;
-                        APath path = FindAPath(player.currentGridPosition, approachDialogue);
-                        StopAllCoroutines();
-                        StartCoroutine(WalkPath(path));
-                    }
+                    APath path = ChooseBestAPath(player.currentGridPosition, FindNeighboursOfRange(gridPosition, 1));
+                    StartMoving(path);
                     StartCoroutine(ApproachDialogue(gridPosition));
                 }
 
@@ -88,15 +87,38 @@ public class MapManager : MonoBehaviour
                     Debug.Log("Transiting");
                 }
 
-                if (EncounterFields.Keys.Contains(gridPosition) && !player.inFight)
+                if (EncounterFields.Keys.Contains(gridPosition))
                 {
                     StartCoroutine(StartEncounter(gridPosition));
                 }
             }
-
-
         }
+        else
+        {
+            if (map.GetTile(gridPosition) != null && gridPosition != player.currentGridPosition)
+            {
+                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(gridPosition)]) && CheckIfFieldIsFree(gridPosition))
+                {
+                    APath path = FindAPath(player.currentGridPosition, gridPosition);
+                    // if a path != null...
+                    int apcost = (int)Math.Round(path.DijkstraScore / player.Stats.Movement);
+                    if (apcost == 0)
+                        apcost = 1;
+                    if (player.UseAP(apcost))
+                    {
+                        StartMoving(path);
+                    }
 
+                }
+            }
+        }
+    }
+
+    public void StartMoving(APath path)
+    {
+        player.State = PlayerState.Moving;
+        StopAllCoroutines();
+        StartCoroutine(WalkPath(path));
     }
 
     public IEnumerator StartEncounter(Vector3Int gridPos)
@@ -301,14 +323,11 @@ public class MapManager : MonoBehaviour
             if (queue.Entries.Count == 0)
             {
                 Debug.Log("Can't find path.");
-
+                return null;
             }
-
             currentField = queue.Dequeue();
         }
-
-        APath bestPath = new(finishField.Path, finishField.BestScore);
-
+        APath bestPath = new(finishField.Path, finishField.BestScore, finishField.DijkstraScore);
         return bestPath;
     }
 
@@ -356,5 +375,67 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    public List<Vector3Int> FindNeighboursOfRange(Vector3Int pos, int range)
+    {
+        List<Vector3Int> neighbours = new();
+
+        for (int x = -range; x <= range; x++)
+        {
+            Vector3Int neighbourPosUp = new(pos.x + x, pos.y + range);
+            if (map.GetTile(neighbourPosUp) != null && neighbourPosUp != player.currentGridPosition)
+            {
+                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosUp)]) && CheckIfFieldIsFree(neighbourPosUp) && !neighbours.Contains(neighbourPosUp))
+                {
+                    neighbours.Add(neighbourPosUp);
+                }
+            }
+            Vector3Int neighbourPosDown = new(pos.x + x, pos.y - range);
+            if (map.GetTile(neighbourPosDown) != null && neighbourPosDown != player.currentGridPosition)
+            {
+                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosDown)]) && CheckIfFieldIsFree(neighbourPosDown) && !neighbours.Contains(neighbourPosDown))
+                {
+                    neighbours.Add(neighbourPosDown);
+                }
+            }
+        }
+
+        for (int y = -range; y <= range; y++)
+        {
+            Vector3Int neighbourPosUp = new(pos.x + range, pos.y + y);
+            if (map.GetTile(neighbourPosUp) != null && neighbourPosUp != player.currentGridPosition)
+            {
+                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosUp)]) && CheckIfFieldIsFree(neighbourPosUp) && !neighbours.Contains(neighbourPosUp))
+                {
+                    neighbours.Add(neighbourPosUp);
+                }
+            }
+            Vector3Int neighbourPosDown = new(pos.x - range, pos.y + y);
+            if (map.GetTile(neighbourPosDown) != null && neighbourPosDown != player.currentGridPosition)
+            {
+                if (CheckIfTileIsWalkable(dataFromTiles[map.GetTile(neighbourPosDown)]) && CheckIfFieldIsFree(neighbourPosDown) && !neighbours.Contains(neighbourPosDown))
+                {
+                    neighbours.Add(neighbourPosDown);
+                }
+            }
+        }
+        return neighbours;
+    }
+
+
+    public APath ChooseBestAPath(Vector3Int start, List<Vector3Int> candidates)
+    {
+        float bestScore = float.MaxValue;
+        APath bestPath = null;
+        foreach (Vector3Int candidate in candidates)
+        {
+            APath path = FindAPath(start, candidate);
+            if (path.AScore < bestScore)
+            {
+                bestScore = path.AScore;
+                bestPath = path;
+            }
+        }
+        return bestPath;
+    }
 
 }

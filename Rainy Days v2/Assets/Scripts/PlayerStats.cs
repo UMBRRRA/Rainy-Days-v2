@@ -13,7 +13,7 @@ public class PlayerStats : Stats
 
     public Player Player { get; set; }
 
-    public PlayerStats(Player player, int maxHealth, int maxAP, int initiative, int maxToxicity, int magazine)
+    public PlayerStats(Player player, int maxHealth, int maxAP, int initiative, float startMovement, int maxToxicity, int magazine)
     {
         this.MaxHealth = maxHealth;
         this.CurrentHealth = maxHealth;
@@ -25,6 +25,7 @@ public class PlayerStats : Stats
         this.CurrentMagazine = magazine;
         this.Player = player;
         this.Initiative = initiative;
+        this.Movement = startMovement;
     }
 
     public override void MakeTurn()

@@ -121,7 +121,7 @@ MonoBehaviour:
   - {x: 0.03892839, y: 0.017054081, z: 0}
   m_ShapePathHash: 1792717929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 123042
+  m_InstanceId: 70964
 --- !u!1 &5960890699162566554
 GameObject:
   m_ObjectHideFlags: 0
@@ -173,7 +173,8 @@ MonoBehaviour:
   startToxicity: 200
   startAP: 20
   startMag: 4
-  startInitative: 0
+  startInitative: 10
+  startMovement: 0.5
   playerZ: 1.5
   spawnGridPosition: {x: -4, y: 3, z: 0}
   currentGridPosition: {x: 0, y: -6, z: 0}
@@ -187,6 +188,7 @@ MonoBehaviour:
   reloadApCost: 1
   gunApCost: 1
   meleeApCost: 1
+  gunRange: 4
   potion: {fileID: 11400000, guid: eff49184128e38247b1304b2b16530e3, type: 2}
   antidote: {fileID: 11400000, guid: 4322cd3af0989ac4b808506b06a672c2, type: 2}
   ammo: {fileID: 11400000, guid: a6437c57a68a03746bdd273f76bbe6d9, type: 2}

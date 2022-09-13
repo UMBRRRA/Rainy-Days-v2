@@ -16,7 +16,6 @@ public class EncounterManager : MonoBehaviour
 
     public void StartEncounter(List<Stats> stats)
     {
-        Debug.Log($"there is {stats.Count} in fight");
         FindObjectOfType<HudFunctions>().StartEncounter();
         Queue.Entries.Clear();
         Stats = stats;
