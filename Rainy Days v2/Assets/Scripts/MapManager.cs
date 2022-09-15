@@ -152,6 +152,12 @@ public class MapManager : MonoBehaviour
     {
         Vector3 nf = new(0, 0, 0);
         Field[] fields = path.Fields.ToArray();
+        int toxicity = 0;
+        foreach (Field f in fields)
+        {
+            toxicity += f.TileData.PoisonLevel;
+        }
+
         for (int i = 1; i < fields.Length; i++)
         {
             Vector3 cf = map.CellToWorld(fields[i - 1].GridPosition);
@@ -177,7 +183,7 @@ public class MapManager : MonoBehaviour
         player.currentGridPosition = fields[fields.Length - 1].GridPosition;
         Vector3Int idleDir = fields[fields.Length - 1].GridPosition - fields[fields.Length - 2].GridPosition;
         StartCoroutine(player.PlayIdle(idleDir, nf));
-
+        player.IncreaseToxicity(toxicity);
     }
 
 

@@ -121,7 +121,7 @@ MonoBehaviour:
   - {x: 0.03892839, y: 0.017054081, z: 0}
   m_ShapePathHash: 1792717929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 30276
+  m_InstanceId: 49432
 --- !u!1 &5960890699162566554
 GameObject:
   m_ObjectHideFlags: 0
@@ -183,8 +183,8 @@ MonoBehaviour:
   potionStrength: 0.33
   potionTime: 1.3
   reloadTime: 1
-  shootTime: 1.2
-  meleeTime: 0.5
+  shootTime: 0.91
+  meleeTime: 0.84
   potionApCost: 1
   reloadApCost: 1
   gunApCost: 1

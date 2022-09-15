@@ -1506,7 +1506,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerMeleeE
-  m_Speed: 2.4
+  m_Speed: 1.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7669473939717580219}
@@ -2060,7 +2060,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerMeleeSW
-  m_Speed: 2.4
+  m_Speed: 1.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 1110628666055999445}
@@ -2615,7 +2615,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerMeleeNE
-  m_Speed: 2.4
+  m_Speed: 1.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 5010941073045069367}
@@ -2717,7 +2717,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerMeleeN
-  m_Speed: 2.4
+  m_Speed: 1.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8159899885203558312}
@@ -3154,7 +3154,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerMeleeSE
-  m_Speed: 2.4
+  m_Speed: 1.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8557518963644291898}
@@ -4147,7 +4147,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerMeleeS
-  m_Speed: 2.4
+  m_Speed: 1.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -8508320611047269406}
@@ -4381,7 +4381,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerMeleeNW
-  m_Speed: 2.4
+  m_Speed: 1.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -7558428374919713314}
@@ -5077,7 +5077,7 @@ AnimatorStateMachine:
     m_Position: {x: 1130, y: -850, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 238942763978775732}
-    m_Position: {x: 1160, y: -1000, z: 0}
+    m_Position: {x: 1160, y: -990, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 511227961052730335}
     m_Position: {x: 1150, y: -1160, z: 0}
@@ -5114,7 +5114,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: PlayerMeleeW
-  m_Speed: 2.4
+  m_Speed: 1.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -7208113309317833968}
