@@ -29,11 +29,14 @@ public class Rain : MonoBehaviour
         {
             for (int y = firstY; y <= lastY; y++)
             {
-                Vector3Int gridPos = new(x, y, 2); // what about z
-                Vector3 worldPos = mapManager.map.CellToWorld(gridPos);
-                Vector3 littleRandom = new(worldPos.x + Random.Range(-0.2f, 0.2f), worldPos.y, worldPos.z);
-                StartCoroutine(GenerateDroplet(worldPos));
-
+                Vector3Int gridPos = new(x, y); // what about z
+                if (mapManager.map.GetTile(gridPos) != null)
+                {
+                    Vector3 worldPos = mapManager.map.CellToWorld(gridPos);
+                    worldPos = new Vector3(worldPos.x, worldPos.y, 2); // zzz
+                    Vector3 littleRandom = new(worldPos.x + Random.Range(-0.2f, 0.2f), worldPos.y, worldPos.z);
+                    StartCoroutine(GenerateDroplet(worldPos));
+                }
             }
         }
     }
