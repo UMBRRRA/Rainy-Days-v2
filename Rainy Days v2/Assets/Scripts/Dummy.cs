@@ -52,10 +52,19 @@ public class Dummy : Enemy
         {
             ShootMe();
         }
+        else if (player.State == PlayerState.Meleeing)
+        {
+            MeleeMe();
+        }
     }
 
     public override void ShootMe()
     {
         player.Shoot(this);
+    }
+
+    public override void MeleeMe()
+    {
+        player.Melee(this);
     }
 }

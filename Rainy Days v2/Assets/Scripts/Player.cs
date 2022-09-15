@@ -71,6 +71,7 @@ public class Player : MonoBehaviour
     public float potionTime = 1f;
     public float reloadTime = 1f;
     public float shootTime = 1.2f;
+    public float meleeTime = 1.5f;
     public int potionApCost = 1;
     public int reloadApCost = 1;
     public int gunApCost = 1;
@@ -547,12 +548,12 @@ public class Player : MonoBehaviour
     private IEnumerator WaitForMoveAndShoot(Enemy enemy)
     {
         yield return new WaitUntil(() => State == PlayerState.Neutral);
-        StartCoroutine(WaitJustABit(enemy));
+        StartCoroutine(WaitJustABitAndShoot(enemy));
     }
 
-    private IEnumerator WaitJustABit(Enemy enemy)
+    private IEnumerator WaitJustABitAndShoot(Enemy enemy)
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.1f);
         ShootAfterChecks(enemy);
     }
 
@@ -632,5 +633,63 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Melee(Enemy enemy)
+    {
+        int meleeRange = 1;
+        if (CheckIfTargetIsInRange(enemy.currentGridPosition, meleeRange))
+        {
+            if (UseAP(meleeApCost))
+            {
+                MeleeAfterChecks(enemy);
+            }
+        }
+        else
+        {
+            APath path = mapManager.ChooseBestAPath(currentGridPosition, mapManager.FindNeighboursOfRange(enemy.currentGridPosition, meleeRange));
+            int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
+            if (apcost == 0)
+                apcost = 1;
+            apcost += meleeApCost;
+            if (UseAP(apcost))
+            {
+                mapManager.StartMoving(path);
+                StartCoroutine(WaitForMoveAndMelee(enemy));
+            }
+        }
+    }
+
+    private void MeleeAfterChecks(Enemy enemy)
+    {
+        State = PlayerState.Action;
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Melee", true);
+        int meleeDir = ChooseDir(transform.position, enemy.transform.position);
+        animator.SetInteger("MeleeDirection", meleeDir);
+        currentDirection = meleeDir;
+        StartCoroutine(WaitAndGoBackFromMeleeing());
+    }
+
+    private IEnumerator WaitForMoveAndMelee(Enemy enemy)
+    {
+        yield return new WaitUntil(() => State == PlayerState.Neutral);
+        StartCoroutine(WaitJustABitAndMelee(enemy));
+    }
+
+    private IEnumerator WaitJustABitAndMelee(Enemy enemy)
+    {
+        yield return new WaitForSeconds(0.1f);
+        MeleeAfterChecks(enemy);
+    }
+
+    public IEnumerator WaitAndGoBackFromMeleeing()
+    {
+        yield return new WaitForSeconds(meleeTime);
+        animator.SetBool("Melee", false);
+        animator.SetBool("Idle", true);
+        animator.SetInteger("MeleeDirection", 0);
+        animator.SetInteger("IdleDirection", currentDirection);
+        State = PlayerState.Neutral;
+    }
 
 }

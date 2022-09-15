@@ -172,9 +172,23 @@ public class HudFunctions : MonoBehaviour
     private IEnumerator ShootCo()
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
-        if (player.State == PlayerState.Neutral && player.inFight)
+        if (player.State == PlayerState.Neutral && player.inFight && player.Stats.CurrentMagazine != 0)
         {
             player.State = PlayerState.Shooting;
+        }
+    }
+
+    public void Melee()
+    {
+        StartCoroutine(MeleeCo());
+    }
+
+    private IEnumerator MeleeCo()
+    {
+        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        if (player.State == PlayerState.Neutral && player.inFight)
+        {
+            player.State = PlayerState.Meleeing;
         }
     }
 

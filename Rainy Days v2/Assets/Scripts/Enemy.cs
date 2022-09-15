@@ -12,4 +12,6 @@ public abstract class Enemy : MonoBehaviour
 
     public abstract void ShootMe();
 
+    public abstract void MeleeMe();
+
 }

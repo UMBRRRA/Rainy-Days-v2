@@ -4181,6 +4181,18 @@ PrefabInstance:
       propertyPath: m_Navigation.m_Mode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7900899144975902787, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1100867180}
+    - target: {fileID: 7900899144975902787, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Melee
+      objectReference: {fileID: 0}
+    - target: {fileID: 7900899144975902787, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: HudFunctions, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 7900899144975902796, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
