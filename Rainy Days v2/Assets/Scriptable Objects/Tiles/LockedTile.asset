@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b8836c547b65694f827635f4182345e, type: 3}
-  m_Name: TestLockedTile
+  m_Name: LockedTile
   m_EditorClassIdentifier: 
   Tiles:
   - {fileID: 11400000, guid: 70048c24f360d3c4abe987e92a8968c8, type: 2}
@@ -22,6 +22,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fcfaea0c6aec7c14f8acaaa87b289fd2, type: 2}
   - {fileID: 11400000, guid: 71cf1cf996882864aa06cd9221742c41, type: 2}
   - {fileID: 11400000, guid: e4685d8c0ef550446915c45b7107fdcb, type: 2}
-  Type: 2
+  Type: 1
   PoisonLevel: 0
-  Neighbours: []

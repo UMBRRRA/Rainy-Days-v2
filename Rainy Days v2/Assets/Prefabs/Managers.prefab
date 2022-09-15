@@ -127,6 +127,7 @@ MonoBehaviour:
   tileDatas:
   - {fileID: 11400000, guid: b7d8ec3880158f14aa7bfac995800584, type: 2}
   - {fileID: 11400000, guid: c8bddc6fe0c5e144495490d2a441525f, type: 2}
+  - {fileID: 11400000, guid: 7cb65742c91dcb846b28568af93c1277, type: 2}
   player: {fileID: 3282145238433749452, guid: d1e95e078fdd89b489c4fe17448deeea, type: 3}
   timeForPlayerMove: 0.3
 --- !u!1 &5129243487878549152

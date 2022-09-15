@@ -10,11 +10,10 @@ public class TileData : ScriptableObject
     public TileBase[] Tiles;
     public TileType Type;
     public int PoisonLevel;
-    public List<TileData> Neighbours;
 
 }
 
 public enum TileType
 {
-    Free, Occupied, Locked
+    Free, Locked
 }

@@ -357,7 +357,8 @@ public class MapManager : MonoBehaviour
         {
             result *= 1.41f;
         }
-        return result * to.TileData.PoisonLevel;
+        // return result * to.TileData.PoisonLevel;
+        return result;
     }
 
     public bool CheckIfTileIsWalkable(TileData tile)
