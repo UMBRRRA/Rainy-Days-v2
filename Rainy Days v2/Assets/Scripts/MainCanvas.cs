@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MainCanvas : MonoBehaviour
 {
+    public Dictionary<int, Encounter> FinishedEncounters { get; set; } = new();
+
     private static MainCanvas singleton;
     private Camera cam;
 

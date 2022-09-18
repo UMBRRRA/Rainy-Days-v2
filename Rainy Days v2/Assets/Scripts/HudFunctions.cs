@@ -63,6 +63,7 @@ public class HudFunctions : MonoBehaviour
         }
     }
 
+
     public void SetMaxHealth(int health)
     {
         healthSlider.maxValue = health;

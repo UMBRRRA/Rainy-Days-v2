@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7220217751665122102}
   - component: {fileID: 7220217751665122103}
+  - component: {fileID: 9019266161417418399}
+  - component: {fileID: 1172590700244068275}
   m_Layer: 0
   m_Name: Encounter
   m_TagString: Untagged
@@ -50,3 +52,71 @@ MonoBehaviour:
   lastY: 6
   enemies:
   - {fileID: 0}
+--- !u!114 &9019266161417418399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220217751665122056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e239ce7c74b2f84ca9e0a623f3a3681, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 1001
+  dialogues:
+  - id: 0
+    question: 
+    answer1: End.
+    answer2: 
+    answer3: 
+    event1:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 9019266161417418399}
+          m_TargetAssemblyTypeName: DialogueTrigger, Assembly-CSharp
+          m_MethodName: EndDialogue
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 1172590700244068275}
+          m_TargetAssemblyTypeName: Item, Assembly-CSharp
+          m_MethodName: AddItem
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    event2:
+      m_PersistentCalls:
+        m_Calls: []
+    event3:
+      m_PersistentCalls:
+        m_Calls: []
+  spawnDialogue: 0
+--- !u!114 &1172590700244068275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7220217751665122056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5afd808040101524086f9e276a946432, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  item: {fileID: 11400000, guid: a6437c57a68a03746bdd273f76bbe6d9, type: 2}
+  amount: 1
+  inventory: {fileID: 11400000, guid: defb09385ec82d74a8d7b5e8f2866dfe, type: 2}

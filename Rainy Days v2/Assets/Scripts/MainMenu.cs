@@ -5,6 +5,7 @@ using UnityEngine;
 public class MainMenu : MonoBehaviour
 {
     private DialogueManager dialogueManager;
+    private MainCanvas imortal;
     public InventoryObject inventory;
     private HudFunctions hud;
     void Start()
@@ -13,6 +14,13 @@ public class MainMenu : MonoBehaviour
         inventory.list.Clear();
         StartCoroutine(WaitForDialogueManager());
         StartCoroutine(WaitForHUD());
+        StartCoroutine(WaitForImortal());
+    }
+
+    private IEnumerator WaitForImortal()
+    {
+        yield return new WaitUntil(() => (imortal = FindObjectOfType<MainCanvas>()) != null);
+        imortal.FinishedEncounters.Clear();
     }
 
     public IEnumerator WaitForDialogueManager()
@@ -25,6 +33,7 @@ public class MainMenu : MonoBehaviour
     {
         yield return new WaitUntil(() => (hud = FindObjectOfType<HudFunctions>()) != null);
         hud.UpdateAmounts();
+        hud.UpdateMagazine();
     }
 
 }

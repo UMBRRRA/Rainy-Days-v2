@@ -503,7 +503,7 @@ public class Player : MonoBehaviour
             if (Stats.CurrentAP == 0)
             {
                 StopAllCoroutines();
-                State = PlayerState.NotMyTurn;
+                //State = PlayerState.NotMyTurn;
                 StartCoroutine(WaitAndEndTurn());
             }
             return true;
@@ -515,7 +515,7 @@ public class Player : MonoBehaviour
     public IEnumerator WaitAndEndTurn()
     {
         yield return new WaitForSeconds(2f);
-        State = PlayerState.Neutral;
+        //State = PlayerState.Neutral;
         EndTurn();
     }
 
@@ -567,7 +567,7 @@ public class Player : MonoBehaviour
         int shootDir = ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("ShootDirection", shootDir);
         currentDirection = shootDir;
-        enemy.TakeDamage(5); // count damage
+        enemy.TakeDamage(20); // count damage
         Stats.CurrentMagazine -= 1;
         hud.UpdateMagazine();
         StartCoroutine(WaitForGunLight());
@@ -669,7 +669,7 @@ public class Player : MonoBehaviour
         int meleeDir = ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("MeleeDirection", meleeDir);
         currentDirection = meleeDir;
-        enemy.TakeDamage(5); // count damage
+        enemy.TakeDamage(20); // count damage
         StartCoroutine(WaitAndGoBackFromMeleeing());
     }
 
@@ -698,8 +698,9 @@ public class Player : MonoBehaviour
     public void EndCombat()
     {
         inFight = false;
-        State = PlayerState.Neutral;
         Stats.CurrentAP = Stats.MaxAP;
+        hud.SetAp(Stats.CurrentAP);
+        //State = PlayerState.Neutral;
     }
 
 }

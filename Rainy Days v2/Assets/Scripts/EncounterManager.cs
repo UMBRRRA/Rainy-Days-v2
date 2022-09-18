@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EncounterManager : MonoBehaviour
 {
+
+
     public Encounter CurrentEncounter { get; set; }
 
     public StatsPriorityQueue Queue { get; set; } = new();

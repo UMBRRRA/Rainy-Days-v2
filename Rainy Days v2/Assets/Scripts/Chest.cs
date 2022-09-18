@@ -13,7 +13,7 @@ public class Chest : MonoBehaviour
         animator = GetComponent<Animator>();
         trigger = GetComponent<DialogueTrigger>();
         item = GetComponent<Item>();
-        trigger.dialogues[0].question = $"You found {item.item.title} inside.";
+        trigger.dialogues[0].question = $"Inside the chest you found {item.amount} x {item.item.title}.";
     }
 
     public void OpenChest()
