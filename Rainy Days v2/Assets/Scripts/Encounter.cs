@@ -50,7 +50,19 @@ public class Encounter : MonoBehaviour
         List<Stats> stats = new();
         stats.Add(player.Stats);
         enemies.ForEach(e => stats.Add(e.Stats));
-        encounterManager.StartEncounter(stats);
+        enemies.ForEach(e => e.ActivateSlider());
+        encounterManager.StartEncounter(stats, this);
+    }
+
+    public void EndEncounter()
+    {
+        for (int x = firstX; x <= lastX; x++)
+        {
+            for (int y = firstY; y <= lastY; y++)
+            {
+                mapManager.EncounterFields.Remove(new Vector3Int(x, y, 0));
+            }
+        }
     }
 
 }

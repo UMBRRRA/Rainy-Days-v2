@@ -7,7 +7,7 @@ public class EnemyStats : Stats
 
     public Enemy Enemy { get; set; }
 
-    public EnemyStats(Enemy enemy, int maxHealth, int maxAP, int initiative)
+    public EnemyStats(Enemy enemy, int maxHealth, int maxAP, int initiative, float movement)
     {
         this.MaxHealth = maxHealth;
         this.CurrentHealth = maxHealth;
@@ -15,6 +15,7 @@ public class EnemyStats : Stats
         this.CurrentAP = maxAP;
         this.Enemy = enemy;
         this.Initiative = initiative;
+        this.Movement = movement;
     }
 
     public override void MakeTurn()

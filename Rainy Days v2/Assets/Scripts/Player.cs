@@ -25,6 +25,7 @@ public class Player : MonoBehaviour
     public int startMag;
     public int startInitative;
     public float startMovement;
+    public int exp;
 
     public PlayerStats Stats { get; set; }
 
@@ -522,7 +523,7 @@ public class Player : MonoBehaviour
     {
         if (Stats.CurrentMagazine > 0)
         {
-            if (CheckIfTargetIsInRange(enemy.currentGridPosition, gunRange))
+            if (CheckIfTargetIsInRange(enemy.CurrentGridPosition, gunRange))
             {
                 if (UseAP(gunApCost))
                 {
@@ -531,7 +532,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                APath path = mapManager.ChooseBestAPath(currentGridPosition, mapManager.FindNeighboursOfRange(enemy.currentGridPosition, gunRange));
+                APath path = mapManager.ChooseBestAPath(currentGridPosition, mapManager.FindNeighboursOfRange(enemy.CurrentGridPosition, gunRange));
                 int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
                 if (apcost == 0)
                     apcost = 1;
@@ -566,6 +567,7 @@ public class Player : MonoBehaviour
         int shootDir = ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("ShootDirection", shootDir);
         currentDirection = shootDir;
+        enemy.TakeDamage(5); // count damage
         Stats.CurrentMagazine -= 1;
         hud.UpdateMagazine();
         StartCoroutine(WaitForGunLight());
@@ -636,7 +638,7 @@ public class Player : MonoBehaviour
     public void Melee(Enemy enemy)
     {
         int meleeRange = 1;
-        if (CheckIfTargetIsInRange(enemy.currentGridPosition, meleeRange))
+        if (CheckIfTargetIsInRange(enemy.CurrentGridPosition, meleeRange))
         {
             if (UseAP(meleeApCost))
             {
@@ -645,7 +647,7 @@ public class Player : MonoBehaviour
         }
         else
         {
-            APath path = mapManager.ChooseBestAPath(currentGridPosition, mapManager.FindNeighboursOfRange(enemy.currentGridPosition, meleeRange));
+            APath path = mapManager.ChooseBestAPath(currentGridPosition, mapManager.FindNeighboursOfRange(enemy.CurrentGridPosition, meleeRange));
             int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
             if (apcost == 0)
                 apcost = 1;
@@ -667,6 +669,7 @@ public class Player : MonoBehaviour
         int meleeDir = ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("MeleeDirection", meleeDir);
         currentDirection = meleeDir;
+        enemy.TakeDamage(5); // count damage
         StartCoroutine(WaitAndGoBackFromMeleeing());
     }
 
@@ -690,6 +693,13 @@ public class Player : MonoBehaviour
         animator.SetInteger("MeleeDirection", 0);
         animator.SetInteger("IdleDirection", currentDirection);
         State = PlayerState.Neutral;
+    }
+
+    public void EndCombat()
+    {
+        inFight = false;
+        State = PlayerState.Neutral;
+        Stats.CurrentAP = Stats.MaxAP;
     }
 
 }

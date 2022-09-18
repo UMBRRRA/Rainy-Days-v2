@@ -4,18 +4,31 @@ using UnityEngine;
 
 public class EncounterManager : MonoBehaviour
 {
+    public Encounter CurrentEncounter { get; set; }
 
     public StatsPriorityQueue Queue { get; set; } = new();
     public List<Stats> Stats { get; set; } = new();
 
+    public List<Stats> DeadStats { get; set; } = new();
 
     void Start()
     {
 
     }
 
-    public void StartEncounter(List<Stats> stats)
+    public void SomebodyDies(Stats stats)
     {
+        Stats.Remove(stats);
+        DeadStats.Add(stats);
+        if (Stats.Count == 1)
+        {
+            EndEncounter();
+        }
+    }
+
+    public void StartEncounter(List<Stats> stats, Encounter encounter)
+    {
+        CurrentEncounter = encounter;
         FindObjectOfType<HudFunctions>().StartEncounter();
         Queue.Entries.Clear();
         Stats = stats;
@@ -35,7 +48,17 @@ public class EncounterManager : MonoBehaviour
     public void NextTurn()
     {
         if (Queue.Entries.Count != 0)
-            Queue.Dequeue().MakeTurn();
+        {
+            Stats next = Queue.Dequeue();
+            if (!DeadStats.Contains(next))
+            {
+                next.MakeTurn();
+            }
+            else
+            {
+                NextTurn();
+            }
+        }
         else
             NextRound();
     }
@@ -43,9 +66,11 @@ public class EncounterManager : MonoBehaviour
     public void EndEncounter()
     {
         Stats.Clear();
+        DeadStats.Clear();
         Queue.Entries.Clear();
         FindObjectOfType<HudFunctions>().EndEncounter();
-        FindObjectOfType<Player>().inFight = false;
+        FindObjectOfType<Player>().EndCombat();
+        CurrentEncounter.EndEncounter();
     }
 
 }

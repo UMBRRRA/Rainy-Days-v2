@@ -10,7 +10,7 @@ public class Dummy : Enemy
 
     void Start()
     {
-        Stats = new EnemyStats(this, dummyMaxHealth, dummyMaxAP, dummyInitiative);
+        Stats = new EnemyStats(this, dummyMaxHealth, dummyMaxAP, dummyInitiative, 1f);
         StartCoroutine(FindPlayer());
         StartCoroutine(FindMapManager());
     }
@@ -24,8 +24,8 @@ public class Dummy : Enemy
         yield return new WaitUntil(() => (mapManager = FindObjectOfType<MapManager>()) != null);
         Vector3 myZ0transform = new(transform.position.x, transform.position.y, 0);
         Vector3Int myGridPos = mapManager.map.WorldToCell(myZ0transform);
-        currentGridPosition = new Vector3Int(myGridPos.x, myGridPos.y, 0);
-        Debug.Log($"My grid pos is {currentGridPosition}");
+        CurrentGridPosition = new Vector3Int(myGridPos.x, myGridPos.y, 0);
+        Debug.Log($"My grid pos is {CurrentGridPosition}");
     }
 
     void Update()
@@ -66,5 +66,25 @@ public class Dummy : Enemy
     public override void MeleeMe()
     {
         player.Melee(this);
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void SetupSlider()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void ActivateSlider()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void DeactivateSlider()
+    {
+        throw new System.NotImplementedException();
     }
 }
