@@ -456,11 +456,15 @@ MonoBehaviour:
   exp: 0
   slider: {fileID: 389086889627754646}
   sliderParent: {fileID: 6683941425667272125}
+  timeForMove: 0.3
+  timeForCornerMove: 0.5
+  enemyZ: 1.2
   zombieMaxHealth: 30
   zombieMaxAP: 10
   zombieInitiative: 5
   zombieMovement: 0.3
   hitTime: 0.6
+  sprite: {fileID: 8874444022241034635}
 --- !u!61 &1529555510057698063
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -602,4 +606,4 @@ MonoBehaviour:
   - {x: 0.07431846, y: -0.0003619641, z: 0}
   m_ShapePathHash: -1310603479
   m_Mesh: {fileID: 0}
-  m_InstanceId: 65606
+  m_InstanceId: 56540

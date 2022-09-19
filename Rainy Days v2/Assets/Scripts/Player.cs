@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
     private static Player singleton;
 
     public float playerZ = 1.2f;
+    public float timeForMove = 0.3f;
+    public float timeForCornerMove = 0.5f;
     public Vector3Int spawnGridPosition;
     public Vector3Int currentGridPosition;
     public MapManager mapManager;
@@ -65,7 +67,6 @@ public class Player : MonoBehaviour
         }
     }
     private Animator animator;
-    public Vector3 NextField { get; set; }
     private PauseMenuFunctions pauseMenu;
     private HudFunctions hud;
     public float potionStrength = 0.33f;
@@ -123,8 +124,10 @@ public class Player : MonoBehaviour
     {
         Stats = new PlayerStats(this, startHealth, startAP, startInitative, startMovement, startToxicity, startMag);
         currentGridPosition = spawnGridPosition;
-        NextField = transform.position;
         mapManager = FindObjectOfType<MapManager>();
+
+        // mapManager.OccupiedFields.Add(currentGridPosition);
+
         animator = GetComponent<Animator>();
         IdleDirection(spawnDirection);
         StartCoroutine(FindHud());

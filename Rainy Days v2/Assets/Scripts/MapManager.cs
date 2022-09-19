@@ -12,7 +12,6 @@ public class MapManager : MonoBehaviour
     public List<TileData> tileDatas;
     public Dictionary<TileBase, TileData> dataFromTiles;
     public Player player;
-    public float timeForPlayerMove;
     public List<Vector3Int> OccupiedFields { get; set; } = new();
     public Dictionary<Vector3Int, TransitionField> TransitionFields { get; set; } = new();
 
@@ -72,6 +71,17 @@ public class MapManager : MonoBehaviour
                 {
                     APath path = FindAPath(player.currentGridPosition, gridPosition);
                     StartMoving(path);
+
+                    if (TransitionFields.Keys.Contains(gridPosition))
+                    {
+                        StartCoroutine(Transition(gridPosition));
+                        Debug.Log("Transiting");
+                    }
+
+                    if (EncounterFields.Keys.Contains(gridPosition))
+                    {
+                        StartCoroutine(StartEncounter(gridPosition));
+                    }
                 }
 
                 if (DialogueFields.Keys.Contains(gridPosition))
@@ -89,16 +99,7 @@ public class MapManager : MonoBehaviour
                     }
                 }
 
-                if (TransitionFields.Keys.Contains(gridPosition))
-                {
-                    StartCoroutine(Transition(gridPosition));
-                    Debug.Log("Transiting");
-                }
 
-                if (EncounterFields.Keys.Contains(gridPosition))
-                {
-                    StartCoroutine(StartEncounter(gridPosition));
-                }
             }
         }
         else
@@ -150,6 +151,9 @@ public class MapManager : MonoBehaviour
 
     public IEnumerator WalkPath(APath path)
     {
+
+        //OccupiedFields.Remove(player.currentGridPosition);
+
         Vector3 nf = new(0, 0, 0);
         Field[] fields = path.Fields.ToArray();
         int toxicity = 0;
@@ -158,22 +162,23 @@ public class MapManager : MonoBehaviour
             toxicity += f.TileData.PoisonLevel;
         }
 
+        float timeForPlayerMove = player.timeForMove;
+
         for (int i = 1; i < fields.Length; i++)
         {
             Vector3 cf = map.CellToWorld(fields[i - 1].GridPosition);
             nf = map.CellToWorld(fields[i].GridPosition);
             Vector3 ne = new(1, 0, 0);
             Vector3 sw = new(-1, 0, 0);
-            player.NextField = new(nf.x, nf.y + 0.25f, player.playerZ);
             yield return new WaitForSeconds(timeForPlayerMove);
 
             if (nf - cf == ne || nf - cf == sw)
             {
-                timeForPlayerMove = 0.5f;
+                timeForPlayerMove = player.timeForCornerMove;
             }
             else
             {
-                timeForPlayerMove = 0.3f;
+                timeForPlayerMove = player.timeForMove;
             }
 
             StartCoroutine(player.MoveToPosition(new(nf.x, nf.y + 0.25f, player.playerZ), timeForPlayerMove));
@@ -184,6 +189,52 @@ public class MapManager : MonoBehaviour
         Vector3Int idleDir = fields[fields.Length - 1].GridPosition - fields[fields.Length - 2].GridPosition;
         StartCoroutine(player.PlayIdle(idleDir, nf));
         player.IncreaseToxicity(toxicity);
+
+        // OccupiedFields.Add(player.currentGridPosition);
+
+    }
+
+    public void MoveEnemy(Enemy enemy, APath path)
+    {
+        StartCoroutine(MoveEnemyCo(enemy, path));
+    }
+
+    private IEnumerator MoveEnemyCo(Enemy enemy, APath path)
+    {
+        //OccupiedFields.Remove(enemy.CurrentGridPosition);
+
+        Vector3 nf = new(0, 0, 0);
+        Field[] fields = path.Fields.ToArray();
+
+        float timeForMove = enemy.timeForMove;
+
+        for (int i = 1; i < fields.Length; i++)
+        {
+            Vector3 cf = map.CellToWorld(fields[i - 1].GridPosition);
+            nf = map.CellToWorld(fields[i].GridPosition);
+            Vector3 ne = new(1, 0, 0);
+            Vector3 sw = new(-1, 0, 0);
+            yield return new WaitForSeconds(timeForMove);
+
+            if (nf - cf == ne || nf - cf == sw)
+            {
+                timeForMove = enemy.timeForCornerMove;
+            }
+            else
+            {
+                timeForMove = enemy.timeForMove;
+            }
+
+            StartCoroutine(enemy.MoveToPosition(new(nf.x, nf.y + 0.25f, enemy.enemyZ), timeForMove));
+            Vector3Int walkDir = fields[i].GridPosition - fields[i - 1].GridPosition;
+            enemy.PlayWalk(walkDir);
+        }
+        enemy.CurrentGridPosition = fields[fields.Length - 1].GridPosition;
+        Vector3Int idleDir = fields[fields.Length - 1].GridPosition - fields[fields.Length - 2].GridPosition;
+        StartCoroutine(enemy.PlayIdle(idleDir, nf));
+
+        OccupiedFields.Add(enemy.CurrentGridPosition);
+
     }
 
 

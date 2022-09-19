@@ -19,6 +19,12 @@ public abstract class Enemy : MonoBehaviour
 
     public GameObject sliderParent;
 
+    public float timeForMove;
+
+    public float timeForCornerMove;
+
+    public float enemyZ = 1.2f;
+
     public abstract void SetupSlider();
 
     public abstract void MakeTurn();
@@ -32,5 +38,11 @@ public abstract class Enemy : MonoBehaviour
     public abstract void ActivateSlider();
 
     public abstract void DeactivateSlider();
+
+    public abstract IEnumerator MoveToPosition(Vector3 position, float timeTo);
+
+    public abstract void PlayWalk(Vector3Int walkDir);
+
+    public abstract IEnumerator PlayIdle(Vector3Int idleDir, Vector3 nextField);
 
 }
