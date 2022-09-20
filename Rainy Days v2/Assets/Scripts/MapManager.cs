@@ -87,7 +87,7 @@ public class MapManager : MonoBehaviour
                 if (DialogueFields.Keys.Contains(gridPosition))
                 {
                     int dialogueRange = 1;
-                    if (player.CheckIfTargetIsInRange(gridPosition, dialogueRange))
+                    if (StaticHelpers.CheckIfTargetIsInRange(gridPosition, player.currentGridPosition, dialogueRange))
                     {
                         StartCoroutine(ApproachDialogue(gridPosition));
                     }

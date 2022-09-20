@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum EnemyState
+{
+    Neutral, Moving, Action
+}
+
 public abstract class Enemy : MonoBehaviour
 {
     public string enemyName;
@@ -44,5 +49,7 @@ public abstract class Enemy : MonoBehaviour
     public abstract void PlayWalk(Vector3Int walkDir);
 
     public abstract IEnumerator PlayIdle(Vector3Int idleDir, Vector3 nextField);
+
+    public EnemyState State { get; set; } = EnemyState.Neutral;
 
 }

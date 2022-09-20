@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,6 +16,9 @@ public class Zombie : Enemy
 
     // public SpriteRenderer sprite;
 
+    public float hammerTime = 1.2f;
+    public int hammerApCost = 1;
+
     public override void MakeTurn()
     {
         StartCoroutine(ZombieTurn());
@@ -24,13 +28,19 @@ public class Zombie : Enemy
     {
         FindObjectOfType<CameraFollow>().Setup(() => this.transform.position);
 
+        Hammer();
+
+        /*
+
         mapManager.OccupiedFields.Remove(CurrentGridPosition);
 
         List<Vector3Int> neighbours = mapManager.FindNeighboursOfRange(player.currentGridPosition, 1);
         APath bestPath = mapManager.ChooseBestAPath(CurrentGridPosition, neighbours);
         mapManager.MoveEnemy(this, bestPath);
 
-        yield return new WaitForSeconds(3f);
+        */
+
+        yield return new WaitForSeconds(5f);
         FindObjectOfType<EncounterManager>().NextTurn();
     }
     private void OnMouseDown()
@@ -78,6 +88,74 @@ public class Zombie : Enemy
         Vector3Int myGridPos = mapManager.map.WorldToCell(myZ0transform);
         CurrentGridPosition = new Vector3Int(myGridPos.x, myGridPos.y, 0);
         mapManager.OccupiedFields.Add(CurrentGridPosition);
+    }
+
+    public bool UseAP(int apCost)
+    {
+        return true;
+    }
+
+
+    public void Hammer()
+    {
+        int meleeRange = 1;
+        if (StaticHelpers.CheckIfTargetIsInRange(player.currentGridPosition, CurrentGridPosition, meleeRange))
+        {
+            if (UseAP(hammerApCost))
+            {
+                HammerAfterChecks();
+            }
+        }
+        else
+        {
+            mapManager.OccupiedFields.Remove(CurrentGridPosition);
+            APath path = mapManager.ChooseBestAPath(CurrentGridPosition, mapManager.FindNeighboursOfRange(player.currentGridPosition, meleeRange));
+            int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
+            if (apcost == 0)
+                apcost = 1;
+            apcost += hammerApCost;
+            if (UseAP(apcost))
+            {
+                State = EnemyState.Moving;
+                mapManager.MoveEnemy(this, path);
+                StartCoroutine(WaitForMoveAndHammer());
+            }
+        }
+    }
+
+    private void HammerAfterChecks()
+    {
+        State = EnemyState.Action;
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Hammer", true);
+        int meleeDir = StaticHelpers.ChooseDir(transform.position, player.transform.position);
+        animator.SetInteger("HammerDirection", meleeDir);
+        CurrentDirection = meleeDir;
+        player.DamageHealth(20); // count damage
+        StartCoroutine(WaitAndGoBackFromHammer());
+    }
+
+    private IEnumerator WaitForMoveAndHammer()
+    {
+        yield return new WaitUntil(() => State == EnemyState.Neutral);
+        StartCoroutine(WaitJustABitAndHammer());
+    }
+
+    private IEnumerator WaitJustABitAndHammer()
+    {
+        yield return new WaitForSeconds(0.1f);
+        HammerAfterChecks();
+    }
+
+    public IEnumerator WaitAndGoBackFromHammer()
+    {
+        yield return new WaitForSeconds(hammerTime);
+        animator.SetBool("Hammer", false);
+        animator.SetBool("Idle", true);
+        animator.SetInteger("HammerDirection", 0);
+        animator.SetInteger("IdleDirection", CurrentDirection);
+        State = EnemyState.Neutral;
     }
 
     private void IdleDirection(int dir)
@@ -251,5 +329,8 @@ public class Zombie : Enemy
         {
             IdleDirection(8);
         }
+
+        State = EnemyState.Neutral;
+
     }
 }

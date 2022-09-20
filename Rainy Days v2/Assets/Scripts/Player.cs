@@ -526,7 +526,7 @@ public class Player : MonoBehaviour
     {
         if (Stats.CurrentMagazine > 0)
         {
-            if (CheckIfTargetIsInRange(enemy.CurrentGridPosition, gunRange))
+            if (StaticHelpers.CheckIfTargetIsInRange(enemy.CurrentGridPosition, currentGridPosition, gunRange))
             {
                 if (UseAP(gunApCost))
                 {
@@ -567,7 +567,7 @@ public class Player : MonoBehaviour
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
         animator.SetBool("Shoot", true);
-        int shootDir = ChooseDir(transform.position, enemy.transform.position);
+        int shootDir = StaticHelpers.ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("ShootDirection", shootDir);
         currentDirection = shootDir;
         enemy.TakeDamage(20); // count damage
@@ -590,30 +590,6 @@ public class Player : MonoBehaviour
         gunLight.SetActive(false);
     }
 
-    public int ChooseDir(Vector3 me, Vector3 they)
-    {
-        Vector3 newMe = new(me.x, me.y, 0);
-        Vector3 newThey = new(they.x, they.y, 0);
-        Vector3 normal = (newMe - newThey).normalized;
-        float lowPoint = 0.4f;
-        if (normal.x <= -lowPoint && normal.y >= lowPoint)
-            return 1;
-        else if (normal.x <= -lowPoint && (normal.y > -lowPoint && normal.y < lowPoint))
-            return 2;
-        else if (normal.x <= -lowPoint && normal.y <= -lowPoint)
-            return 3;
-        else if ((normal.x > -lowPoint && normal.x < lowPoint) && normal.y <= -lowPoint)
-            return 4;
-        else if (normal.x >= lowPoint && normal.y <= -lowPoint)
-            return 5;
-        else if (normal.x >= lowPoint && (normal.y > -lowPoint && normal.y < lowPoint))
-            return 6;
-        else if (normal.x >= lowPoint && normal.y >= lowPoint)
-            return 7;
-        else
-            return 8;
-    }
-
     public IEnumerator WaitAndGoBackFromShooting()
     {
         yield return new WaitForSeconds(shootTime);
@@ -624,24 +600,10 @@ public class Player : MonoBehaviour
         State = PlayerState.Neutral;
     }
 
-    public bool CheckIfTargetIsInRange(Vector3Int targetPos, int range)
-    {
-        int xDistance = Math.Abs(currentGridPosition.x - targetPos.x);
-        int yDistance = Math.Abs(currentGridPosition.y - targetPos.y);
-        if (xDistance <= range && yDistance <= range)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
     public void Melee(Enemy enemy)
     {
         int meleeRange = 1;
-        if (CheckIfTargetIsInRange(enemy.CurrentGridPosition, meleeRange))
+        if (StaticHelpers.CheckIfTargetIsInRange(enemy.CurrentGridPosition, currentGridPosition, meleeRange))
         {
             if (UseAP(meleeApCost))
             {
@@ -669,7 +631,7 @@ public class Player : MonoBehaviour
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
         animator.SetBool("Melee", true);
-        int meleeDir = ChooseDir(transform.position, enemy.transform.position);
+        int meleeDir = StaticHelpers.ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("MeleeDirection", meleeDir);
         currentDirection = meleeDir;
         enemy.TakeDamage(20); // count damage

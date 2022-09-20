@@ -464,7 +464,8 @@ MonoBehaviour:
   zombieInitiative: 5
   zombieMovement: 0.3
   hitTime: 0.6
-  sprite: {fileID: 8874444022241034635}
+  hammerTime: 1
+  hammerApCost: 1
 --- !u!61 &1529555510057698063
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -606,4 +607,4 @@ MonoBehaviour:
   - {x: 0.07431846, y: -0.0003619641, z: 0}
   m_ShapePathHash: -1310603479
   m_Mesh: {fileID: 0}
-  m_InstanceId: 56540
+  m_InstanceId: 83684
