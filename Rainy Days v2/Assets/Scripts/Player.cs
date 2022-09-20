@@ -570,7 +570,7 @@ public class Player : MonoBehaviour
         int shootDir = StaticHelpers.ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("ShootDirection", shootDir);
         currentDirection = shootDir;
-        enemy.TakeDamage(20); // count damage
+        enemy.TakeDamage(5); // count damage
         Stats.CurrentMagazine -= 1;
         hud.UpdateMagazine();
         StartCoroutine(WaitForGunLight());
@@ -634,7 +634,7 @@ public class Player : MonoBehaviour
         int meleeDir = StaticHelpers.ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("MeleeDirection", meleeDir);
         currentDirection = meleeDir;
-        enemy.TakeDamage(20); // count damage
+        enemy.TakeDamage(5); // count damage
         StartCoroutine(WaitAndGoBackFromMeleeing());
     }
 
