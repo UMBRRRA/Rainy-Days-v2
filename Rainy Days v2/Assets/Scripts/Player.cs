@@ -88,6 +88,9 @@ public class Player : MonoBehaviour
     public float beforeGunLight, afterGunLight;
 
     private PlayerState _state = PlayerState.Neutral;
+    public float hitTime = 1f;
+    public float beforeHitTime = 0.3f;
+
     public PlayerState State
     {
         get
@@ -305,8 +308,28 @@ public class Player : MonoBehaviour
         else
         {
             Stats.CurrentHealth -= amount;
+            StartCoroutine(BeforeHit());
         }
         hud.SetHealth(Stats.CurrentHealth);
+    }
+
+    private IEnumerator BeforeHit()
+    {
+        yield return new WaitForSeconds(beforeHitTime);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Hit", true);
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetInteger("HitDirection", currentDirection);
+        StartCoroutine(PlayHit());
+    }
+
+    private IEnumerator PlayHit()
+    {
+        yield return new WaitForSeconds(hitTime);
+        animator.SetBool("Idle", true);
+        animator.SetBool("Hit", false);
+        animator.SetInteger("IdleDirection", currentDirection);
+        animator.SetInteger("HitDirection", 0);
     }
 
     public void DrinkPotion()
@@ -557,7 +580,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator WaitJustABitAndShoot(Enemy enemy)
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         ShootAfterChecks(enemy);
     }
 
@@ -646,7 +669,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator WaitJustABitAndMelee(Enemy enemy)
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         MeleeAfterChecks(enemy);
     }
 

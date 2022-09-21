@@ -10,8 +10,8 @@ public abstract class Stats
     public int MaxAP { get; set; }
     public int CurrentAP { get; set; }
     public int Initiative { get; set; }
+    public int RolledInitiative { get; set; }
     public float Movement { get; set; }
-
 
     public abstract void MakeTurn();
 

@@ -28,12 +28,12 @@ public class StatsPriorityQueue
         else
         {
             var ptr = Entries.First;
-            while (ptr.Next != null && ptr.Value.Initiative > entry.Initiative)
+            while (ptr.Next != null && ptr.Value.RolledInitiative > entry.RolledInitiative)
             {
                 ptr = ptr.Next;
             }
 
-            if (ptr.Value.Initiative >= entry.Initiative)
+            if (ptr.Value.RolledInitiative >= entry.RolledInitiative)
             {
                 Entries.AddAfter(ptr, value);
             }

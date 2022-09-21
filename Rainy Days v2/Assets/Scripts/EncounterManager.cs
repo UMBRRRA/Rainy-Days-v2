@@ -34,6 +34,7 @@ public class EncounterManager : MonoBehaviour
         FindObjectOfType<HudFunctions>().StartEncounter();
         Queue.Entries.Clear();
         Stats = stats;
+        stats.ForEach(stat => stat.RolledInitiative = stat.Initiative + Random.Range(1, 21));
         NextRound();
     }
 

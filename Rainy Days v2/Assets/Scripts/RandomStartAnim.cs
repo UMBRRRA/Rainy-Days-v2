@@ -13,7 +13,7 @@ public class RandomStartAnim : MonoBehaviour
 
     public IEnumerator WaitRandom()
     {
-        yield return new WaitForSeconds(Random.Range(0, 5));
+        yield return new WaitForSeconds(Random.Range(0, 6));
         animator.SetBool("randomTime", true);
     }
 }

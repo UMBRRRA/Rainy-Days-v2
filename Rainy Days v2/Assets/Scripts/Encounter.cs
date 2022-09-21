@@ -13,7 +13,7 @@ public class Encounter : MonoBehaviour
     public List<Enemy> enemies;
     private DialogueTrigger dialogue;
     private Item item;
-    // Start is called before the first frame update
+
     void Start()
     {
         StartCoroutine(StartRoutine());

@@ -125,7 +125,7 @@ public class Zombie : Enemy
 
     private void HammerAfterChecks()
     {
-        State = EnemyState.Action;
+        //State = EnemyState.Action;
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
         animator.SetBool("Hammer", true);
@@ -144,7 +144,7 @@ public class Zombie : Enemy
 
     private IEnumerator WaitJustABitAndHammer()
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.05f);
         HammerAfterChecks();
     }
 
@@ -155,7 +155,7 @@ public class Zombie : Enemy
         animator.SetBool("Idle", true);
         animator.SetInteger("HammerDirection", 0);
         animator.SetInteger("IdleDirection", CurrentDirection);
-        State = EnemyState.Neutral;
+        //State = EnemyState.Neutral;
     }
 
     private void IdleDirection(int dir)
