@@ -6,11 +6,15 @@ public class MainCanvas : MonoBehaviour
 {
     public Dictionary<int, Encounter> FinishedEncounters { get; set; } = new();
 
+    public Texture2D mainCursor;
+
     private static MainCanvas singleton;
     private Camera cam;
 
     private void Awake()
     {
+
+        Cursor.SetCursor(mainCursor, Vector2.zero, CursorMode.ForceSoftware);
 
         if (singleton == null)
         {

@@ -44,4 +44,9 @@ public static class StaticHelpers
         }
     }
 
+    public static int RollDamage(int minRollInclusive, int maxRollInclusive, int modifier)
+    {
+        return UnityEngine.Random.Range(minRollInclusive, maxRollInclusive + 1) + modifier;
+    }
+
 }

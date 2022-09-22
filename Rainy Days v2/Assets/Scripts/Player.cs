@@ -90,6 +90,16 @@ public class Player : MonoBehaviour
     private PlayerState _state = PlayerState.Neutral;
     public float hitTime = 1f;
     public float beforeHitTime = 0.3f;
+    public float deathTime = 1.3f;
+
+    public int gunMinDice = 2;
+    public int gunMaxDice = 16;
+    public int gunModifier = 1;
+
+    public int meleeMinDice = 1;
+    public int meleeMaxDice = 8;
+    public int meleeModifier = 2;
+
 
     public PlayerState State
     {
@@ -303,7 +313,7 @@ public class Player : MonoBehaviour
         if (Stats.CurrentHealth - amount <= 0)
         {
             Stats.CurrentHealth = 0;
-            // dead
+            StartCoroutine(BeforeDeath());
         }
         else
         {
@@ -311,6 +321,26 @@ public class Player : MonoBehaviour
             StartCoroutine(BeforeHit());
         }
         hud.SetHealth(Stats.CurrentHealth);
+    }
+
+
+    private IEnumerator BeforeDeath()
+    {
+        yield return new WaitForSeconds(beforeHitTime);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Death", true);
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetInteger("DeathDirection", currentDirection);
+        FindObjectOfType<CameraFollow>().Setup(() => this.transform.position);
+        StartCoroutine(PlayDead());
+
+    }
+
+    private IEnumerator PlayDead()
+    {
+        yield return new WaitForSeconds(deathTime);
+        FindObjectOfType<PauseMenuFunctions>().ReturnToMainMenu();
+        FindObjectOfType<HudFunctions>().DeactivateHud();
     }
 
     private IEnumerator BeforeHit()
@@ -528,9 +558,9 @@ public class Player : MonoBehaviour
             hud.SetAp(Stats.CurrentAP);
             if (Stats.CurrentAP == 0)
             {
-                StopAllCoroutines();
+                //StopAllCoroutines();
                 //State = PlayerState.NotMyTurn;
-                StartCoroutine(WaitAndEndTurn());
+                //StartCoroutine(WaitAndEndTurn());
             }
             return true;
         }
@@ -593,7 +623,7 @@ public class Player : MonoBehaviour
         int shootDir = StaticHelpers.ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("ShootDirection", shootDir);
         currentDirection = shootDir;
-        enemy.TakeDamage(5); // count damage
+        enemy.TakeDamage(StaticHelpers.RollDamage(gunMinDice, gunMaxDice, gunModifier)); // count damage
         Stats.CurrentMagazine -= 1;
         hud.UpdateMagazine();
         StartCoroutine(WaitForGunLight());
@@ -657,7 +687,7 @@ public class Player : MonoBehaviour
         int meleeDir = StaticHelpers.ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("MeleeDirection", meleeDir);
         currentDirection = meleeDir;
-        enemy.TakeDamage(5); // count damage
+        enemy.TakeDamage(StaticHelpers.RollDamage(meleeMinDice, meleeMaxDice, meleeModifier)); // count damage
         StartCoroutine(WaitAndGoBackFromMeleeing());
     }
 

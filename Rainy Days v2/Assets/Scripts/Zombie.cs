@@ -18,6 +18,12 @@ public class Zombie : Enemy
 
     public float hammerTime = 1.2f;
     public int hammerApCost = 1;
+    private bool myTurn = false;
+    private bool moveFinished = true;
+
+    public int hammerMinDice = 2;
+    public int hammerMaxDice = 16;
+    public int hammerModifier = 5;
 
     public override void MakeTurn()
     {
@@ -27,8 +33,13 @@ public class Zombie : Enemy
     public IEnumerator ZombieTurn()
     {
         FindObjectOfType<CameraFollow>().Setup(() => this.transform.position);
+        Stats.CurrentAP = Stats.MaxAP;
+        myTurn = true;
+        StartCoroutine(MakeMove());
+        yield return new WaitUntil(() => !myTurn);
+        FindObjectOfType<EncounterManager>().NextTurn();
 
-        Hammer();
+        //Hammer();
 
         /*
 
@@ -40,9 +51,35 @@ public class Zombie : Enemy
 
         */
 
-        yield return new WaitForSeconds(5f);
-        FindObjectOfType<EncounterManager>().NextTurn();
+        //yield return new WaitForSeconds(5f);
+        //FindObjectOfType<EncounterManager>().NextTurn();
     }
+
+    private IEnumerator MakeMove()
+    {
+        yield return new WaitUntil(() => moveFinished || !myTurn);
+        if (myTurn)
+        {
+            moveFinished = false;
+            ChooseMove();
+            StartCoroutine(WaitAndMakeMove());
+        }
+    }
+
+    private void ChooseMove()
+    {
+        if (!Hammer())
+        {
+            UseResttoMoveUp();
+        }
+    }
+
+    private IEnumerator WaitAndMakeMove()
+    {
+        yield return new WaitForSeconds(2f);
+        StartCoroutine(MakeMove());
+    }
+
     private void OnMouseDown()
     {
         if (player.State == PlayerState.Shooting)
@@ -92,11 +129,58 @@ public class Zombie : Enemy
 
     public bool UseAP(int apCost)
     {
-        return true;
+        if (Stats.CurrentAP - apCost >= 0)
+        {
+            Stats.CurrentAP -= apCost;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 
-    public void Hammer()
+    public bool UseResttoMoveUp()
+    {
+        if (StaticHelpers.CheckIfTargetIsInRange(player.currentGridPosition, CurrentGridPosition, 1))
+        {
+            myTurn = false;
+            moveFinished = true;
+            return true;
+        }
+        mapManager.OccupiedFields.Remove(CurrentGridPosition);
+        APath path = mapManager.ChooseBestAPath(CurrentGridPosition, mapManager.FindNeighboursOfRange(player.currentGridPosition, 1));
+        int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
+        if (apcost == 0)
+            apcost = 1;
+        while (!UseAP(apcost))
+        {
+            if (path.Fields.Count == 2)
+            {
+                myTurn = false;
+                moveFinished = true;
+                mapManager.OccupiedFields.Add(CurrentGridPosition);
+                return false;
+            }
+            Field[] pathFields = path.Fields.ToArray();
+            path = mapManager.FindAPath(CurrentGridPosition, pathFields[pathFields.Length - 2].GridPosition);
+            apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
+        }
+        State = EnemyState.Moving;
+        mapManager.MoveEnemy(this, path);
+        StartCoroutine(WaitAndEndTurn());
+        return true;
+    }
+
+    private IEnumerator WaitAndEndTurn()
+    {
+        yield return new WaitUntil(() => State == EnemyState.Neutral);
+        myTurn = false;
+        moveFinished = true;
+    }
+
+    public bool Hammer()
     {
         int meleeRange = 1;
         if (StaticHelpers.CheckIfTargetIsInRange(player.currentGridPosition, CurrentGridPosition, meleeRange))
@@ -104,6 +188,7 @@ public class Zombie : Enemy
             if (UseAP(hammerApCost))
             {
                 HammerAfterChecks();
+                return true;
             }
         }
         else
@@ -119,8 +204,14 @@ public class Zombie : Enemy
                 State = EnemyState.Moving;
                 mapManager.MoveEnemy(this, path);
                 StartCoroutine(WaitForMoveAndHammer());
+                return true;
+            }
+            else
+            {
+                mapManager.OccupiedFields.Add(CurrentGridPosition);
             }
         }
+        return false;
     }
 
     private void HammerAfterChecks()
@@ -132,7 +223,7 @@ public class Zombie : Enemy
         int meleeDir = StaticHelpers.ChooseDir(transform.position, player.transform.position);
         animator.SetInteger("HammerDirection", meleeDir);
         CurrentDirection = meleeDir;
-        player.DamageHealth(20); // count damage
+        player.DamageHealth(StaticHelpers.RollDamage(hammerMinDice, hammerMaxDice, hammerModifier)); // count damage
         StartCoroutine(WaitAndGoBackFromHammer());
     }
 
@@ -155,6 +246,7 @@ public class Zombie : Enemy
         animator.SetBool("Idle", true);
         animator.SetInteger("HammerDirection", 0);
         animator.SetInteger("IdleDirection", CurrentDirection);
+        moveFinished = true;
         //State = EnemyState.Neutral;
     }
 
@@ -189,12 +281,13 @@ public class Zombie : Enemy
         animator.SetBool("Death", true);
         animator.SetInteger("DeathDirection", CurrentDirection);
 
+
         GetComponent<BoxCollider2D>().enabled = false;
         DeactivateSlider();
         player.exp += exp;
         FindObjectOfType<EncounterManager>().SomebodyDies(Stats);
         mapManager.OccupiedFields.Remove(CurrentGridPosition);
-        //sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, 140f); // >????
+
     }
 
     private IEnumerator BeforeHit()
@@ -232,6 +325,16 @@ public class Zombie : Enemy
         sliderParent.SetActive(false);
     }
 
+    public void OnMouseEnter()
+    {
+        if (player.inFight)
+            ActivateSlider();
+    }
+
+    public void OnMouseExit()
+    {
+        DeactivateSlider();
+    }
 
     public override IEnumerator MoveToPosition(Vector3 position, float timeTo)
     {

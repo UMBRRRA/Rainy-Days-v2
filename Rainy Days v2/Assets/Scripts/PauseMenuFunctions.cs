@@ -38,7 +38,7 @@ public class PauseMenuFunctions : MonoBehaviour
         StartCoroutine(ReturnToMM(shadow));
     }
 
-    public IEnumerator ReturnToMM(Shadow shadow)
+    private IEnumerator ReturnToMM(Shadow shadow)
     {
         yield return new WaitUntil(() => shadow.doneAnimating);
         StartCoroutine(DestroyPlayer());

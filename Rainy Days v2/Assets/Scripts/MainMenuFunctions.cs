@@ -7,6 +7,7 @@ public class MainMenuFunctions : MonoBehaviour
 {
 
     public GameObject child;
+    public GameObject buttons;
 
     public void StartGame()
     {
@@ -25,11 +26,17 @@ public class MainMenuFunctions : MonoBehaviour
     public void ActivateMainMenu()
     {
         child.SetActive(true);
+        buttons.SetActive(true);
     }
 
     public void DeactivateMainMenu()
     {
         child.SetActive(false);
+    }
+
+    public void DeactivateButtons()
+    {
+        buttons.SetActive(false);
     }
 
 }

@@ -117,6 +117,20 @@ public class MapManager : MonoBehaviour
                     {
                         StartMoving(path);
                     }
+                    else
+                    {
+                        while (!player.UseAP(apcost))
+                        {
+                            if (path.Fields.Count == 2)
+                            {
+                                return;
+                            }
+                            Field[] pathFields = path.Fields.ToArray();
+                            path = FindAPath(player.currentGridPosition, pathFields[pathFields.Length - 2].GridPosition);
+                            apcost = (int)Math.Round(path.DijkstraScore / player.Stats.Movement);
+                        }
+                        StartMoving(path);
+                    }
 
                 }
             }

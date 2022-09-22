@@ -26,6 +26,17 @@ public class DialogueTrigger : MonoBehaviour
         StartCoroutine(FindPlayer());
     }
 
+    public void EntryDialogue()
+    {
+        dialogueManager.StartDialogue(dialogues[currentDialogue]);
+    }
+
+    public void ExitEntryDialogue()
+    {
+        currentDialogue = spawnDialogue;
+        dialogueManager.EndDialogue();
+    }
+
     public IEnumerator FindPlayer()
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);

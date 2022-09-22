@@ -70,7 +70,7 @@ public class Encounter : MonoBehaviour
         List<Stats> stats = new();
         stats.Add(player.Stats);
         enemies.ForEach(e => stats.Add(e.Stats));
-        enemies.ForEach(e => e.ActivateSlider());
+        //enemies.ForEach(e => e.ActivateSlider());
         encounterManager.StartEncounter(stats, this);
     }
 
