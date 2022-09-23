@@ -173,7 +173,7 @@ MonoBehaviour:
   startToxicity: 200
   startAP: 35
   startMag: 4
-  startInitative: 10
+  startInitative: 9
   startMovement: 0.2
   exp: 0
   playerZ: 1.5
@@ -191,7 +191,7 @@ MonoBehaviour:
   potionApCost: 5
   reloadApCost: 5
   gunApCost: 9
-  meleeApCost: 5
+  meleeApCost: 6
   gunRange: 5
   potion: {fileID: 11400000, guid: eff49184128e38247b1304b2b16530e3, type: 2}
   antidote: {fileID: 11400000, guid: 4322cd3af0989ac4b808506b06a672c2, type: 2}

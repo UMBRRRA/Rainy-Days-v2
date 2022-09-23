@@ -98,6 +98,7 @@ public class NPC : MonoBehaviour
         shadow.OpenShadow();
         immortal.Quests[firstGhostId] = 1;
         player.State = PlayerState.Neutral;
+        FindObjectOfType<HudFunctions>().ActivateHud();
         Destroy(this.gameObject);
     }
 

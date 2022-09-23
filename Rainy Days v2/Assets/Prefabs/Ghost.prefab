@@ -68,10 +68,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  timeForMove: 0
-  timeForCornerMove: 0
+  timeForMove: 0.2
+  timeForCornerMove: 0.4
   npcZ: 1.2
   spawnDirection: 0
+  spawnPosition: {x: 0, y: 0, z: 0}
+  ghostWalkDestination: {x: 0, y: 0, z: 0}
 --- !u!114 &221564623267848009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,4 +204,4 @@ MonoBehaviour:
   - {x: -0.022513032, y: 0.04161355, z: 0}
   m_ShapePathHash: -1405935849
   m_Mesh: {fileID: 0}
-  m_InstanceId: 78976
+  m_InstanceId: 148218

@@ -2,48 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StartLevel : MonoBehaviour
+public class ThirdLevel : MonoBehaviour
 {
+    public Encounter enterLevelEncounter;
     private MainCanvas immortal;
-    public static int firstGhostId = 1;
-    public NPC firstGhost;
     private Player player;
     public static float abit = 2f;
-    private HudFunctions hud;
-
-
 
     void Start()
     {
+        GoNeutral();
         StartCoroutine(FindImmortal());
     }
 
     private IEnumerator FindImmortal()
     {
         yield return new WaitUntil(() => (immortal = FindObjectOfType<MainCanvas>()) != null);
-        if (immortal.Quests[firstGhostId] == 0)
+        if (!immortal.FinishedEncounters.ContainsKey(enterLevelEncounter.encounterId))
         {
-            Instantiate(firstGhost.gameObject, firstGhost.spawnPosition, Quaternion.identity);
+            StartCoroutine(StartEncounter());
         }
-        else
-        {
-            GoNeutral();
-            StartCoroutine(FindHud());
-        }
-
     }
-    private IEnumerator FindHud()
+
+    private IEnumerator StartEncounter()
     {
-        yield return new WaitUntil(() => (hud = FindObjectOfType<HudFunctions>()) != null);
-        StartCoroutine(WaitABitAndHud());
+        yield return new WaitUntil(() => FindObjectOfType<Player>().State == PlayerState.Neutral);
+        enterLevelEncounter.StartEncounter();
     }
-
-    private IEnumerator WaitABitAndHud()
-    {
-        yield return new WaitForSeconds(2f);
-        hud.ActivateHud();
-    }
-
 
     public void GoNeutral()
     {
@@ -61,5 +46,4 @@ public class StartLevel : MonoBehaviour
         yield return new WaitForSeconds(abit);
         player.State = PlayerState.Neutral;
     }
-
 }

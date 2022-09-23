@@ -163,7 +163,8 @@ public class Player : MonoBehaviour
         currentGridPosition = spawnGridPosition;
         Vector3 pos = mapManager.map.CellToWorld(spawnGridPosition);
         transform.position = new Vector3(pos.x, pos.y + 0.25f, playerZ);
-        IdleDirection(spawnDirection);
+        IdleDirectionNoNeutral(spawnDirection);
+        State = PlayerState.Event;
     }
 
 
@@ -294,6 +295,12 @@ public class Player : MonoBehaviour
         animator.SetInteger("IdleDirection", dir);
         currentDirection = dir;
         State = PlayerState.Neutral;
+    }
+
+    private void IdleDirectionNoNeutral(int dir)
+    {
+        animator.SetInteger("IdleDirection", dir);
+        currentDirection = dir;
     }
 
     public void RestoreHealth(int amount)
