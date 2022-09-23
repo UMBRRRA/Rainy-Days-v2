@@ -52,9 +52,14 @@ public class DialogueTrigger : MonoBehaviour
 
     public void EndDialogue()
     {
+        EndDialogueWithoutNeutral();
+        player.State = PlayerState.Neutral;
+    }
+
+    public void EndDialogueWithoutNeutral()
+    {
         currentDialogue = spawnDialogue;
         dialogueManager.EndDialogue();
-        player.State = PlayerState.Neutral;
     }
 
     public void NextDialogue()

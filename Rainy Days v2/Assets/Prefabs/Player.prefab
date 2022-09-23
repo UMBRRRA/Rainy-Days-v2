@@ -121,7 +121,7 @@ MonoBehaviour:
   - {x: 0.03892839, y: 0.017054081, z: 0}
   m_ShapePathHash: 1792717929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 96386
+  m_InstanceId: 60046
 --- !u!1 &5960890699162566554
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,6 +210,7 @@ MonoBehaviour:
   meleeMinDice: 1
   meleeMaxDice: 8
   meleeModifier: 2
+  mainCursor: {fileID: 2800000, guid: 32aff35b18a88824c9186f6117496ca5, type: 3}
 --- !u!95 &6160619923393280736
 Animator:
   serializedVersion: 4

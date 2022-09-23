@@ -251,6 +251,50 @@ public class MapManager : MonoBehaviour
 
     }
 
+    public void MoveNPC(NPC npc, APath path)
+    {
+        StartCoroutine(MoveNPCCo(npc, path));
+    }
+
+    private IEnumerator MoveNPCCo(NPC npc, APath path)
+    {
+        Vector3 nf = new(0, 0, 0);
+        Field[] fields = path.Fields.ToArray();
+
+        float timeForMove = npc.timeForMove;
+
+        for (int i = 1; i < fields.Length; i++)
+        {
+            Vector3 cf = map.CellToWorld(fields[i - 1].GridPosition);
+            nf = map.CellToWorld(fields[i].GridPosition);
+            Vector3 ne = new(1, 0, 0);
+            Vector3 sw = new(-1, 0, 0);
+            yield return new WaitForSeconds(timeForMove);
+
+            if (nf - cf == ne || nf - cf == sw)
+            {
+                timeForMove = npc.timeForCornerMove;
+            }
+            else
+            {
+                timeForMove = npc.timeForMove;
+            }
+
+            StartCoroutine(npc.MoveToPosition(new(nf.x, nf.y + 0.25f, npc.npcZ), timeForMove));
+            Vector3Int walkDir = fields[i].GridPosition - fields[i - 1].GridPosition;
+            npc.PlayWalk(walkDir);
+        }
+        npc.CurrentGridPosition = fields[fields.Length - 1].GridPosition;
+        Vector3Int idleDir = fields[fields.Length - 1].GridPosition - fields[fields.Length - 2].GridPosition;
+        StartCoroutine(npc.PlayIdle(idleDir, nf));
+
+        if (npc.type == NPCType.Normal)
+        {
+
+            OccupiedFields.Add(npc.CurrentGridPosition);
+        }
+
+    }
 
     public APath FindAPath(Vector3Int start, Vector3Int finish)
     {

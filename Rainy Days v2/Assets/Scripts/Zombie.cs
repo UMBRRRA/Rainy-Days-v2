@@ -38,21 +38,6 @@ public class Zombie : Enemy
         StartCoroutine(MakeMove());
         yield return new WaitUntil(() => !myTurn);
         FindObjectOfType<EncounterManager>().NextTurn();
-
-        //Hammer();
-
-        /*
-
-        mapManager.OccupiedFields.Remove(CurrentGridPosition);
-
-        List<Vector3Int> neighbours = mapManager.FindNeighboursOfRange(player.currentGridPosition, 1);
-        APath bestPath = mapManager.ChooseBestAPath(CurrentGridPosition, neighbours);
-        mapManager.MoveEnemy(this, bestPath);
-
-        */
-
-        //yield return new WaitForSeconds(5f);
-        //FindObjectOfType<EncounterManager>().NextTurn();
     }
 
     private IEnumerator MakeMove()

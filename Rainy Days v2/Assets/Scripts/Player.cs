@@ -14,7 +14,8 @@ public enum PlayerState
     Action,
     NotMyTurn,
     Shooting,
-    Meleeing
+    Meleeing,
+    Event
 }
 
 public class Player : MonoBehaviour
@@ -87,7 +88,7 @@ public class Player : MonoBehaviour
     public GameObject gunLight;
     public float beforeGunLight, afterGunLight;
 
-    private PlayerState _state = PlayerState.Neutral;
+    private PlayerState _state = PlayerState.Event;
     public float hitTime = 1f;
     public float beforeHitTime = 0.3f;
     public float deathTime = 1.3f;
@@ -100,6 +101,7 @@ public class Player : MonoBehaviour
     public int meleeMaxDice = 8;
     public int meleeModifier = 2;
 
+    public Texture2D mainCursor;
 
     public PlayerState State
     {
@@ -138,11 +140,9 @@ public class Player : MonoBehaviour
         Stats = new PlayerStats(this, startHealth, startAP, startInitative, startMovement, startToxicity, startMag);
         currentGridPosition = spawnGridPosition;
         mapManager = FindObjectOfType<MapManager>();
-
-        // mapManager.OccupiedFields.Add(currentGridPosition);
-
         animator = GetComponent<Animator>();
-        IdleDirection(spawnDirection);
+        animator.SetInteger("IdleDirection", spawnDirection);
+        currentDirection = spawnDirection;
         StartCoroutine(FindHud());
     }
 
@@ -180,6 +180,7 @@ public class Player : MonoBehaviour
             if (State == PlayerState.Shooting || State == PlayerState.Meleeing)
             {
                 State = PlayerState.Neutral;
+                Cursor.SetCursor(mainCursor, Vector2.zero, CursorMode.ForceSoftware);
             }
         }
     }
@@ -585,6 +586,10 @@ public class Player : MonoBehaviour
                 {
                     ShootAfterChecks(enemy);
                 }
+                else
+                {
+                    DidNotWork();
+                }
             }
             else
             {
@@ -598,8 +603,28 @@ public class Player : MonoBehaviour
                     mapManager.StartMoving(path);
                     StartCoroutine(WaitForMoveAndShoot(enemy));
                 }
+                else
+                {
+                    DidNotWork();
+                }
             }
         }
+        else
+        {
+            DidNotWork();
+        }
+    }
+
+    private void DidNotWork()
+    {
+        StartCoroutine(DidNotWorkCo());
+    }
+
+    private IEnumerator DidNotWorkCo()
+    {
+        yield return new WaitForEndOfFrame();
+        State = PlayerState.Neutral;
+        Cursor.SetCursor(mainCursor, Vector2.zero, CursorMode.ForceSoftware);
     }
 
     private IEnumerator WaitForMoveAndShoot(Enemy enemy)
@@ -626,6 +651,7 @@ public class Player : MonoBehaviour
         enemy.TakeDamage(StaticHelpers.RollDamage(gunMinDice, gunMaxDice, gunModifier)); // count damage
         Stats.CurrentMagazine -= 1;
         hud.UpdateMagazine();
+        Cursor.SetCursor(mainCursor, Vector2.zero, CursorMode.ForceSoftware);
         StartCoroutine(WaitForGunLight());
         StartCoroutine(WaitAndGoBackFromShooting());
     }
@@ -662,6 +688,10 @@ public class Player : MonoBehaviour
             {
                 MeleeAfterChecks(enemy);
             }
+            else
+            {
+                DidNotWork();
+            }
         }
         else
         {
@@ -675,6 +705,10 @@ public class Player : MonoBehaviour
                 mapManager.StartMoving(path);
                 StartCoroutine(WaitForMoveAndMelee(enemy));
             }
+            else
+            {
+                DidNotWork();
+            }
         }
     }
 
@@ -687,7 +721,8 @@ public class Player : MonoBehaviour
         int meleeDir = StaticHelpers.ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("MeleeDirection", meleeDir);
         currentDirection = meleeDir;
-        enemy.TakeDamage(StaticHelpers.RollDamage(meleeMinDice, meleeMaxDice, meleeModifier)); // count damage
+        enemy.TakeDamage(StaticHelpers.RollDamage(meleeMinDice, meleeMaxDice, meleeModifier));
+        Cursor.SetCursor(mainCursor, Vector2.zero, CursorMode.ForceSoftware);
         StartCoroutine(WaitAndGoBackFromMeleeing());
     }
 

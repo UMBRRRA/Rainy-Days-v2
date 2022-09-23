@@ -20,6 +20,8 @@ public class HudFunctions : MonoBehaviour
 
     private Player player;
 
+    public Texture2D attackCursor;
+
     public void ActivateHud()
     {
         child.SetActive(true);
@@ -176,6 +178,7 @@ public class HudFunctions : MonoBehaviour
         if (player.State == PlayerState.Neutral && player.inFight && player.Stats.CurrentMagazine != 0)
         {
             player.State = PlayerState.Shooting;
+            Cursor.SetCursor(attackCursor, Vector2.zero, CursorMode.ForceSoftware);
         }
     }
 
@@ -190,6 +193,31 @@ public class HudFunctions : MonoBehaviour
         if (player.State == PlayerState.Neutral && player.inFight)
         {
             player.State = PlayerState.Meleeing;
+            Cursor.SetCursor(attackCursor, Vector2.zero, CursorMode.ForceSoftware);
+        }
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Melee();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Shoot();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Reload();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            DrinkPotion();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            DrinkAntidote();
         }
     }
 

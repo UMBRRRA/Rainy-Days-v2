@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4506895}
+  - component: {fileID: 4506896}
   m_Layer: 5
   m_Name: Logo
   m_TagString: Untagged
@@ -160,6 +161,26 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!95 &4506896
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4506894}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5683e5864327c03498aa6b64c2da3b2d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &35556842
 GameObject:
   m_ObjectHideFlags: 0
@@ -2170,9 +2191,9 @@ MonoBehaviour:
   id: -1
   dialogues:
   - id: 0
-    question: You had a nightmare. In your sleep a terrible presence called out for
-      you, from the woods. Was it destiny, or premoniton? You would never find the
-      answer.
+    question: You had the same nightmare again. In your sleep an ominous presence
+      called out for you from the woods. Was it destiny, or premonition? You would
+      never find the answer.
     answer1: Continue.
     answer2: 
     answer3: 
@@ -2198,9 +2219,9 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
   - id: 0
-    question: After following the visions from your dreams you found a gruesome phenomena.
-      A terryfing acidic rain pouring down on the forest and giving birth to horrific
-      beings.
+    question: After following the visions from your dreams you found a mysterious
+      phenomenon. A terryfing poisonous rain pouring down on the forest and giving
+      birth to all sorts of horrific beings.
     answer1: Continue.
     answer2: 
     answer3: 
@@ -2228,7 +2249,7 @@ MonoBehaviour:
   - id: 0
     question: Those who survied the toxicity told you stories of cultists worshipping
       the rain and of demons roaming the land. You decided to investigate and find
-      the presence from your dreams
+      the presence from your dreams.
     answer1: End.
     answer2: 
     answer3: 
@@ -3353,6 +3374,7 @@ MonoBehaviour:
   currentAP: {fileID: 830949975}
   magazine: {fileID: 1124125748}
   endTurn: {fileID: 1208268567}
+  attackCursor: {fileID: 2800000, guid: 1b8c8db38c3fb3845873a326953cb882, type: 3}
 --- !u!1001 &1105172224
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3625,7 +3647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49dcc9031bcc3f1459ff963d9b6bd1c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCursor: {fileID: 2800000, guid: 28edf9df0baedf64bb6874971eb7d670, type: 3}
+  mainCursor: {fileID: 2800000, guid: 32aff35b18a88824c9186f6117496ca5, type: 3}
 --- !u!114 &1108402511 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7900899144027390918, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
@@ -6129,7 +6151,7 @@ MonoBehaviour:
   event3:
     m_PersistentCalls:
       m_Calls: []
-  dialogueSpeed: 0.03
+  dialogueSpeed: 0.01
 --- !u!1 &2058458612
 GameObject:
   m_ObjectHideFlags: 0
