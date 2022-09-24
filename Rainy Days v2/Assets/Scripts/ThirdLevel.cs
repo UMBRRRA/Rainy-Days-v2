@@ -8,6 +8,11 @@ public class ThirdLevel : MonoBehaviour
     private MainCanvas immortal;
     private Player player;
     public static float abit = 2f;
+    public GameObject romanIdle;
+    public static int loversQuestId = 2;
+    public Vector3 romanPosition;
+    public GameObject nina;
+    public static int ninaFinishedQuestDialogueId = 5;
 
     void Start()
     {
@@ -21,6 +26,11 @@ public class ThirdLevel : MonoBehaviour
         if (!immortal.FinishedEncounters.ContainsKey(enterLevelEncounter.encounterId))
         {
             StartCoroutine(StartEncounter());
+        }
+        if (immortal.Quests[loversQuestId] == 2)
+        {
+            Instantiate(romanIdle, romanPosition, Quaternion.identity);
+            nina.GetComponent<DialogueTrigger>().ChangeDialogue(ninaFinishedQuestDialogueId);
         }
     }
 
@@ -45,5 +55,10 @@ public class ThirdLevel : MonoBehaviour
     {
         yield return new WaitForSeconds(abit);
         player.State = PlayerState.Neutral;
+    }
+
+    public void AcceptedLoversQuest()
+    {
+        immortal.Quests[loversQuestId] = 1;
     }
 }
