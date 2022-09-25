@@ -13,23 +13,97 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.size
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.data[0].id
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].id
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].id
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.data[0].answer1
+      value: Do you know more about these demons I've been fighting?
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].answer2
+      value: Tell me what you know about this cult.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].answer3
+      value: Not really. Take care.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].answer1
+      value: What about the cult?
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].answer2
+      value: I've heard enough. Thanks.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].answer3
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].answer1
+      value: And the demons?
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].answer2
+      value: I've heard enough. Thanks.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].answer3
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.data[0].question
-      value: Yo
+      value: Hey. Thanks again for saving me. Listen I don't have much to repay you,
+        but maybe I can help you with some information. Is there something you have
+        on your mind?
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].question
+      value: I don't know much. I've heard stories that the cult kidnaps people and
+        turn them into these. I didn't believe it at first, but just now it sure
+        looked like they wanted to drag me somewhere...
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].question
+      value: After the rain started they came out of nowhere and started raising
+        hell. Killed some friends of mine... I saw a guy east from here who said
+        that he's trying to reach them. Maybe he will know more.
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.data[0].event1.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event2.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event3.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event2.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event3.m_PersistentCalls.m_Calls.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].event2.m_PersistentCalls.m_Calls.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.data[0].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -40,19 +114,123 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event2.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event3.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event2.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event3.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].event2.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.data[0].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 786273925413920160}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event2.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 786273925413920160}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event3.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 786273925413920160}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event2.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 786273925413920160}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event3.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 786273925413920160}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].event2.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 786273925413920160}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event2.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event3.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event2.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event3.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].event2.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.data[0].event1.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: EndDialogue
+      value: NextDialogue
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.data[0].event1.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
       value: EndDialogue
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event2.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: NextDialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event3.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EndDialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event2.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EndDialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event3.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].event2.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EndDialogue
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.data[0].event1.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DialogueTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event2.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DialogueTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event3.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DialogueTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event2.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DialogueTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event3.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: DialogueTrigger, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].event2.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: DialogueTrigger, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
@@ -62,6 +240,38 @@ PrefabInstance:
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.data[0].event1.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_IntArgument
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event2.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event2.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[0].event3.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event2.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event3.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[2].event2.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645158, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: m_RootOrder
@@ -125,7 +335,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7734295572872865954, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: m_InstanceId
-      value: -618074
+      value: -3096
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6903971293485289201, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}

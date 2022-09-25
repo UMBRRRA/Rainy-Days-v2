@@ -8,6 +8,7 @@ public class Roman : MonoBehaviour
     public static int notTalkedToNina = 1;
     public static int talkedToNina = 2;
     private Shadow shadow;
+    public static int loversQuestXP = 500;
 
     public void StartEncounter()
     {
@@ -27,6 +28,7 @@ public class Roman : MonoBehaviour
         FindObjectOfType<MainCanvas>().Quests[loversQuestId] = 2;
         MapManager mapManager = FindObjectOfType<MapManager>();
         mapManager.OccupiedFields.Remove(mapManager.map.WorldToCell(this.transform.position));
+        FindObjectOfType<Player>().exp += loversQuestXP;
         shadow = FindObjectOfType<Shadow>();
         shadow.CloseShadow();
         StartCoroutine(WaitForShadow());

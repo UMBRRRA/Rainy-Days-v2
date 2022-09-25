@@ -78,7 +78,14 @@ public class DialogueTrigger : MonoBehaviour
     {
         spawnDialogue = id;
         currentDialogue = spawnDialogue;
-        dialogueManager.DialoguesSave.Add(this.id, id);
+        if (!dialogueManager.DialoguesSave.ContainsKey(this.id))
+        {
+            dialogueManager.DialoguesSave.Add(this.id, id);
+        }
+        else
+        {
+            dialogueManager.DialoguesSave[this.id] = id;
+        }
     }
 
 }
