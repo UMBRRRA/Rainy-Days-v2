@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b33aeb5a59de19f4fbbf0bdbaaf4fb03
+guid: 94ae7b9231e74d94f9fa4a965a8288ed
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -42,7 +42,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 0
   spriteMeshType: 1
   alignment: 0
@@ -104,175 +104,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cave_entrence_0
-      rect:
-        serializedVersion: 2
-        x: 32
-        y: 64
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
-      physicsShape:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: b79c32e1a9da51a42bb23ad6b0a245cb
-      internalID: 1545380156
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cave_entrence_1
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 64
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
-      physicsShape:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6e1b272506692714db28510763e4239d
-      internalID: -1078637251
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cave_entrence_2
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 32
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
-      physicsShape:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6fd13907df2639e46840875d5f8f5983
-      internalID: -1443812111
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cave_entrence_3
+      name: cave_entrence_moved_0
       rect:
         serializedVersion: 2
         x: 48
-        y: 32
-        width: 32
-        height: 64
-      alignment: 9
+        y: 46
+        width: 16
+        height: 36
+      alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
-      physicsShape:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
+      outline: []
+      physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0dfd1ce15e5808d4e99831d5f5221135
-      internalID: 335528909
+      spriteID: fe384f3c8cab91b4ca39681f95b8e32d
+      internalID: -1961832002
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: cave_entrence_4
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 32
-        width: 32
-        height: 64
-      alignment: 9
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
-      physicsShape:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
-      tessellationDetail: 0
-      bones: []
-      spriteID: 688a7d558e84875439cc1a16c15f0f62
-      internalID: 764277366
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: cave_entrence_5
+      name: cave_entrence_moved_1
       rect:
         serializedVersion: 2
         x: 64
-        y: 0
-        width: 32
-        height: 64
-      alignment: 9
+        y: 46
+        width: 16
+        height: 36
+      alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
-      outline:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
-      physicsShape:
-      - - {x: 0, y: -32}
-        - {x: 16, y: 0}
-        - {x: 0, y: 32}
-        - {x: -16, y: 0}
+      outline: []
+      physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d684ec3e5a7b1954da1a9f46944167c0
-      internalID: 1346848992
+      spriteID: 0d06b2128ab89394b93b50f36803d438
+      internalID: -831033503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cave_entrence_moved_2
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 46
+        width: 16
+        height: 36
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2f1a0dc05c5cc2542bbd6d2747ec19fe
+      internalID: -541015479
       vertices: []
       indices: 
       edges: []
@@ -288,12 +177,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      cave_entrence_4: 764277366
-      cave_entrence_0: 1545380156
-      cave_entrence_2: -1443812111
-      cave_entrence_3: 335528909
-      cave_entrence_5: 1346848992
-      cave_entrence_1: -1078637251
+      cave_entrence_moved_2: -541015479
+      cave_entrence_moved_1: -831033503
+      cave_entrence_moved_0: -1961832002
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

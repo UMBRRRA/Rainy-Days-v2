@@ -18,6 +18,7 @@ public class MainCanvas : MonoBehaviour
         // add empty quests here
         Quests.Add(1, 0); // first ghost apperance
         Quests.Add(2, 0); // lovers in distress
+        Quests.Add(3, 0); // enginner
     }
 
     private void Awake()
