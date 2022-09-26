@@ -14,9 +14,6 @@ public class MapManager : MonoBehaviour
     public Player player;
     public List<Vector3Int> OccupiedFields { get; set; } = new();
     public Dictionary<Vector3Int, TransitionField> TransitionFields { get; set; } = new();
-
-    public Dictionary<Vector3Int, DialogueField> DialogueFields { get; set; } = new();
-
     public Dictionary<Vector3Int, Encounter> EncounterFields { get; set; } = new();
 
     void Start()
@@ -84,22 +81,6 @@ public class MapManager : MonoBehaviour
                     }
                 }
 
-                if (DialogueFields.Keys.Contains(gridPosition))
-                {
-                    int dialogueRange = 1;
-                    if (StaticHelpers.CheckIfTargetIsInRange(gridPosition, player.currentGridPosition, dialogueRange))
-                    {
-                        StartCoroutine(ApproachDialogue(gridPosition));
-                    }
-                    else
-                    {
-                        APath path = ChooseBestAPath(player.currentGridPosition, FindNeighboursOfRange(gridPosition, dialogueRange));
-                        StartMoving(path);
-                        StartCoroutine(ApproachDialogue(gridPosition));
-                    }
-                }
-
-
             }
         }
         else
@@ -137,6 +118,24 @@ public class MapManager : MonoBehaviour
         }
     }
 
+    public void MovePlayerTodialogue(Vector3Int gridPosition, DialogueTrigger dialogue)
+    {
+        if (!player.inFight && player.State == PlayerState.Neutral)
+        {
+            int dialogueRange = 1;
+            if (StaticHelpers.CheckIfTargetIsInRange(gridPosition, player.currentGridPosition, dialogueRange))
+            {
+                StartCoroutine(ApproachDialogue(dialogue));
+            }
+            else
+            {
+                APath path = ChooseBestAPath(player.currentGridPosition, FindNeighboursOfRange(gridPosition, dialogueRange));
+                StartMoving(path);
+                StartCoroutine(ApproachDialogue(dialogue));
+            }
+        }
+    }
+
     public void StartMoving(APath path)
     {
         player.State = PlayerState.Moving;
@@ -151,10 +150,10 @@ public class MapManager : MonoBehaviour
     }
 
 
-    public IEnumerator ApproachDialogue(Vector3Int gridPos)
+    public IEnumerator ApproachDialogue(DialogueTrigger dialogue)
     {
         yield return new WaitUntil(() => player.State == PlayerState.Neutral);
-        DialogueFields[gridPos].StartDialogue();
+        dialogue.TriggerDialogue();
     }
 
     public IEnumerator Transition(Vector3Int gridPos)

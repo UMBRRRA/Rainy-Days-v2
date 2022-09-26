@@ -6,6 +6,7 @@ public class DialogueField : MonoBehaviour
 {
     private MapManager mapManager;
     private DialogueTrigger trigger;
+    public Vector3Int myGridPosition { get; set; }
 
     void Start()
     {
@@ -18,12 +19,11 @@ public class DialogueField : MonoBehaviour
         yield return new WaitUntil(() => (mapManager = FindObjectOfType<MapManager>()) != null);
         Vector3 myZ0transform = new(transform.position.x, transform.position.y, 0);
         Vector3Int myGridPos = mapManager.map.WorldToCell(myZ0transform);
-        Vector3Int gridZ0 = new Vector3Int(myGridPos.x, myGridPos.y, 0);
-        mapManager.DialogueFields.Add(gridZ0, this);
+        myGridPosition = new Vector3Int(myGridPos.x, myGridPos.y, 0);
     }
 
     public void StartDialogue()
     {
-        trigger.TriggerDialogue();
+        mapManager.MovePlayerTodialogue(myGridPosition, trigger);
     }
 }
