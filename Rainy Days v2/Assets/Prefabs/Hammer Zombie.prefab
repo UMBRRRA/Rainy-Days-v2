@@ -469,6 +469,14 @@ MonoBehaviour:
   hammerMinDice: 2
   hammerMaxDice: 16
   hammerModifier: 5
+  pukeApCost: 5
+  pukeTime: 0.97
+  pukeMinDice: 1
+  pukeMaxDice: 6
+  pukeModifier: 2
+  pukeToxicMinDice: 2
+  pukeToxicMaxDice: 12
+  pukeToxicModifier: 3
 --- !u!61 &1529555510057698063
 BoxCollider2D:
   m_ObjectHideFlags: 0

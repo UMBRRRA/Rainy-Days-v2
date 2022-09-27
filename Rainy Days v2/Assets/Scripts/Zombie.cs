@@ -25,6 +25,17 @@ public class Zombie : Enemy
     public int hammerMaxDice = 16;
     public int hammerModifier = 5;
 
+    public int pukeApCost = 5;
+    public float pukeTime = 1.17f;
+
+    public int pukeMinDice = 1;
+    public int pukeMaxDice = 6;
+    public int pukeModifier = 2;
+    public int pukeToxicMinDice = 2;
+    public int pukeToxicMaxDice = 12;
+    public int pukeToxicModifier = 3;
+
+
     public override void MakeTurn()
     {
         StartCoroutine(ZombieTurn());
@@ -53,9 +64,21 @@ public class Zombie : Enemy
 
     private void ChooseMove()
     {
-        if (!Hammer())
+        int random = UnityEngine.Random.Range(1, 5);
+        if (random >= 1 && random <= 3)
         {
-            UseResttoMoveUp();
+            if (!Hammer())
+            {
+                //if (!Puke())
+                UseResttoMoveUp();
+            }
+        }
+        else
+        {
+            if (!Puke())
+            {
+                UseResttoMoveUp();
+            }
         }
     }
 
@@ -136,6 +159,12 @@ public class Zombie : Enemy
         }
         mapManager.OccupiedFields.Remove(CurrentGridPosition);
         APath path = mapManager.ChooseBestAPath(CurrentGridPosition, mapManager.FindNeighboursOfRange(player.currentGridPosition, 1));
+        if (path == null)
+        {
+            mapManager.OccupiedFields.Add(CurrentGridPosition);
+            StartCoroutine(WaitAndEndTurn());
+            return false;
+        }
         int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
         if (apcost == 0)
             apcost = 1;
@@ -180,6 +209,11 @@ public class Zombie : Enemy
         {
             mapManager.OccupiedFields.Remove(CurrentGridPosition);
             APath path = mapManager.ChooseBestAPath(CurrentGridPosition, mapManager.FindNeighboursOfRange(player.currentGridPosition, meleeRange));
+            if (path == null)
+            {
+                mapManager.OccupiedFields.Add(CurrentGridPosition);
+                return false;
+            }
             int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
             if (apcost == 0)
                 apcost = 1;
@@ -201,13 +235,13 @@ public class Zombie : Enemy
 
     private void HammerAfterChecks()
     {
-        //State = EnemyState.Action;
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
         animator.SetBool("Hammer", true);
         int meleeDir = StaticHelpers.ChooseDir(transform.position, player.transform.position);
         animator.SetInteger("HammerDirection", meleeDir);
         CurrentDirection = meleeDir;
+        player.beforeHitTime = 0.2f;
         player.DamageHealth(StaticHelpers.RollDamage(hammerMinDice, hammerMaxDice, hammerModifier)); // count damage
         StartCoroutine(WaitAndGoBackFromHammer());
     }
@@ -232,7 +266,79 @@ public class Zombie : Enemy
         animator.SetInteger("HammerDirection", 0);
         animator.SetInteger("IdleDirection", CurrentDirection);
         moveFinished = true;
-        //State = EnemyState.Neutral;
+    }
+
+    public bool Puke()
+    {
+        int meleeRange = 1;
+        if (StaticHelpers.CheckIfTargetIsInRange(player.currentGridPosition, CurrentGridPosition, meleeRange))
+        {
+            if (UseAP(pukeApCost))
+            {
+                PukeAfterChecks();
+                return true;
+            }
+        }
+        else
+        {
+            mapManager.OccupiedFields.Remove(CurrentGridPosition);
+            APath path = mapManager.ChooseBestAPath(CurrentGridPosition, mapManager.FindNeighboursOfRange(player.currentGridPosition, meleeRange));
+            if (path == null)
+            {
+                mapManager.OccupiedFields.Add(CurrentGridPosition);
+                return false;
+            }
+            int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
+            if (apcost == 0)
+                apcost = 1;
+            apcost += pukeApCost;
+            if (UseAP(apcost))
+            {
+                State = EnemyState.Moving;
+                mapManager.MoveEnemy(this, path);
+                StartCoroutine(WaitForMoveAndPuke());
+                return true;
+            }
+            else
+            {
+                mapManager.OccupiedFields.Add(CurrentGridPosition);
+            }
+        }
+        return false;
+    }
+
+    private void PukeAfterChecks()
+    {
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Puke", true);
+        int meleeDir = StaticHelpers.ChooseDir(transform.position, player.transform.position);
+        animator.SetInteger("PukeDirection", meleeDir);
+        CurrentDirection = meleeDir;
+        player.beforeHitTime = 0.4f;
+        player.DamageHealth(StaticHelpers.RollDamage(pukeMinDice, pukeMaxDice, pukeModifier));
+        player.IncreaseToxicity(StaticHelpers.RollDamage(pukeToxicMinDice, pukeToxicMaxDice, pukeToxicModifier));
+        StartCoroutine(WaitAndGoBackFromPuke());
+    }
+
+    private IEnumerator WaitForMoveAndPuke()
+    {
+        yield return new WaitUntil(() => State == EnemyState.Neutral);
+        StartCoroutine(WaitJustABitAndPuke());
+    }
+    private IEnumerator WaitJustABitAndPuke()
+    {
+        yield return new WaitForSeconds(0.05f);
+        PukeAfterChecks();
+    }
+    public IEnumerator WaitAndGoBackFromPuke()
+    {
+        yield return new WaitForSeconds(pukeTime);
+        animator.SetBool("Puke", false);
+        animator.SetBool("Idle", true);
+        animator.SetInteger("PukeDirection", 0);
+        animator.SetInteger("IdleDirection", CurrentDirection);
+        moveFinished = true;
     }
 
     private void IdleDirection(int dir)
