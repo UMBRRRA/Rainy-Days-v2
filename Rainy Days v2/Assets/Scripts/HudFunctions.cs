@@ -219,6 +219,10 @@ public class HudFunctions : MonoBehaviour
         {
             DrinkAntidote();
         }
+        else if (Input.GetKeyDown(KeyCode.Alpha9))
+        {
+            EndTurn();
+        }
     }
 
 }
