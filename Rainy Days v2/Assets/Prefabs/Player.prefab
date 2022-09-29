@@ -121,7 +121,7 @@ MonoBehaviour:
   - {x: 0.03892839, y: 0.017054081, z: 0}
   m_ShapePathHash: 1792717929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 60046
+  m_InstanceId: 59950
 --- !u!1 &5960890699162566554
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4db21be359f0ed47aad117bad473d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 150
+  startHealth: 170
   startToxicity: 200
   startAP: 35
   startMag: 4
@@ -201,13 +201,13 @@ MonoBehaviour:
   gunLight: {fileID: 7935865027567699413}
   beforeGunLight: 0.4
   afterGunLight: 0.2
-  hitTime: 1
+  hitTime: 0.84
   beforeHitTime: 0.2
   deathTime: 1.3
-  gunMinDice: 2
+  gunMinDice: 4
   gunMaxDice: 16
   gunModifier: 1
-  meleeMinDice: 1
+  meleeMinDice: 2
   meleeMaxDice: 8
   meleeModifier: 2
   mainCursor: {fileID: 2800000, guid: 32aff35b18a88824c9186f6117496ca5, type: 3}

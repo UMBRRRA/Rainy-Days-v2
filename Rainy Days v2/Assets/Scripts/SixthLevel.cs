@@ -12,12 +12,31 @@ public class SixthLevel : MonoBehaviour
     public InventoryObject inventory;
     public static int haveKeyId = 1;
     public ItemObject key;
+    public Encounter encounter;
+    private MainCanvas immortal;
 
     void Start()
     {
         GoNeutral();
         StartCoroutine(WaitForDoorLoad());
+        StartCoroutine(FindImmortal());
     }
+
+    private IEnumerator FindImmortal()
+    {
+        yield return new WaitUntil(() => (immortal = FindObjectOfType<MainCanvas>()) != null);
+        if (!immortal.FinishedEncounters.ContainsKey(encounter.encounterId))
+        {
+            StartCoroutine(StartEncounter());
+        }
+    }
+
+    private IEnumerator StartEncounter()
+    {
+        yield return new WaitUntil(() => FindObjectOfType<Player>().State == PlayerState.Neutral);
+        encounter.StartEncounter();
+    }
+
 
     private IEnumerator WaitForDoorLoad()
     {

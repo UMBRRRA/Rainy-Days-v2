@@ -37,7 +37,7 @@ public class MyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     private void OnMouseDown()
     {
-        Debug.Log("I'm clicked");
+        //Debug.Log("I'm clicked");
     }
 
 }

@@ -3,8 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ZombieType
+{
+    Hammer, Scythe
+}
+
 public class Zombie : Enemy
 {
+    public ZombieType type;
+
     public int zombieMaxHealth, zombieMaxAP, zombieInitiative;
     public float zombieMovement;
     private Player player;
@@ -35,6 +42,8 @@ public class Zombie : Enemy
     public int pukeToxicMaxDice = 12;
     public int pukeToxicModifier = 3;
 
+    public float myTurnTime { get; set; } = 3f;
+
 
     public override void MakeTurn()
     {
@@ -64,13 +73,13 @@ public class Zombie : Enemy
 
     private void ChooseMove()
     {
-        int random = UnityEngine.Random.Range(1, 5);
-        if (random >= 1 && random <= 3)
+        int random = UnityEngine.Random.Range(1, 11);
+        if (random >= 1 && random <= 7)
         {
             if (!Hammer())
             {
-                //if (!Puke())
-                UseResttoMoveUp();
+                if (!Puke())
+                    UseResttoMoveUp();
             }
         }
         else
@@ -84,7 +93,7 @@ public class Zombie : Enemy
 
     private IEnumerator WaitAndMakeMove()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(myTurnTime + 0.4f);
         StartCoroutine(MakeMove());
     }
 
@@ -155,6 +164,7 @@ public class Zombie : Enemy
         {
             myTurn = false;
             moveFinished = true;
+            myTurnTime = 0.5f;
             return true;
         }
         mapManager.OccupiedFields.Remove(CurrentGridPosition);
@@ -181,6 +191,7 @@ public class Zombie : Enemy
             path = mapManager.FindAPath(CurrentGridPosition, pathFields[pathFields.Length - 2].GridPosition);
             apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
         }
+        myTurnTime = path.DijkstraScore * timeForCornerMove;
         State = EnemyState.Moving;
         mapManager.MoveEnemy(this, path);
         StartCoroutine(WaitAndEndTurn());
@@ -202,6 +213,7 @@ public class Zombie : Enemy
             if (UseAP(hammerApCost))
             {
                 HammerAfterChecks();
+                myTurnTime = hammerTime;
                 return true;
             }
         }
@@ -220,6 +232,7 @@ public class Zombie : Enemy
             apcost += hammerApCost;
             if (UseAP(apcost))
             {
+                myTurnTime = path.DijkstraScore * timeForCornerMove + hammerTime;
                 State = EnemyState.Moving;
                 mapManager.MoveEnemy(this, path);
                 StartCoroutine(WaitForMoveAndHammer());
@@ -276,6 +289,7 @@ public class Zombie : Enemy
             if (UseAP(pukeApCost))
             {
                 PukeAfterChecks();
+                myTurnTime = pukeTime;
                 return true;
             }
         }
@@ -294,6 +308,7 @@ public class Zombie : Enemy
             apcost += pukeApCost;
             if (UseAP(apcost))
             {
+                myTurnTime = path.DijkstraScore * timeForCornerMove + pukeTime;
                 State = EnemyState.Moving;
                 mapManager.MoveEnemy(this, path);
                 StartCoroutine(WaitForMoveAndPuke());

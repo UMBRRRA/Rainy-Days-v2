@@ -322,6 +322,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2887974303194366339, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: id
       value: 5
@@ -561,6 +565,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
+      propertyPath: dialogues.Array.data[1].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5575915827665645156, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: dialogues.Array.data[2].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 1
       objectReference: {fileID: 0}
@@ -650,7 +658,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7734295572872865954, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}
       propertyPath: m_InstanceId
-      value: -137990
+      value: -169346
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6903971293485289201, guid: 896742bd0107ef8459dffc6609b71c61, type: 3}

@@ -6,11 +6,16 @@ public class SeventhLevel : MonoBehaviour
 {
     private Player player;
     public static float abit = 2f;
+    public Encounter encounter;
+    private MainCanvas immortal;
     void Start()
     {
 
         GoNeutral();
+        StartCoroutine(FindImmortal());
     }
+
+
 
     public void GoNeutral()
     {
@@ -27,5 +32,20 @@ public class SeventhLevel : MonoBehaviour
     {
         yield return new WaitForSeconds(abit);
         player.State = PlayerState.Neutral;
+    }
+
+    private IEnumerator FindImmortal()
+    {
+        yield return new WaitUntil(() => (immortal = FindObjectOfType<MainCanvas>()) != null);
+        if (!immortal.FinishedEncounters.ContainsKey(encounter.encounterId))
+        {
+            StartCoroutine(StartEncounter());
+        }
+    }
+
+    private IEnumerator StartEncounter()
+    {
+        yield return new WaitUntil(() => FindObjectOfType<Player>().State == PlayerState.Neutral);
+        encounter.StartEncounter();
     }
 }

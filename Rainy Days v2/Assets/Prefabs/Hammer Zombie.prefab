@@ -458,10 +458,11 @@ MonoBehaviour:
   sliderParent: {fileID: 6683941425667272125}
   timeForMove: 0.3
   timeForCornerMove: 0.5
-  enemyZ: 1.2
+  enemyZ: 1.5
+  type: 0
   zombieMaxHealth: 40
   zombieMaxAP: 30
-  zombieInitiative: 5
+  zombieInitiative: 7
   zombieMovement: 0.2
   hitTime: 0.6
   hammerTime: 0.88
@@ -469,7 +470,7 @@ MonoBehaviour:
   hammerMinDice: 2
   hammerMaxDice: 16
   hammerModifier: 5
-  pukeApCost: 5
+  pukeApCost: 6
   pukeTime: 0.97
   pukeMinDice: 1
   pukeMaxDice: 6
@@ -618,4 +619,4 @@ MonoBehaviour:
   - {x: 0.07431846, y: -0.0003619641, z: 0}
   m_ShapePathHash: -1310603479
   m_Mesh: {fileID: 0}
-  m_InstanceId: 139828
+  m_InstanceId: 44190
