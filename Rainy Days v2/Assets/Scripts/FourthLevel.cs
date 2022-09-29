@@ -34,9 +34,16 @@ public class FourthLevel : MonoBehaviour
         }
     }
 
+
     private IEnumerator WaitForCamera()
     {
         yield return new WaitUntil(() => (cameraFollow = FindObjectOfType<CameraFollow>()) != null);
+        StartCoroutine(WaitAndSetupCamera());
+    }
+
+    private IEnumerator WaitAndSetupCamera()
+    {
+        yield return new WaitForSeconds(0.5f);
         cameraFollow.Setup(() => romanPosition);
     }
 

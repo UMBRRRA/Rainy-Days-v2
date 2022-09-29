@@ -17,6 +17,8 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(WaitForImortal());
     }
 
+
+
     private IEnumerator WaitForImortal()
     {
         yield return new WaitUntil(() => (imortal = FindObjectOfType<MainCanvas>()) != null);

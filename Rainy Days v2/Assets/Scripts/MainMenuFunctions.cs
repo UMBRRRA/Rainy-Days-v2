@@ -9,6 +9,17 @@ public class MainMenuFunctions : MonoBehaviour
     public GameObject child;
     public GameObject buttons;
 
+    private void Start()
+    {
+        StartCoroutine(WaitAndActivateButtons());
+    }
+
+    private IEnumerator WaitAndActivateButtons()
+    {
+        yield return new WaitForSeconds(2f);
+        ActivateButtons();
+    }
+
     public void StartGame()
     {
         Shadow shadow = FindObjectOfType<Shadow>();
@@ -26,6 +37,10 @@ public class MainMenuFunctions : MonoBehaviour
     public void ActivateMainMenu()
     {
         child.SetActive(true);
+    }
+
+    public void ActivateButtons()
+    {
         buttons.SetActive(true);
     }
 
@@ -37,6 +52,11 @@ public class MainMenuFunctions : MonoBehaviour
     public void DeactivateButtons()
     {
         buttons.SetActive(false);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit(0);
     }
 
 }

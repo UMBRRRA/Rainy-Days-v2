@@ -43,8 +43,15 @@ public class PauseMenuFunctions : MonoBehaviour
         yield return new WaitUntil(() => shadow.doneAnimating);
         StartCoroutine(DestroyPlayer());
         DeactivatePauseMenu();
-        mainMenu.ActivateMainMenu();
         SceneManager.LoadScene(0);
+        mainMenu.ActivateMainMenu();
+        StartCoroutine(WaitAndActivateMM(shadow));
+    }
+
+    private IEnumerator WaitAndActivateMM(Shadow shadow)
+    {
+        yield return new WaitForSeconds(shadow.shadowTime);
+        mainMenu.ActivateButtons();
     }
 
     public IEnumerator DestroyPlayer()
