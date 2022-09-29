@@ -15,7 +15,8 @@ public enum PlayerState
     NotMyTurn,
     Shooting,
     Meleeing,
-    Event
+    Event,
+    Dead
 }
 
 public class Player : MonoBehaviour
@@ -212,7 +213,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public IEnumerator PlayIdle(Vector3Int idleDir, Vector3 nf)
+    public IEnumerator PlayIdle(Vector3Int idleDir, Vector3 nf, int toxicity)
     {
         Vector3 realNF = new(nf.x, nf.y + 0.25f, playerZ);
         yield return new WaitUntil(() => transform.position == realNF);
@@ -251,7 +252,7 @@ public class Player : MonoBehaviour
         {
             IdleDirection(8);
         }
-
+        IncreaseToxicity(toxicity);
     }
 
     public void PlayWalk(Vector3Int walkDir)
@@ -321,6 +322,7 @@ public class Player : MonoBehaviour
         if (Stats.CurrentHealth - amount <= 0)
         {
             Stats.CurrentHealth = 0;
+            StopAllCoroutines();
             StartCoroutine(BeforeDeath());
         }
         else
@@ -334,6 +336,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator BeforeDeath()
     {
+        State = PlayerState.Dead;
         yield return new WaitForSeconds(beforeHitTime);
         animator.SetBool("Idle", false);
         animator.SetBool("Death", true);
@@ -429,7 +432,8 @@ public class Player : MonoBehaviour
         if (Stats.CurrentToxicity + amount >= Stats.MaxToxicity)
         {
             Stats.CurrentToxicity = Stats.MaxToxicity;
-            // dead
+            StopAllCoroutines();
+            StartCoroutine(BeforeDeath());
         }
         else
         {

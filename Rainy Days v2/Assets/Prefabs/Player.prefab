@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startHealth: 170
-  startToxicity: 200
+  startToxicity: 30
   startAP: 35
   startMag: 4
   startInitative: 9

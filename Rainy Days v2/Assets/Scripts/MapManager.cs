@@ -164,9 +164,6 @@ public class MapManager : MonoBehaviour
 
     public IEnumerator WalkPath(APath path)
     {
-
-        //OccupiedFields.Remove(player.currentGridPosition);
-
         Vector3 nf = new(0, 0, 0);
         Field[] fields = path.Fields.ToArray();
         int toxicity = 0;
@@ -200,10 +197,7 @@ public class MapManager : MonoBehaviour
         }
         player.currentGridPosition = fields[fields.Length - 1].GridPosition;
         Vector3Int idleDir = fields[fields.Length - 1].GridPosition - fields[fields.Length - 2].GridPosition;
-        StartCoroutine(player.PlayIdle(idleDir, nf));
-        player.IncreaseToxicity(toxicity);
-
-        // OccupiedFields.Add(player.currentGridPosition);
+        StartCoroutine(player.PlayIdle(idleDir, nf, toxicity));
 
     }
 

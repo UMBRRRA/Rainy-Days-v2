@@ -63,7 +63,7 @@ public class Zombie : Enemy
     private IEnumerator MakeMove()
     {
         yield return new WaitUntil(() => moveFinished || !myTurn);
-        if (myTurn)
+        if (myTurn && player.State != PlayerState.Dead)
         {
             moveFinished = false;
             ChooseMove();

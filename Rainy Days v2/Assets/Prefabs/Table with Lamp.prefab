@@ -61,7 +61,7 @@ MonoBehaviour:
   - {x: 0.46286106, y: -0.032599688, z: 0}
   m_ShapePathHash: -2046059281
   m_Mesh: {fileID: 0}
-  m_InstanceId: -296522
+  m_InstanceId: 64578
 --- !u!114 &4513416476167904643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,7 +207,7 @@ MonoBehaviour:
   m_LightType: 3
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.785
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.3622641, b: 0.3622641, a: 1}
   m_Intensity: 2
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0

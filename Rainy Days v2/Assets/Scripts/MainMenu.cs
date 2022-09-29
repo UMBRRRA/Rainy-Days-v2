@@ -34,6 +34,7 @@ public class MainMenu : MonoBehaviour
         yield return new WaitUntil(() => (hud = FindObjectOfType<HudFunctions>()) != null);
         hud.UpdateAmounts();
         hud.UpdateMagazine();
+        hud.EndEncounter();
     }
 
 }
