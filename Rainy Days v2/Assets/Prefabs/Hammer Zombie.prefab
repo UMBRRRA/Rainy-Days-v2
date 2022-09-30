@@ -410,7 +410,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8874444021754101734}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.2}
+  m_LocalPosition: {x: 0, y: 0, z: 3.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -458,7 +458,7 @@ MonoBehaviour:
   sliderParent: {fileID: 6683941425667272125}
   timeForMove: 0.3
   timeForCornerMove: 0.5
-  enemyZ: 1.2
+  enemyZ: 3.8
   type: 0
   zombieMaxHealth: 40
   zombieMaxAP: 30
@@ -478,6 +478,12 @@ MonoBehaviour:
   pukeToxicMinDice: 2
   pukeToxicMaxDice: 12
   pukeToxicModifier: 3
+  wailApCost: 6
+  wailRange: 3
+  wailTime: 0.89
+  wailMinDice: 1
+  wailMaxDice: 10
+  wailModifier: 3
 --- !u!61 &1529555510057698063
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -491,7 +497,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.055886835, y: 0.34774032}
+  m_Offset: {x: 0, y: 0.34774032}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -619,4 +625,4 @@ MonoBehaviour:
   - {x: 0.07431846, y: -0.0003619641, z: 0}
   m_ShapePathHash: -1310603479
   m_Mesh: {fileID: 0}
-  m_InstanceId: 44190
+  m_InstanceId: 49286

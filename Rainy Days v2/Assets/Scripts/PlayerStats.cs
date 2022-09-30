@@ -13,6 +13,7 @@ public class PlayerStats : Stats
 
     public Player Player { get; set; }
 
+
     public PlayerStats(Player player, int maxHealth, int maxAP, int initiative, float startMovement, int maxToxicity, int magazine)
     {
         this.MaxHealth = maxHealth;

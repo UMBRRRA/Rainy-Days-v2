@@ -104,6 +104,9 @@ public class Player : MonoBehaviour
 
     public Texture2D mainCursor;
 
+    private float MovementMemory { get; set; } = 1f;
+    private bool Wailed { get; set; } = false;
+
     public PlayerState State
     {
         get
@@ -146,6 +149,23 @@ public class Player : MonoBehaviour
         currentDirection = spawnDirection;
         StartCoroutine(FindHud());
     }
+
+    public void BecomeWailed()
+    {
+        MovementMemory = Stats.Movement;
+        Stats.Movement = Stats.Movement / 2;
+        Wailed = true;
+    }
+
+    public void Unwail()
+    {
+        if (Wailed == true)
+        {
+            Stats.Movement = MovementMemory;
+            Wailed = false;
+        }
+    }
+
 
     public IEnumerator FindHud()
     {
@@ -547,7 +567,6 @@ public class Player : MonoBehaviour
     public void MakeTurn()
     {
         State = PlayerState.Neutral;
-        //Debug.Log($"I am player and its my turn, my initative is {Stats.Initiative}");
         FindObjectOfType<CameraFollow>().Setup(() => this.transform.position);
     }
 
@@ -559,6 +578,7 @@ public class Player : MonoBehaviour
             hud.SetAp(Stats.CurrentAP);
             FindObjectOfType<EncounterManager>().NextTurn();
             State = PlayerState.NotMyTurn;
+            Unwail();
         }
     }
 
@@ -568,12 +588,6 @@ public class Player : MonoBehaviour
         {
             Stats.CurrentAP -= amount;
             hud.SetAp(Stats.CurrentAP);
-            if (Stats.CurrentAP == 0)
-            {
-                //StopAllCoroutines();
-                //State = PlayerState.NotMyTurn;
-                //StartCoroutine(WaitAndEndTurn());
-            }
             return true;
         }
         else
@@ -764,7 +778,7 @@ public class Player : MonoBehaviour
         inFight = false;
         Stats.CurrentAP = Stats.MaxAP;
         hud.SetAp(Stats.CurrentAP);
-        //State = PlayerState.Neutral;
+        Unwail();
     }
 
 }

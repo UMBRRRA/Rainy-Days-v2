@@ -44,6 +44,15 @@ public class Zombie : Enemy
 
     public float myTurnTime { get; set; } = 3f;
 
+    public int wailApCost = 6;
+    public int wailRange = 3;
+    public float wailTime = 0.89f;
+    public int wailMinDice = 1;
+    public int wailMaxDice = 10;
+    public int wailModifier = 3;
+
+    public static int wailCooldown = 3;
+    private int wailCurrentCooldown = 0;
 
     public override void MakeTurn()
     {
@@ -54,6 +63,8 @@ public class Zombie : Enemy
     {
         FindObjectOfType<CameraFollow>().Setup(() => this.transform.position);
         Stats.CurrentAP = Stats.MaxAP;
+        if (wailCurrentCooldown != 0)
+            wailCurrentCooldown -= 1;
         myTurn = true;
         StartCoroutine(MakeMove());
         yield return new WaitUntil(() => !myTurn);
@@ -72,6 +83,25 @@ public class Zombie : Enemy
     }
 
     private void ChooseMove()
+    {
+        if (type == ZombieType.Hammer)
+            HammerZombieMove();
+        else
+            ScytheZombieMove();
+    }
+
+    private void ScytheZombieMove()
+    {
+        if (wailCurrentCooldown == 0)
+        {
+            if (!Wail())
+                UseResttoMoveUp();
+        }
+        else
+            HammerZombieMove();
+    }
+
+    private void HammerZombieMove()
     {
         int random = UnityEngine.Random.Range(1, 11);
         if (random >= 1 && random <= 7)
@@ -356,6 +386,81 @@ public class Zombie : Enemy
         moveFinished = true;
     }
 
+    public bool Wail()
+    {
+        if (StaticHelpers.CheckIfTargetIsInRange(player.currentGridPosition, CurrentGridPosition, wailRange))
+        {
+            if (UseAP(wailApCost))
+            {
+                WailAfterChecks();
+                myTurnTime = wailTime;
+                return true;
+            }
+        }
+        else
+        {
+            mapManager.OccupiedFields.Remove(CurrentGridPosition);
+            APath path = mapManager.ChooseBestAPath(CurrentGridPosition, mapManager.FindNeighboursOfRange(player.currentGridPosition, wailRange));
+            if (path == null)
+            {
+                mapManager.OccupiedFields.Add(CurrentGridPosition);
+                return false;
+            }
+            int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
+            if (apcost == 0)
+                apcost = 1;
+            apcost += wailApCost;
+            if (UseAP(apcost))
+            {
+                myTurnTime = path.DijkstraScore * timeForCornerMove + wailTime;
+                State = EnemyState.Moving;
+                mapManager.MoveEnemy(this, path);
+                StartCoroutine(WaitForMoveAndWail());
+                return true;
+            }
+            else
+            {
+                mapManager.OccupiedFields.Add(CurrentGridPosition);
+            }
+        }
+        return false;
+    }
+
+    private void WailAfterChecks()
+    {
+        wailCurrentCooldown = wailCooldown;
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Wail", true);
+        int wailDir = StaticHelpers.ChooseDir(transform.position, player.transform.position);
+        animator.SetInteger("WailDirection", wailDir);
+        CurrentDirection = wailDir;
+        player.beforeHitTime = 0.4f; // ????
+        player.DamageHealth(StaticHelpers.RollDamage(wailMinDice, wailMaxDice, wailModifier));
+        player.BecomeWailed();
+        StartCoroutine(WaitAndGoBackFromWail());
+    }
+
+    private IEnumerator WaitForMoveAndWail()
+    {
+        yield return new WaitUntil(() => State == EnemyState.Neutral);
+        StartCoroutine(WaitJustABitAndWail());
+    }
+    private IEnumerator WaitJustABitAndWail()
+    {
+        yield return new WaitForSeconds(0.05f);
+        WailAfterChecks();
+    }
+    public IEnumerator WaitAndGoBackFromWail()
+    {
+        yield return new WaitForSeconds(wailTime);
+        animator.SetBool("Wail", false);
+        animator.SetBool("Idle", true);
+        animator.SetInteger("WailDirection", 0);
+        animator.SetInteger("IdleDirection", CurrentDirection);
+        moveFinished = true;
+    }
+
     private void IdleDirection(int dir)
     {
         animator.SetInteger("IdleDirection", dir);
@@ -393,6 +498,13 @@ public class Zombie : Enemy
         player.exp += exp;
         FindObjectOfType<EncounterManager>().SomebodyDies(Stats);
         mapManager.OccupiedFields.Remove(CurrentGridPosition);
+        StartCoroutine(ChangeZAfterDeath());
+    }
+
+    private IEnumerator ChangeZAfterDeath()
+    {
+        yield return new WaitForSeconds(1f);
+        transform.position = new Vector3(transform.position.x, transform.position.y, 1.1f);
 
     }
 

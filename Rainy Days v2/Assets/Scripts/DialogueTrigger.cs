@@ -48,12 +48,14 @@ public class DialogueTrigger : MonoBehaviour
         yield return new WaitUntil(() => player.State == PlayerState.Neutral);
         dialogueManager.StartDialogue(dialogues[currentDialogue]);
         player.State = PlayerState.Dialogue;
+        FindObjectOfType<HudFunctions>().DeactivateHud();
     }
 
     public void EndDialogue()
     {
         EndDialogueWithoutNeutral();
         player.State = PlayerState.Neutral;
+        FindObjectOfType<HudFunctions>().ActivateHud();
     }
 
     public void EndDialogueWithoutNeutral()

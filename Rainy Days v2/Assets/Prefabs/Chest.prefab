@@ -31,7 +31,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 88148034091966166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalPosition: {x: 0, y: 0, z: 4.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5afd808040101524086f9e276a946432, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: eff49184128e38247b1304b2b16530e3, type: 2}
-  amount: 1
+  item: {fileID: 11400000, guid: a6437c57a68a03746bdd273f76bbe6d9, type: 2}
+  amount: 5
   inventory: {fileID: 11400000, guid: defb09385ec82d74a8d7b5e8f2866dfe, type: 2}
 --- !u!114 &88148034091966162
 MonoBehaviour:
@@ -94,7 +94,7 @@ MonoBehaviour:
   - {x: 0.30147734, y: 0.02788964, z: 0}
   m_ShapePathHash: 791906389
   m_Mesh: {fileID: 0}
-  m_InstanceId: 63572
+  m_InstanceId: -133032
 --- !u!95 &88148034091966163
 Animator:
   serializedVersion: 4
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e239ce7c74b2f84ca9e0a623f3a3681, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 0
+  id: 102
   dialogues:
   - id: 0
     question: Something is inside.

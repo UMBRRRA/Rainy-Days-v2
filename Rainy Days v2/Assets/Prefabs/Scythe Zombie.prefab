@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1037796769832057196, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: m_InstanceId
-      value: -460772
+      value: -38990
       objectReference: {fileID: 0}
     - target: {fileID: 8874444021754101734, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: m_Name
@@ -33,7 +33,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8874444021754101735, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.2
+      value: 3.8
       objectReference: {fileID: 0}
     - target: {fileID: 8874444021754101735, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -66,6 +66,10 @@ PrefabInstance:
     - target: {fileID: 8874444021754101752, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: type
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8874444021754101752, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
+      propertyPath: wailRange
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8874444021754101752, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: zombieMaxAP
