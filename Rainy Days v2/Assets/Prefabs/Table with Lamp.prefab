@@ -61,7 +61,7 @@ MonoBehaviour:
   - {x: 0.46286106, y: -0.032599688, z: 0}
   m_ShapePathHash: -2046059281
   m_Mesh: {fileID: 0}
-  m_InstanceId: 64578
+  m_InstanceId: 86738
 --- !u!114 &4513416476167904643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_AlphaBlendOnOverlap: 0
   m_OverlapOperation: 0
   m_NormalMapDistance: 3
-  m_NormalMapQuality: 2
+  m_NormalMapQuality: 0
   m_UseNormalMap: 0
   m_ShadowIntensityEnabled: 1
   m_ShadowIntensity: 0.34

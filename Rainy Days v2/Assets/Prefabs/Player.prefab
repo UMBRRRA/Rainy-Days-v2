@@ -121,7 +121,7 @@ MonoBehaviour:
   - {x: 0.03892839, y: 0.017054081, z: 0}
   m_ShapePathHash: 1792717929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 47486
+  m_InstanceId: 50990
 --- !u!1 &5960890699162566554
 GameObject:
   m_ObjectHideFlags: 0
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4db21be359f0ed47aad117bad473d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 500
+  startHealth: 160
   startToxicity: 200
   startAP: 35
   startMag: 4

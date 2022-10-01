@@ -460,7 +460,7 @@ MonoBehaviour:
   timeForCornerMove: 0.5
   enemyZ: 3.8
   type: 0
-  zombieMaxHealth: 40
+  zombieMaxHealth: 42
   zombieMaxAP: 30
   zombieInitiative: 7
   zombieMovement: 0.2

@@ -22,5 +22,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fcfaea0c6aec7c14f8acaaa87b289fd2, type: 2}
   - {fileID: 11400000, guid: 71cf1cf996882864aa06cd9221742c41, type: 2}
   - {fileID: 11400000, guid: e4685d8c0ef550446915c45b7107fdcb, type: 2}
+  - {fileID: 11400000, guid: 8dc473afe4a541447a805c55464d8940, type: 2}
   Type: 1
   PoisonLevel: 0
