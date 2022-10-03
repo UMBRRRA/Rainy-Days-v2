@@ -37,6 +37,7 @@ public class MainMenu : MonoBehaviour
         hud.UpdateAmounts();
         hud.UpdateMagazine();
         hud.EndEncounter();
+        hud.DeactivateHud();
     }
 
 }

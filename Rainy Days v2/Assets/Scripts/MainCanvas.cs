@@ -23,8 +23,8 @@ public class MainCanvas : MonoBehaviour
 
     private void Awake()
     {
-
-        Cursor.SetCursor(mainCursor, Vector2.zero, CursorMode.ForceSoftware);
+        Vector2 hotspot = new Vector2(mainCursor.width / 2, 0);
+        Cursor.SetCursor(mainCursor, hotspot, CursorMode.ForceSoftware);
 
         if (singleton == null)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System;
 
 public class HudFunctions : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class HudFunctions : MonoBehaviour
     public Slider healthSlider, toxicitySlider, apSlider;
     public Text maxHealth, currentHealth, maxToxicity, currentToxicity, maxAP, currentAP, magazine;
     public GameObject endTurn;
+    public GameObject usingMelee, usingShoot;
+    public GameObject meleeTooltip, gunTooltip, reloadTooltip, potionTooltip, antidoteTooltip, endTurnTooltip;
 
     private Player player;
 
@@ -24,12 +27,57 @@ public class HudFunctions : MonoBehaviour
 
     public void ActivateHud()
     {
+        SetTooltips();
         child.SetActive(true);
     }
 
     public void DeactivateHud()
     {
+        DeactivateTooltips();
+        usingMelee.SetActive(false);
+        usingShoot.SetActive(false);
         child.SetActive(false);
+    }
+
+    private void DeactivateTooltips()
+    {
+        meleeTooltip.SetActive(false);
+        gunTooltip.SetActive(false);
+        reloadTooltip.SetActive(false);
+        potionTooltip.SetActive(false);
+        antidoteTooltip.SetActive(false);
+        endTurnTooltip.SetActive(false);
+    }
+
+    public void SetTooltips()
+    {
+        StartCoroutine(SetTooltipsCo());
+    }
+
+    private IEnumerator SetTooltipsCo()
+    {
+        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        string meleeText = $"Melee (1)\n" +
+            $"Damage: {player.meleeMinDice + player.meleeModifier}-{player.meleeMaxDice + player.meleeModifier}\n" +
+            $"AP: {player.meleeApCost}";
+        meleeTooltip.GetComponentInChildren<Text>().text = meleeText;
+        string gunText = $"Gun (2)\n" +
+            $"Damage: {player.gunMinDice + player.gunModifier}-{player.gunMaxDice + player.gunModifier}\n" +
+            $"AP: {player.gunApCost}";
+        gunTooltip.GetComponentInChildren<Text>().text = gunText;
+        string reloadText = $"Reload (3)\n" +
+            $"AP: {player.reloadApCost}";
+        reloadTooltip.GetComponentInChildren<Text>().text = reloadText;
+        int potionHeals = (int)Math.Round(player.Stats.MaxHealth * player.potionStrength);
+        string potionText = $"Potion (4)\n" +
+            $"Health: +{potionHeals}\n" +
+            $"AP: {player.potionApCost}";
+        potionTooltip.GetComponentInChildren<Text>().text = potionText;
+        int antidoteHeals = (int)Math.Round(player.Stats.MaxToxicity * player.potionStrength);
+        string antidoteText = $"Antidote (5)\n" +
+            $"Toxicity: -{antidoteHeals}\n" +
+            $"AP: {player.potionApCost}";
+        antidoteTooltip.GetComponentInChildren<Text>().text = antidoteText;
     }
 
     public void UpdateAmounts()
@@ -148,12 +196,12 @@ public class HudFunctions : MonoBehaviour
 
     public void StartEncounter()
     {
-        endTurn.SetActive(true);
+        //endTurn.SetActive(true);
     }
 
     public void EndEncounter()
     {
-        endTurn.SetActive(false);
+        //endTurn.SetActive(false);
     }
 
     public void EndTurn()
@@ -175,10 +223,14 @@ public class HudFunctions : MonoBehaviour
     private IEnumerator ShootCo()
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
-        if (player.State == PlayerState.Neutral && player.inFight && player.Stats.CurrentMagazine != 0)
+        if ((player.State == PlayerState.Neutral || player.State == PlayerState.Meleeing)
+            && player.inFight && player.Stats.CurrentMagazine != 0)
         {
             player.State = PlayerState.Shooting;
-            Cursor.SetCursor(attackCursor, Vector2.zero, CursorMode.ForceSoftware);
+            DeactivateUsings();
+            usingShoot.SetActive(true);
+            Vector2 hotspot = new Vector2(attackCursor.width / 2, 0);
+            Cursor.SetCursor(attackCursor, hotspot, CursorMode.ForceSoftware);
         }
     }
 
@@ -190,11 +242,21 @@ public class HudFunctions : MonoBehaviour
     private IEnumerator MeleeCo()
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
-        if (player.State == PlayerState.Neutral && player.inFight)
+        if ((player.State == PlayerState.Neutral || player.State == PlayerState.Shooting)
+            && player.inFight)
         {
             player.State = PlayerState.Meleeing;
-            Cursor.SetCursor(attackCursor, Vector2.zero, CursorMode.ForceSoftware);
+            DeactivateUsings();
+            usingMelee.SetActive(true);
+            Vector2 hotspot = new Vector2(attackCursor.width / 2, 0);
+            Cursor.SetCursor(attackCursor, hotspot, CursorMode.ForceSoftware);
         }
+    }
+
+    public void DeactivateUsings()
+    {
+        usingMelee.SetActive(false);
+        usingShoot.SetActive(false);
     }
 
     private void Update()

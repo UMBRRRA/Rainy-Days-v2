@@ -12,11 +12,13 @@ public class PauseMenuFunctions : MonoBehaviour
 
     public void ActivatePauseMenu()
     {
+        FindObjectOfType<HudFunctions>().DeactivateHud();
         child.SetActive(true);
     }
 
     public void DeactivatePauseMenu()
     {
+        FindObjectOfType<HudFunctions>().ActivateHud();
         child.SetActive(false);
     }
 
@@ -29,6 +31,12 @@ public class PauseMenuFunctions : MonoBehaviour
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
         player.State = PlayerState.Neutral;
+    }
+
+    public void GoToCharacter()
+    {
+        child.SetActive(false);
+        FindObjectOfType<CharacterMenuFunctions>().ActivateCharacterMenu();
     }
 
     public void ReturnToMainMenu()

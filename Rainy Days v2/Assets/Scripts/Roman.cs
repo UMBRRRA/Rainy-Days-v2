@@ -39,6 +39,7 @@ public class Roman : MonoBehaviour
 
         yield return new WaitUntil(() => shadow.doneAnimating);
         FindObjectOfType<Player>().State = PlayerState.Neutral;
+        FindObjectOfType<HudFunctions>().ActivateHud();
         shadow.OpenShadow();
         Destroy(this.gameObject);
     }

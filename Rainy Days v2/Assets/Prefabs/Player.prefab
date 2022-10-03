@@ -121,7 +121,7 @@ MonoBehaviour:
   - {x: 0.03892839, y: 0.017054081, z: 0}
   m_ShapePathHash: 1792717929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 50990
+  m_InstanceId: 69514
 --- !u!1 &5960890699162566554
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +175,7 @@ MonoBehaviour:
   startMag: 4
   startInitative: 9
   startMovement: 0.2
-  exp: 0
+  unusedFeats: 0
   playerZ: 4
   timeForMove: 0.3
   timeForCornerMove: 0.5
@@ -210,7 +210,18 @@ MonoBehaviour:
   meleeMinDice: 2
   meleeMaxDice: 8
   meleeModifier: 2
-  mainCursor: {fileID: 2800000, guid: 32aff35b18a88824c9186f6117496ca5, type: 3}
+  mainCursor: {fileID: 2800000, guid: 4777df351c4fd5f4aaf89147d280eda0, type: 3}
+  secondLevel: 250
+  thirdLevel: 500
+  fourthLevel: 750
+  fifthLevel: 1500
+  sixthLevel: 3000
+  seventhLevel: 7000
+  eightLevel: 13000
+  ninthLevel: 26000
+  tenthLevel: 33000
+  eleventhLevel: 50000
+  twelfthLevel: 100000
 --- !u!95 &6160619923393280736
 Animator:
   serializedVersion: 4

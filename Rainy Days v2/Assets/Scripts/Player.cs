@@ -27,7 +27,57 @@ public class Player : MonoBehaviour
     public int startMag;
     public int startInitative;
     public float startMovement;
-    public int exp;
+    public int unusedFeats;
+    private int _level = 1;
+    public int level
+    {
+        get
+        {
+            return _level;
+        }
+        set
+        {
+            if (value != level && level != 1)
+                unusedFeats += 1;
+            _level = value;
+        }
+    }
+    private int _exp;
+    public int exp
+    {
+        get
+        {
+            return _exp;
+        }
+        set
+        {
+            _exp = value;
+            if (value > 0 && value <= secondLevel)
+                level = 1;
+            else if (value > secondLevel && value <= thirdLevel)
+                level = 2;
+            else if (value > thirdLevel && value <= fourthLevel)
+                level = 3;
+            else if (value > fourthLevel && value <= fifthLevel)
+                level = 4;
+            else if (value > fifthLevel && value <= sixthLevel)
+                level = 5;
+            else if (value > sixthLevel && value <= seventhLevel)
+                level = 6;
+            else if (value > seventhLevel && value <= eightLevel)
+                level = 7;
+            else if (value > eightLevel && value <= ninthLevel)
+                level = 8;
+            else if (value > ninthLevel && value <= tenthLevel)
+                level = 9;
+            else if (value > tenthLevel && value <= eleventhLevel)
+                level = 10;
+            else if (value > eleventhLevel && value <= twelfthLevel)
+                level = 11;
+            else
+                level = 12;
+        }
+    }
 
     public PlayerStats Stats { get; set; }
 
@@ -70,6 +120,7 @@ public class Player : MonoBehaviour
     }
     private Animator animator;
     private PauseMenuFunctions pauseMenu;
+    private CharacterMenuFunctions characterMenu;
     private HudFunctions hud;
     public float potionStrength = 0.33f;
     public float potionTime = 1f;
@@ -103,6 +154,9 @@ public class Player : MonoBehaviour
     public int meleeModifier = 2;
 
     public Texture2D mainCursor;
+
+    public int secondLevel, thirdLevel, fourthLevel, fifthLevel, sixthLevel, seventhLevel, eightLevel,
+        ninthLevel, tenthLevel, eleventhLevel, twelfthLevel;
 
     private float MovementMemory { get; set; } = 1f;
     private bool Wailed { get; set; } = false;
@@ -176,7 +230,6 @@ public class Player : MonoBehaviour
         hud.SetToxicity(Stats.CurrentToxicity);
         hud.SetMaxAp(Stats.MaxAP);
         hud.SetAp(Stats.CurrentAP);
-        Debug.Log("Am i here?");
     }
 
     public void ChangeRoom()
@@ -197,20 +250,34 @@ public class Player : MonoBehaviour
             StartCoroutine(OpenPauseMenu());
         }
 
+        if (Input.GetKeyDown(KeyCode.C) && State == PlayerState.Neutral)
+        {
+            State = PlayerState.Pause;
+            StartCoroutine(OpenCharacterMenu());
+        }
+
         if (Input.GetMouseButtonDown(1))
         {
             if (State == PlayerState.Shooting || State == PlayerState.Meleeing)
             {
                 State = PlayerState.Neutral;
-                Cursor.SetCursor(mainCursor, Vector2.zero, CursorMode.ForceSoftware);
+                Vector2 hotspot = new Vector2(mainCursor.width / 2, 0);
+                hud.DeactivateUsings();
+                Cursor.SetCursor(mainCursor, hotspot, CursorMode.ForceSoftware);
             }
         }
     }
 
-    public IEnumerator OpenPauseMenu()
+    private IEnumerator OpenPauseMenu()
     {
         yield return new WaitUntil(() => (pauseMenu = FindObjectOfType<PauseMenuFunctions>()) != null);
         pauseMenu.ActivatePauseMenu();
+    }
+
+    private IEnumerator OpenCharacterMenu()
+    {
+        yield return new WaitUntil(() => (characterMenu = FindObjectOfType<CharacterMenuFunctions>()) != null);
+        characterMenu.ActivateCharacterMenu();
     }
 
     public IEnumerator MoveToPosition(Vector3 position, float timeTo)
@@ -649,7 +716,9 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForEndOfFrame();
         State = PlayerState.Neutral;
-        Cursor.SetCursor(mainCursor, Vector2.zero, CursorMode.ForceSoftware);
+        Vector2 hotspot = new Vector2(mainCursor.width / 2, 0);
+        hud.DeactivateUsings();
+        Cursor.SetCursor(mainCursor, hotspot, CursorMode.ForceSoftware);
     }
 
     private IEnumerator WaitForMoveAndShoot(Enemy enemy)
@@ -676,7 +745,9 @@ public class Player : MonoBehaviour
         enemy.TakeDamage(StaticHelpers.RollDamage(gunMinDice, gunMaxDice, gunModifier)); // count damage
         Stats.CurrentMagazine -= 1;
         hud.UpdateMagazine();
-        Cursor.SetCursor(mainCursor, Vector2.zero, CursorMode.ForceSoftware);
+        Vector2 hotspot = new Vector2(mainCursor.width / 2, 0);
+        hud.DeactivateUsings();
+        Cursor.SetCursor(mainCursor, hotspot, CursorMode.ForceSoftware);
         StartCoroutine(WaitForGunLight());
         StartCoroutine(WaitAndGoBackFromShooting());
     }
@@ -747,7 +818,9 @@ public class Player : MonoBehaviour
         animator.SetInteger("MeleeDirection", meleeDir);
         currentDirection = meleeDir;
         enemy.TakeDamage(StaticHelpers.RollDamage(meleeMinDice, meleeMaxDice, meleeModifier));
-        Cursor.SetCursor(mainCursor, Vector2.zero, CursorMode.ForceSoftware);
+        hud.DeactivateUsings();
+        Vector2 hotspot = new Vector2(mainCursor.width / 2, 0);
+        Cursor.SetCursor(mainCursor, hotspot, CursorMode.ForceSoftware);
         StartCoroutine(WaitAndGoBackFromMeleeing());
     }
 

@@ -39,6 +39,7 @@ public class Engineer : MonoBehaviour
         yield return new WaitUntil(() => shadow.doneAnimating);
         FindObjectOfType<Player>().State = PlayerState.Neutral;
         FindObjectOfType<FifthLevel>().PumpRepaired();
+        FindObjectOfType<HudFunctions>().ActivateHud();
         shadow.OpenShadow();
         Destroy(this.gameObject);
     }
