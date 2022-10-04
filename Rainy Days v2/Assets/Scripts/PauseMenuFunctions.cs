@@ -22,6 +22,11 @@ public class PauseMenuFunctions : MonoBehaviour
         child.SetActive(false);
     }
 
+    public void DeactivatePauseMenuWhenQuitting()
+    {
+        child.SetActive(false);
+    }
+
     public void PlayerGoNeutral()
     {
         StartCoroutine(PlayerNeutral());
@@ -50,7 +55,7 @@ public class PauseMenuFunctions : MonoBehaviour
     {
         yield return new WaitUntil(() => shadow.doneAnimating);
         StartCoroutine(DestroyPlayer());
-        DeactivatePauseMenu();
+        DeactivatePauseMenuWhenQuitting();
         SceneManager.LoadScene(0);
         mainMenu.ActivateMainMenu();
         StartCoroutine(WaitAndActivateMM(shadow));

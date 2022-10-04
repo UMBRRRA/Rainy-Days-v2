@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
     public int startMag;
     public int startInitative;
     public float startMovement;
-    public int unusedFeats;
+    public int unusedFeats = 0;
     private int _level = 1;
     public int level
     {
@@ -37,8 +37,8 @@ public class Player : MonoBehaviour
         }
         set
         {
-            if (value != level && level != 1)
-                unusedFeats += 1;
+            if (value != _level && value != 1)
+                unusedFeats += (value - _level);
             _level = value;
         }
     }
@@ -52,27 +52,27 @@ public class Player : MonoBehaviour
         set
         {
             _exp = value;
-            if (value > 0 && value <= secondLevel)
+            if (value >= 0 && value <= secondLevel)
                 level = 1;
-            else if (value > secondLevel && value <= thirdLevel)
+            else if (value >= secondLevel && value < thirdLevel)
                 level = 2;
-            else if (value > thirdLevel && value <= fourthLevel)
+            else if (value >= thirdLevel && value < fourthLevel)
                 level = 3;
-            else if (value > fourthLevel && value <= fifthLevel)
+            else if (value >= fourthLevel && value < fifthLevel)
                 level = 4;
-            else if (value > fifthLevel && value <= sixthLevel)
+            else if (value >= fifthLevel && value < sixthLevel)
                 level = 5;
-            else if (value > sixthLevel && value <= seventhLevel)
+            else if (value >= sixthLevel && value < seventhLevel)
                 level = 6;
-            else if (value > seventhLevel && value <= eightLevel)
+            else if (value >= seventhLevel && value < eightLevel)
                 level = 7;
-            else if (value > eightLevel && value <= ninthLevel)
+            else if (value >= eightLevel && value < ninthLevel)
                 level = 8;
-            else if (value > ninthLevel && value <= tenthLevel)
+            else if (value >= ninthLevel && value < tenthLevel)
                 level = 9;
-            else if (value > tenthLevel && value <= eleventhLevel)
+            else if (value >= tenthLevel && value < eleventhLevel)
                 level = 10;
-            else if (value > eleventhLevel && value <= twelfthLevel)
+            else if (value >= eleventhLevel && value < twelfthLevel)
                 level = 11;
             else
                 level = 12;
@@ -160,6 +160,12 @@ public class Player : MonoBehaviour
 
     private float MovementMemory { get; set; } = 1f;
     private bool Wailed { get; set; } = false;
+
+    public int snipeCooldown = 3;
+    public int hasteCooldown = 5;
+    public int flurryCooldown = 4;
+    public float hasteApRefundPercentage = 0.5f;
+    public float flurryApCostModifier = 1.5f;
 
     public PlayerState State
     {

@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour
     private MainCanvas imortal;
     public InventoryObject inventory;
     private HudFunctions hud;
+    private CharacterMenuFunctions charMenu;
     void Start()
     {
         Debug.Log("Clearing save data.");
@@ -15,6 +16,13 @@ public class MainMenu : MonoBehaviour
         StartCoroutine(WaitForDialogueManager());
         StartCoroutine(WaitForHUD());
         StartCoroutine(WaitForImortal());
+        StartCoroutine(WaitForCharacterMenu());
+    }
+
+    private IEnumerator WaitForCharacterMenu()
+    {
+        yield return new WaitUntil(() => (charMenu = FindObjectOfType<CharacterMenuFunctions>()) != null);
+        charMenu.RestartGame();
     }
 
 
@@ -34,6 +42,7 @@ public class MainMenu : MonoBehaviour
     public IEnumerator WaitForHUD()
     {
         yield return new WaitUntil(() => (hud = FindObjectOfType<HudFunctions>()) != null);
+        hud.RestartGame();
         hud.UpdateAmounts();
         hud.UpdateMagazine();
         hud.EndEncounter();

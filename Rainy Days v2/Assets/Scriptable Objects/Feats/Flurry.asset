@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a452e429884f08140a83d2fc01ba53ce, type: 3}
+  m_Name: Flurry
+  m_EditorClassIdentifier: 
+  title: Flurry
+  id: 6
+  description: xdd
+  type: 6
+  prerequisites:
+  - {fileID: 11400000, guid: 26dcea4e7e3f14e4fb1d2e84bebb0b70, type: 2}
+  - {fileID: 11400000, guid: 6e4ba713c4e32e94d9c216ca007dd019, type: 2}

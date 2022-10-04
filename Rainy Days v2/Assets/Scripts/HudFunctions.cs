@@ -18,8 +18,13 @@ public class HudFunctions : MonoBehaviour
     public Slider healthSlider, toxicitySlider, apSlider;
     public Text maxHealth, currentHealth, maxToxicity, currentToxicity, maxAP, currentAP, magazine;
     public GameObject endTurn;
-    public GameObject usingMelee, usingShoot;
-    public GameObject meleeTooltip, gunTooltip, reloadTooltip, potionTooltip, antidoteTooltip, endTurnTooltip;
+    public GameObject usingMelee, usingShoot, usingSnipe, usingFlurry;
+    public GameObject meleeTooltip, gunTooltip, reloadTooltip, potionTooltip, antidoteTooltip, snipeTooltip, flurryTooltip, hasteTooltip, endTurnTooltip;
+
+    public GameObject snipe, flurry, haste, snipeBox, flurryBox, hasteBox;
+    public bool snipeActive = false;
+    public bool flurryActive = false;
+    public bool hasteActive = false;
 
     private Player player;
 
@@ -34,8 +39,7 @@ public class HudFunctions : MonoBehaviour
     public void DeactivateHud()
     {
         DeactivateTooltips();
-        usingMelee.SetActive(false);
-        usingShoot.SetActive(false);
+        DeactivateUsings();
         child.SetActive(false);
     }
 
@@ -47,6 +51,9 @@ public class HudFunctions : MonoBehaviour
         potionTooltip.SetActive(false);
         antidoteTooltip.SetActive(false);
         endTurnTooltip.SetActive(false);
+        snipeTooltip.SetActive(false);
+        flurryTooltip.SetActive(false);
+        hasteTooltip.SetActive(false);
     }
 
     public void SetTooltips()
@@ -257,6 +264,57 @@ public class HudFunctions : MonoBehaviour
     {
         usingMelee.SetActive(false);
         usingShoot.SetActive(false);
+        usingSnipe.SetActive(false);
+        usingFlurry.SetActive(false);
+    }
+
+    public void Flurry()
+    {
+
+    }
+
+    public void Snipe()
+    {
+
+    }
+
+    public void Haste()
+    {
+
+    }
+
+    public void RestartGame()
+    {
+        snipe.SetActive(false);
+        flurry.SetActive(false);
+        haste.SetActive(false);
+        snipeBox.SetActive(true);
+        flurryBox.SetActive(true);
+        hasteBox.SetActive(true);
+        snipeActive = false;
+        flurryActive = false;
+        hasteActive = false;
+    }
+
+    public void ActivateSnipe()
+    {
+        snipe.SetActive(true);
+        snipeBox.SetActive(false);
+        snipeActive = true;
+    }
+
+    public void ActivateFlurry()
+    {
+        flurry.SetActive(true);
+        flurryBox.SetActive(false);
+        flurryActive = true;
+    }
+
+    public void ActivateHaste()
+    {
+        haste.SetActive(true);
+        hasteBox.SetActive(false);
+        hasteActive = true;
     }
 
     private void Update()
@@ -280,6 +338,18 @@ public class HudFunctions : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             DrinkAntidote();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha6) && snipeActive)
+        {
+            Snipe();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha7) && flurryActive)
+        {
+            Flurry();
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha8) && hasteActive)
+        {
+            Haste();
         }
         else if (Input.GetKeyDown(KeyCode.Alpha9))
         {
