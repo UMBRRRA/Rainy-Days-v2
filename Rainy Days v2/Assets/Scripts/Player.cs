@@ -16,7 +16,9 @@ public enum PlayerState
     Shooting,
     Meleeing,
     Event,
-    Dead
+    Dead,
+    Snipe,
+    Flurry
 }
 
 public class Player : MonoBehaviour
@@ -167,6 +169,11 @@ public class Player : MonoBehaviour
     public float hasteApRefundPercentage = 0.5f;
     public float flurryApCostModifier = 1.5f;
 
+    public int snipeCurrentCooldown = 0;
+    public int snipeModifier = 2;
+    public float hasteTime = 0.68f;
+    public int hasteCurrentCooldown = 0;
+
     public PlayerState State
     {
         get
@@ -208,6 +215,38 @@ public class Player : MonoBehaviour
         animator.SetInteger("IdleDirection", spawnDirection);
         currentDirection = spawnDirection;
         StartCoroutine(FindHud());
+    }
+
+    public void ResetCooldowns()
+    {
+        snipeCurrentCooldown = 0;
+        hasteCurrentCooldown = 0;
+    }
+
+    public void ReduceCooldowns()
+    {
+        if (snipeCurrentCooldown > 0)
+        {
+            snipeCurrentCooldown -= 1;
+            hud.SetSnipeCooldown();
+        }
+        if (hasteCurrentCooldown > 0)
+        {
+            hasteCurrentCooldown -= 1;
+            hud.SetHasteCooldown();
+        }
+    }
+
+    public void StartSnipeCooldown()
+    {
+        snipeCurrentCooldown = snipeCooldown;
+        hud.SetSnipeCooldown();
+    }
+
+    public void StartHasteCooldown()
+    {
+        hasteCurrentCooldown = hasteCooldown;
+        hud.SetHasteCooldown();
     }
 
     public void BecomeWailed()
@@ -535,6 +574,49 @@ public class Player : MonoBehaviour
         hud.SetToxicity(Stats.CurrentToxicity);
     }
 
+    public void Haste()
+    {
+        if (State == PlayerState.Neutral && inFight && hasteCurrentCooldown == 0) // also fight and action points...
+        {
+            HasteAfterCheck();
+        }
+    }
+
+    private void HasteAfterCheck()
+    {
+        StartHasteCooldown();
+        State = PlayerState.Action;
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Haste", true);
+        animator.SetInteger("HasteDirection", currentDirection);
+        RestoreAp(Mathf.RoundToInt(Stats.MaxAP * hasteApRefundPercentage));
+        StartCoroutine(WaitAndGoBackFromHaste());
+    }
+
+    private IEnumerator WaitAndGoBackFromHaste()
+    {
+        yield return new WaitForSeconds(hasteTime);
+        animator.SetBool("Haste", false);
+        animator.SetBool("Idle", true);
+        animator.SetInteger("HasteDirection", 0);
+        animator.SetInteger("IdleDirection", currentDirection);
+        State = PlayerState.Neutral;
+    }
+
+    public void RestoreAp(int amount)
+    {
+        if (Stats.CurrentAP + amount >= Stats.MaxAP)
+        {
+            Stats.CurrentAP = Stats.MaxAP;
+        }
+        else
+        {
+            Stats.CurrentAP += amount;
+        }
+        hud.SetAp(Stats.CurrentAP);
+    }
+
     public void DrinkAntidote()
     {
         if (State == PlayerState.Neutral && inventory.HasItem(antidote, 1)) // also fight and action points...
@@ -639,6 +721,7 @@ public class Player : MonoBehaviour
 
     public void MakeTurn()
     {
+        ReduceCooldowns();
         State = PlayerState.Neutral;
         FindObjectOfType<CameraFollow>().Setup(() => this.transform.position);
     }
@@ -674,7 +757,7 @@ public class Player : MonoBehaviour
         EndTurn();
     }
 
-    public void Shoot(Enemy enemy)
+    public void Shoot(Enemy enemy, bool snipe)
     {
         if (Stats.CurrentMagazine > 0)
         {
@@ -682,7 +765,7 @@ public class Player : MonoBehaviour
             {
                 if (UseAP(gunApCost))
                 {
-                    ShootAfterChecks(enemy);
+                    ShootAfterChecks(enemy, snipe);
                 }
                 else
                 {
@@ -699,7 +782,7 @@ public class Player : MonoBehaviour
                 if (UseAP(apcost))
                 {
                     mapManager.StartMoving(path);
-                    StartCoroutine(WaitForMoveAndShoot(enemy));
+                    StartCoroutine(WaitForMoveAndShoot(enemy, snipe));
                 }
                 else
                 {
@@ -727,19 +810,19 @@ public class Player : MonoBehaviour
         Cursor.SetCursor(mainCursor, hotspot, CursorMode.ForceSoftware);
     }
 
-    private IEnumerator WaitForMoveAndShoot(Enemy enemy)
+    private IEnumerator WaitForMoveAndShoot(Enemy enemy, bool snipe)
     {
         yield return new WaitUntil(() => State == PlayerState.Neutral);
-        StartCoroutine(WaitJustABitAndShoot(enemy));
+        StartCoroutine(WaitJustABitAndShoot(enemy, snipe));
     }
 
-    private IEnumerator WaitJustABitAndShoot(Enemy enemy)
+    private IEnumerator WaitJustABitAndShoot(Enemy enemy, bool snipe)
     {
         yield return new WaitForSeconds(0.05f);
-        ShootAfterChecks(enemy);
+        ShootAfterChecks(enemy, snipe);
     }
 
-    private void ShootAfterChecks(Enemy enemy)
+    private void ShootAfterChecks(Enemy enemy, bool snipe)
     {
         State = PlayerState.Action;
         animator.SetInteger("IdleDirection", 0);
@@ -748,7 +831,13 @@ public class Player : MonoBehaviour
         int shootDir = StaticHelpers.ChooseDir(transform.position, enemy.transform.position);
         animator.SetInteger("ShootDirection", shootDir);
         currentDirection = shootDir;
-        enemy.TakeDamage(StaticHelpers.RollDamage(gunMinDice, gunMaxDice, gunModifier)); // count damage
+        if (!snipe)
+            enemy.TakeDamage(StaticHelpers.RollDamage(gunMinDice, gunMaxDice, gunModifier));
+        else
+        {
+            StartSnipeCooldown();
+            enemy.TakeDamage(StaticHelpers.RollDamage(gunMinDice, gunMaxDice, gunModifier) * snipeModifier); // maybe
+        }
         Stats.CurrentMagazine -= 1;
         hud.UpdateMagazine();
         Vector2 hotspot = new Vector2(mainCursor.width / 2, 0);
@@ -858,6 +947,8 @@ public class Player : MonoBehaviour
         Stats.CurrentAP = Stats.MaxAP;
         hud.SetAp(Stats.CurrentAP);
         Unwail();
+        ResetCooldowns();
+        hud.ResetCooldowns();
     }
 
 }

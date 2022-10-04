@@ -41,12 +41,6 @@ public class CharacterMenuFunctions : MonoBehaviour
     private FeatObject currentFeat;
     private HudFunctions hud;
 
-    void Awake()
-    {
-        //RestartGame();
-        //UpdateValues();
-    }
-
     public void RestartGame()
     {
         availableFeats = new();
@@ -248,73 +242,80 @@ public class CharacterMenuFunctions : MonoBehaviour
 
     public void UnlockFeat()
     {
-        player.unusedFeats -= 1;
-        if (currentFeat == tower)
+        if (!player.inFight && player.unusedFeats > 0)
         {
-            player.Stats.MaxHealth += towerMaxHealthBonus;
-            player.Stats.MaxToxicity += towerMaxToxicBonus;
-            StartCoroutine(SetHudBars());
+            player.unusedFeats -= 1;
+            if (currentFeat == tower)
+            {
+                player.Stats.MaxHealth += towerMaxHealthBonus;
+                player.Stats.MaxToxicity += towerMaxToxicBonus;
+                StartCoroutine(SetHudBars());
+            }
+            else if (currentFeat == hunter)
+            {
+                player.meleeModifier += hunterBonus;
+                player.gunModifier += hunterBonus;
+            }
+            else if (currentFeat == recklessness)
+            {
+                player.Stats.Initiative += recklessIniBonus;
+                player.Stats.Movement += recklessMoveBonus;
+            }
+            else if (currentFeat == alchemist)
+            {
+                player.potionStrength = alchemMedStr;
+                player.potionApCost -= alchemMedApReduc;
+            }
+            else if (currentFeat == snipe)
+            {
+                StartCoroutine(ActivateSnipe());
+            }
+            else if (currentFeat == flurry)
+            {
+                StartCoroutine(ActivateFlurry());
+            }
+            else if (currentFeat == haste)
+            {
+                StartCoroutine(ActivateHaste());
+            }
+            else if (currentFeat == eternal)
+            {
+                player.Stats.MaxHealth += eternalMaxHealthBonus;
+                player.Stats.MaxToxicity += eternalMaxToxicBonus;
+                StartCoroutine(SetHudBars());
+            }
+            else if (currentFeat == gunner)
+            {
+                player.gunModifier += gunnerDmgBonus;
+                player.gunApCost -= gunnerApReduc;
+                player.reloadApCost -= gunnerReloadApReduc;
+            }
+            else if (currentFeat == executioner)
+            {
+                player.meleeModifier += execDmgBonus;
+                player.meleeApCost -= execApReduc;
+            }
+            else if (currentFeat == psychopath)
+            {
+                player.Stats.MaxAP += psychoMaxApBonus;
+                player.Stats.CurrentAP = player.Stats.MaxAP;
+                StartCoroutine(SetHudBars());
+            }
+            unlockedFeats.Add(currentFeat);
+            availableFeats.Remove(currentFeat);
+            UpdateValues();
         }
-        else if (currentFeat == hunter)
-        {
-            player.meleeModifier += hunterBonus;
-            player.gunModifier += hunterBonus;
-        }
-        else if (currentFeat == recklessness)
-        {
-            player.Stats.Initiative += recklessIniBonus;
-            player.Stats.Movement += recklessMoveBonus;
-        }
-        else if (currentFeat == alchemist)
-        {
-            player.potionStrength = alchemMedStr;
-            player.potionApCost -= alchemMedApReduc;
-        }
-        else if (currentFeat == snipe)
-        {
-            StartCoroutine(ActivateSnipe());
-        }
-        else if (currentFeat == flurry)
-        {
-            StartCoroutine(ActivateFlurry());
-        }
-        else if (currentFeat == haste)
-        {
-            StartCoroutine(ActivateHaste());
-        }
-        else if (currentFeat == eternal)
-        {
-            player.Stats.MaxHealth += eternalMaxHealthBonus;
-            player.Stats.MaxToxicity += eternalMaxToxicBonus;
-            StartCoroutine(SetHudBars());
-        }
-        else if (currentFeat == gunner)
-        {
-            player.gunModifier += gunnerDmgBonus;
-            player.gunApCost -= gunnerApReduc;
-            player.reloadApCost -= gunnerReloadApReduc;
-        }
-        else if (currentFeat == executioner)
-        {
-            player.meleeModifier += execDmgBonus;
-            player.meleeApCost -= execApReduc;
-        }
-        else if (currentFeat == psychopath)
-        {
-            player.Stats.MaxAP += psychoMaxApBonus;
-            StartCoroutine(SetHudBars());
-        }
-        unlockedFeats.Add(currentFeat);
-        availableFeats.Remove(currentFeat);
-        UpdateValues();
     }
 
     private IEnumerator SetHudBars()
     {
         yield return new WaitUntil(() => (hud = FindObjectOfType<HudFunctions>()) != null);
         hud.SetMaxHealth(player.Stats.MaxHealth);
+        hud.SetHealth(player.Stats.CurrentHealth);
         hud.SetMaxToxicity(player.Stats.MaxToxicity);
+        hud.SetToxicity(player.Stats.CurrentToxicity);
         hud.SetMaxAp(player.Stats.MaxAP);
+        hud.SetAp(player.Stats.CurrentAP);
     }
 
     private IEnumerator ActivateSnipe()

@@ -121,7 +121,7 @@ MonoBehaviour:
   - {x: 0.03892839, y: 0.017054081, z: 0}
   m_ShapePathHash: 1792717929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 111806
+  m_InstanceId: 115224
 --- !u!1 &5960890699162566554
 GameObject:
   m_ObjectHideFlags: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
   mapManager: {fileID: 0}
   spawnDirection: 8
   potionStrength: 0.33
-  potionTime: 1.33
+  potionTime: 1.4
   reloadTime: 1
   shootTime: 0.97
   meleeTime: 0.88
@@ -227,6 +227,8 @@ MonoBehaviour:
   flurryCooldown: 4
   hasteApRefundPercentage: 0.5
   flurryApCostModifier: 1.5
+  snipeCurrentCooldown: 0
+  snipeModifier: 2
 --- !u!95 &6160619923393280736
 Animator:
   serializedVersion: 4

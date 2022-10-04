@@ -26,6 +26,12 @@ public class HudFunctions : MonoBehaviour
     public bool flurryActive = false;
     public bool hasteActive = false;
 
+    public GameObject snipeCant;
+    public Text snipeCooldownText;
+
+    public GameObject hasteCant;
+    public Text hasteCooldownText;
+
     private Player player;
 
     public Texture2D attackCursor;
@@ -41,6 +47,43 @@ public class HudFunctions : MonoBehaviour
         DeactivateTooltips();
         DeactivateUsings();
         child.SetActive(false);
+    }
+
+    public void ResetCooldowns()
+    {
+        snipeCant.SetActive(false);
+        snipeCooldownText.text = "";
+        hasteCant.SetActive(false);
+        hasteCooldownText.text = "";
+    }
+
+    public void SetSnipeCooldown()
+    {
+        if (player.snipeCurrentCooldown == 0)
+        {
+            snipeCant.SetActive(false);
+            snipeCooldownText.text = "";
+        }
+        else
+        {
+            snipeCant.SetActive(true);
+            snipeCooldownText.text = $"{player.snipeCurrentCooldown}";
+        }
+
+    }
+    public void SetHasteCooldown()
+    {
+        if (player.hasteCurrentCooldown == 0)
+        {
+            hasteCant.SetActive(false);
+            hasteCooldownText.text = "";
+        }
+        else
+        {
+            hasteCant.SetActive(true);
+            hasteCooldownText.text = $"{player.hasteCurrentCooldown}";
+        }
+
     }
 
     private void DeactivateTooltips()
@@ -85,6 +128,13 @@ public class HudFunctions : MonoBehaviour
             $"Toxicity: -{antidoteHeals}\n" +
             $"AP: {player.potionApCost}";
         antidoteTooltip.GetComponentInChildren<Text>().text = antidoteText;
+        string snipeText = $"Snipe (6)\n" +
+            $"Damage: {(player.gunMinDice + player.gunModifier) * player.snipeModifier}-{(player.gunMaxDice + player.gunModifier) * player.snipeModifier}\n" +
+            $"AP: {player.gunApCost}";
+        snipeTooltip.GetComponentInChildren<Text>().text = snipeText;
+        string hasteText = $"Haste (8)\n" +
+            $"AP: +{Mathf.RoundToInt(player.Stats.MaxAP * player.hasteApRefundPercentage)}";
+        hasteTooltip.GetComponentInChildren<Text>().text = hasteText;
     }
 
     public void UpdateAmounts()
@@ -165,6 +215,7 @@ public class HudFunctions : MonoBehaviour
     public IEnumerator FindPlayerAndDrinkPotion()
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        DeactivateUsings();
         player.DrinkPotion();
     }
 
@@ -176,6 +227,7 @@ public class HudFunctions : MonoBehaviour
     public IEnumerator FindPlayerAndDrinkAntidote()
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        DeactivateUsings();
         player.DrinkAntidote();
     }
 
@@ -187,6 +239,7 @@ public class HudFunctions : MonoBehaviour
     public IEnumerator FindPlayerAndReload()
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        DeactivateUsings();
         player.Reload();
     }
 
@@ -230,7 +283,8 @@ public class HudFunctions : MonoBehaviour
     private IEnumerator ShootCo()
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
-        if ((player.State == PlayerState.Neutral || player.State == PlayerState.Meleeing)
+        if ((player.State == PlayerState.Neutral || player.State == PlayerState.Meleeing || player.State == PlayerState.Snipe
+            || player.State == PlayerState.Flurry)
             && player.inFight && player.Stats.CurrentMagazine != 0)
         {
             player.State = PlayerState.Shooting;
@@ -249,7 +303,8 @@ public class HudFunctions : MonoBehaviour
     private IEnumerator MeleeCo()
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
-        if ((player.State == PlayerState.Neutral || player.State == PlayerState.Shooting)
+        if ((player.State == PlayerState.Neutral || player.State == PlayerState.Shooting || player.State == PlayerState.Snipe
+            || player.State == PlayerState.Flurry)
             && player.inFight)
         {
             player.State = PlayerState.Meleeing;
@@ -275,12 +330,34 @@ public class HudFunctions : MonoBehaviour
 
     public void Snipe()
     {
+        StartCoroutine(SnipeCo());
+    }
 
+    private IEnumerator SnipeCo()
+    {
+        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        if ((player.State == PlayerState.Neutral || player.State == PlayerState.Meleeing || player.State == PlayerState.Snipe
+            || player.State == PlayerState.Flurry)
+            && player.inFight && player.Stats.CurrentMagazine != 0 && player.snipeCurrentCooldown == 0)
+        {
+            player.State = PlayerState.Snipe;
+            DeactivateUsings();
+            usingSnipe.SetActive(true);
+            Vector2 hotspot = new Vector2(attackCursor.width / 2, 0);
+            Cursor.SetCursor(attackCursor, hotspot, CursorMode.ForceSoftware);
+        }
     }
 
     public void Haste()
     {
+        StartCoroutine(FindPlayerAndHaste());
+    }
 
+    public IEnumerator FindPlayerAndHaste()
+    {
+        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        DeactivateUsings();
+        player.Haste();
     }
 
     public void RestartGame()
@@ -294,6 +371,7 @@ public class HudFunctions : MonoBehaviour
         snipeActive = false;
         flurryActive = false;
         hasteActive = false;
+        ResetCooldowns();
     }
 
     public void ActivateSnipe()

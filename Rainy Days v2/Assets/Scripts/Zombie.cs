@@ -137,15 +137,35 @@ public class Zombie : Enemy
         {
             MeleeMe();
         }
+        else if (player.State == PlayerState.Snipe)
+        {
+            SnipeMe();
+        }
+        else if (player.State == PlayerState.Flurry)
+        {
+            FlurryMe();
+        }
     }
 
     public override void ShootMe()
     {
         beforeHitTime = 0.2f;
-        player.Shoot(this);
+        player.Shoot(this, false);
     }
 
     public override void MeleeMe()
+    {
+        beforeHitTime = 0.4f;
+        player.Melee(this);
+    }
+
+    public override void SnipeMe()
+    {
+        beforeHitTime = 0.2f;
+        player.Shoot(this, true);
+    }
+
+    public override void FlurryMe()
     {
         beforeHitTime = 0.4f;
         player.Melee(this);

@@ -31,6 +31,7 @@ public class MainMenu : MonoBehaviour
     {
         yield return new WaitUntil(() => (imortal = FindObjectOfType<MainCanvas>()) != null);
         imortal.FinishedEncounters.Clear();
+        imortal.RestartQuestSave();
     }
 
     public IEnumerator WaitForDialogueManager()
