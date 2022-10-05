@@ -155,7 +155,7 @@ public class Zombie : Enemy
 
     public override void MeleeMe()
     {
-        beforeHitTime = 0.4f;
+        beforeHitTime = 0.3f;
         player.Melee(this);
     }
 
@@ -502,6 +502,7 @@ public class Zombie : Enemy
             slider.value = Stats.CurrentHealth;
             StartCoroutine(BeforeDead());
         }
+        FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Health, $"-{damage} Health", this.transform.position);
     }
 
     private IEnumerator BeforeDead()

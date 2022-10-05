@@ -224,6 +224,7 @@ public class Player : MonoBehaviour
     {
         snipeCurrentCooldown = 0;
         hasteCurrentCooldown = 0;
+        flurryCurrentCooldown = 0;
     }
 
     public void ReduceCooldowns()
@@ -238,6 +239,11 @@ public class Player : MonoBehaviour
             hasteCurrentCooldown -= 1;
             hud.SetHasteCooldown();
         }
+        if (flurryCurrentCooldown > 0)
+        {
+            flurryCurrentCooldown -= 1;
+            hud.SetFlurryCooldown();
+        }
     }
 
     public void StartSnipeCooldown()
@@ -250,6 +256,12 @@ public class Player : MonoBehaviour
     {
         hasteCurrentCooldown = hasteCooldown;
         hud.SetHasteCooldown();
+    }
+
+    public void StartFlurryCooldown()
+    {
+        flurryCurrentCooldown = flurryCooldown;
+        hud.SetFlurryCooldown();
     }
 
     public void BecomeWailed()
@@ -921,6 +933,7 @@ public class Player : MonoBehaviour
 
     private void FlurryAfterChecks(Enemy enemy)
     {
+        StartFlurryCooldown();
         State = PlayerState.Action;
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
@@ -940,15 +953,15 @@ public class Player : MonoBehaviour
     private IEnumerator OneFlurryHit(Enemy enemy, int meleeDir)
     {
         Debug.Log(flurryCounter);
-        if (flurryCounter <= (flurryHits - 1))
+        if (flurryCounter < (flurryHits - 1))
         {
-            yield return new WaitForSeconds(meleeTime + 0.2f);
+            yield return new WaitForSeconds(meleeTime);
             animator.SetInteger("MeleeDirection", 0);
             StartCoroutine(WaitAndFlurryAgain(enemy, meleeDir));
         }
         else
         {
-            yield return new WaitForSeconds(meleeTime + 0.2f);
+            yield return new WaitForSeconds(meleeTime);
             flurryCounter = 0;
             animator.SetBool("Melee", false);
             animator.SetBool("Idle", true);
@@ -960,7 +973,7 @@ public class Player : MonoBehaviour
 
     private IEnumerator WaitAndFlurryAgain(Enemy enemy, int meleeDir)
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.01f);
         animator.SetInteger("MeleeDirection", meleeDir);
         enemy.TakeDamage(StaticHelpers.RollDamage(meleeMinDice, meleeMaxDice, meleeModifier));
         flurryCounter++;

@@ -32,6 +32,9 @@ public class HudFunctions : MonoBehaviour
     public GameObject hasteCant;
     public Text hasteCooldownText;
 
+    public GameObject flurryCant;
+    public Text flurryCooldownText;
+
     private Player player;
 
     public Texture2D attackCursor;
@@ -55,6 +58,8 @@ public class HudFunctions : MonoBehaviour
         snipeCooldownText.text = "";
         hasteCant.SetActive(false);
         hasteCooldownText.text = "";
+        flurryCant.SetActive(false);
+        flurryCooldownText.text = "";
     }
 
     public void SetSnipeCooldown()
@@ -84,6 +89,20 @@ public class HudFunctions : MonoBehaviour
             hasteCooldownText.text = $"{player.hasteCurrentCooldown}";
         }
 
+    }
+
+    public void SetFlurryCooldown()
+    {
+        if (player.flurryCurrentCooldown == 0)
+        {
+            flurryCant.SetActive(false);
+            flurryCooldownText.text = "";
+        }
+        else
+        {
+            flurryCant.SetActive(true);
+            flurryCooldownText.text = $"{player.flurryCurrentCooldown}";
+        }
     }
 
     private void DeactivateTooltips()
@@ -135,6 +154,10 @@ public class HudFunctions : MonoBehaviour
         string hasteText = $"Haste (8)\n" +
             $"AP: +{Mathf.RoundToInt(player.Stats.MaxAP * player.hasteApRefundPercentage)}";
         hasteTooltip.GetComponentInChildren<Text>().text = hasteText;
+        string flurryText = $"Flurry (7)\n" +
+            $"Damage: {(player.meleeMinDice + player.meleeModifier) * player.flurryHits}-{(player.meleeMaxDice + player.meleeModifier) * player.flurryHits}\n" +
+            $"AP: {Mathf.RoundToInt(player.meleeApCost * player.flurryApCostModifier)}";
+        flurryTooltip.GetComponentInChildren<Text>().text = flurryText;
     }
 
     public void UpdateAmounts()
@@ -333,7 +356,7 @@ public class HudFunctions : MonoBehaviour
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
         if ((player.State == PlayerState.Neutral || player.State == PlayerState.Shooting || player.State == PlayerState.Snipe
             || player.State == PlayerState.Meleeing)
-            && player.inFight)
+            && player.inFight && player.flurryCurrentCooldown == 0)
         {
             player.State = PlayerState.Flurry;
             DeactivateUsings();

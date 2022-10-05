@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6854611429956570030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6854611429956570028}
+  - component: {fileID: 6854611429956570029}
+  m_Layer: 0
+  m_Name: CombatInfoManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6854611429956570028
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6854611429956570030}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6854611429956570029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6854611429956570030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56020620208b3f5478a0940197839594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthDamageColor: {r: 0.7529412, g: 0.1254902, b: 0.1254902, a: 0.5882353}
+  toxicityDamageColor: {r: 0.14901961, g: 0.67058825, b: 0.15686275, a: 0.5882353}
+  apCostColor: {r: 0.24705882, g: 0.13725491, b: 0.6784314, a: 0.5882353}
+  levelUpColor: {r: 0.7075472, g: 0.51613384, b: 0.102794565, a: 0.5882353}
+  generalColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 0.5882353}
+  prefab: {fileID: 1289167343942964917, guid: 6208931925e93c5459be3af8fc0189aa, type: 3}
+  offset: {x: 0, y: 1, z: 0}
+  target: {x: 0, y: 0, z: 0}
+  destroyTime: 1.5
+  moveStepTime: 0.05
+  moveStepYValue: 0.01
