@@ -167,8 +167,8 @@ public class Zombie : Enemy
 
     public override void FlurryMe()
     {
-        beforeHitTime = 0.4f;
-        player.Melee(this);
+        beforeHitTime = 0.3f;
+        player.Flurry(this);
     }
 
     void Start()

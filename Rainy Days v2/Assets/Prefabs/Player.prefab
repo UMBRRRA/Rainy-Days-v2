@@ -121,7 +121,7 @@ MonoBehaviour:
   - {x: 0.03892839, y: 0.017054081, z: 0}
   m_ShapePathHash: 1792717929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 115224
+  m_InstanceId: 51134
 --- !u!1 &5960890699162566554
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,9 +211,9 @@ MonoBehaviour:
   meleeMaxDice: 8
   meleeModifier: 2
   mainCursor: {fileID: 2800000, guid: 4777df351c4fd5f4aaf89147d280eda0, type: 3}
-  secondLevel: 100
-  thirdLevel: 200
-  fourthLevel: 300
+  secondLevel: 50
+  thirdLevel: 100
+  fourthLevel: 150
   fifthLevel: 400
   sixthLevel: 500
   seventhLevel: 600
@@ -229,6 +229,10 @@ MonoBehaviour:
   flurryApCostModifier: 1.5
   snipeCurrentCooldown: 0
   snipeModifier: 2
+  hasteTime: 0.68
+  hasteCurrentCooldown: 0
+  flurryCurrentCooldown: 0
+  flurryHits: 3
 --- !u!95 &6160619923393280736
 Animator:
   serializedVersion: 4

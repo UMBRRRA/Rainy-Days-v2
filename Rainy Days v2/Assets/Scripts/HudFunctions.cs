@@ -325,7 +325,22 @@ public class HudFunctions : MonoBehaviour
 
     public void Flurry()
     {
+        StartCoroutine(FlurryCo());
+    }
 
+    private IEnumerator FlurryCo()
+    {
+        yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
+        if ((player.State == PlayerState.Neutral || player.State == PlayerState.Shooting || player.State == PlayerState.Snipe
+            || player.State == PlayerState.Meleeing)
+            && player.inFight)
+        {
+            player.State = PlayerState.Flurry;
+            DeactivateUsings();
+            usingFlurry.SetActive(true);
+            Vector2 hotspot = new Vector2(attackCursor.width / 2, 0);
+            Cursor.SetCursor(attackCursor, hotspot, CursorMode.ForceSoftware);
+        }
     }
 
     public void Snipe()

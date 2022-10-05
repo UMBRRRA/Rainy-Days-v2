@@ -173,6 +173,9 @@ public class Player : MonoBehaviour
     public int snipeModifier = 2;
     public float hasteTime = 0.68f;
     public int hasteCurrentCooldown = 0;
+    public int flurryCurrentCooldown = 0;
+    public int flurryHits = 3;
+    private int flurryCounter = 0;
 
     public PlayerState State
     {
@@ -869,6 +872,101 @@ public class Player : MonoBehaviour
         animator.SetInteger("IdleDirection", currentDirection);
         State = PlayerState.Neutral;
     }
+
+    public void Flurry(Enemy enemy)
+    {
+        int meleeRange = 1;
+        int flurryApCost = Mathf.RoundToInt(meleeApCost * flurryApCostModifier);
+        if (StaticHelpers.CheckIfTargetIsInRange(enemy.CurrentGridPosition, currentGridPosition, meleeRange))
+        {
+            if (UseAP(flurryApCost))
+            {
+                FlurryAfterChecks(enemy);
+            }
+            else
+            {
+                DidNotWork();
+            }
+        }
+        else
+        {
+            APath path = mapManager.ChooseBestAPath(currentGridPosition, mapManager.FindNeighboursOfRange(enemy.CurrentGridPosition, meleeRange));
+            int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
+            if (apcost == 0)
+                apcost = 1;
+            apcost += flurryApCost;
+            if (UseAP(apcost))
+            {
+                mapManager.StartMoving(path);
+                StartCoroutine(WaitForMoveAndFlurry(enemy));
+            }
+            else
+            {
+                DidNotWork();
+            }
+        }
+    }
+
+    private IEnumerator WaitForMoveAndFlurry(Enemy enemy)
+    {
+        yield return new WaitUntil(() => State == PlayerState.Neutral);
+        StartCoroutine(WaitJustABitAndFlurry(enemy));
+    }
+
+    private IEnumerator WaitJustABitAndFlurry(Enemy enemy)
+    {
+        yield return new WaitForSeconds(0.05f);
+        FlurryAfterChecks(enemy);
+    }
+
+    private void FlurryAfterChecks(Enemy enemy)
+    {
+        State = PlayerState.Action;
+        animator.SetInteger("IdleDirection", 0);
+        animator.SetBool("Idle", false);
+        animator.SetBool("Melee", true);
+        int meleeDir = StaticHelpers.ChooseDir(transform.position, enemy.transform.position);
+        currentDirection = meleeDir;
+        hud.DeactivateUsings();
+        Vector2 hotspot = new Vector2(mainCursor.width / 2, 0);
+        Cursor.SetCursor(mainCursor, hotspot, CursorMode.ForceSoftware);
+
+        animator.SetInteger("MeleeDirection", meleeDir);
+        enemy.TakeDamage(StaticHelpers.RollDamage(meleeMinDice, meleeMaxDice, meleeModifier));
+        StartCoroutine(OneFlurryHit(enemy, meleeDir));
+        //StartCoroutine(WaitAndGoBackFromMeleeing());
+    }
+
+    private IEnumerator OneFlurryHit(Enemy enemy, int meleeDir)
+    {
+        Debug.Log(flurryCounter);
+        if (flurryCounter <= (flurryHits - 1))
+        {
+            yield return new WaitForSeconds(meleeTime + 0.2f);
+            animator.SetInteger("MeleeDirection", 0);
+            StartCoroutine(WaitAndFlurryAgain(enemy, meleeDir));
+        }
+        else
+        {
+            yield return new WaitForSeconds(meleeTime + 0.2f);
+            flurryCounter = 0;
+            animator.SetBool("Melee", false);
+            animator.SetBool("Idle", true);
+            animator.SetInteger("MeleeDirection", 0);
+            animator.SetInteger("IdleDirection", currentDirection);
+            State = PlayerState.Neutral;
+        }
+    }
+
+    private IEnumerator WaitAndFlurryAgain(Enemy enemy, int meleeDir)
+    {
+        yield return new WaitForSeconds(0.1f);
+        animator.SetInteger("MeleeDirection", meleeDir);
+        enemy.TakeDamage(StaticHelpers.RollDamage(meleeMinDice, meleeMaxDice, meleeModifier));
+        flurryCounter++;
+        StartCoroutine(OneFlurryHit(enemy, meleeDir));
+    }
+
 
     public void Melee(Enemy enemy)
     {
