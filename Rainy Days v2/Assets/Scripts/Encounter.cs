@@ -67,9 +67,20 @@ public class Encounter : MonoBehaviour
     {
         yield return new WaitUntil(() => (encounterManager = FindObjectOfType<EncounterManager>()) != null);
         player.State = PlayerState.NotMyTurn;
+        int playerRoll = Random.Range(1, 21);
+        player.Stats.RolledInitiative = player.Stats.Initiative + playerRoll;
+        FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.General,
+            $"Initiative: {player.Stats.RolledInitiative}", player.transform.position);
         List<Stats> stats = new();
         stats.Add(player.Stats);
-        enemies.ForEach(e => stats.Add(e.Stats));
+        enemies.ForEach(e =>
+        {
+            int enemyRoll = Random.Range(1, 21);
+            e.Stats.RolledInitiative = e.Stats.Initiative + enemyRoll;
+            FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.General,
+                $"Initiative: {e.Stats.RolledInitiative}", e.transform.position);
+            stats.Add(e.Stats);
+        });
         encounterManager.StartEncounter(stats, this);
     }
 
