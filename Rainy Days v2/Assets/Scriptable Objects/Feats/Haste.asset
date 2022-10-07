@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: Haste
   m_EditorClassIdentifier: 
   title: Haste
-  id: 9
-  description: xdd
-  type: 9
   prerequisites:
   - {fileID: 11400000, guid: 26dcea4e7e3f14e4fb1d2e84bebb0b70, type: 2}
+  - {fileID: 11400000, guid: 1460cf350b992c84bbf533b969eb291f, type: 2}

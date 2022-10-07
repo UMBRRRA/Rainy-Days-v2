@@ -46,7 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthDamageColor: {r: 0.7529412, g: 0.1254902, b: 0.1254902, a: 0.5882353}
   toxicityDamageColor: {r: 0.14901961, g: 0.67058825, b: 0.15686275, a: 0.5882353}
-  apCostColor: {r: 0.24705882, g: 0.13725491, b: 0.6784314, a: 0.5882353}
+  apCostColor: {r: 0.40942672, g: 0.31673193, b: 0.7735849, a: 0.5882353}
   levelUpColor: {r: 0.7075472, g: 0.51613384, b: 0.102794565, a: 0.5882353}
   generalColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 0.5882353}
   prefab: {fileID: 1289167343942964917, guid: 6208931925e93c5459be3af8fc0189aa, type: 3}
@@ -55,3 +55,15 @@ MonoBehaviour:
   destroyTime: 1.5
   moveStepTime: 0.05
   moveStepYValue: 0.01
+  delayHealth: 0.1
+  delayToxic: 0.4
+  delayAp: 0.2
+  delayLevel: 0.5
+  delayGeneral: 0.4
+  yHealth: 0.2
+  yToxic: -0.2
+  yAp: 0
+  yLevel: -0.1
+  yGeneral: 0
+  xRandomMin: -0.1
+  xRandomMax: 0.1

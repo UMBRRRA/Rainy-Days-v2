@@ -502,7 +502,7 @@ public class Zombie : Enemy
             slider.value = Stats.CurrentHealth;
             StartCoroutine(BeforeDead());
         }
-        FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Health, $"-{damage} Health", this.transform.position);
+        FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Health, $"{damage} Damage", this.transform.position);
     }
 
     private IEnumerator BeforeDead()

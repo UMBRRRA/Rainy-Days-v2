@@ -40,7 +40,10 @@ public class Player : MonoBehaviour
         set
         {
             if (value != _level && value != 1)
+            {
+                FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Level, "Level Up!", this.transform.position);
                 unusedFeats += (value - _level);
+            }
             _level = value;
         }
     }
@@ -54,7 +57,7 @@ public class Player : MonoBehaviour
         set
         {
             _exp = value;
-            if (value >= 0 && value <= secondLevel)
+            if (value >= 0 && value < secondLevel)
                 level = 1;
             else if (value >= secondLevel && value < thirdLevel)
                 level = 2;
@@ -269,6 +272,7 @@ public class Player : MonoBehaviour
         MovementMemory = Stats.Movement;
         Stats.Movement = Stats.Movement / 2;
         Wailed = true;
+        FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.General, $"Movement decreased", transform.position);
     }
 
     public void Unwail()
@@ -277,6 +281,7 @@ public class Player : MonoBehaviour
         {
             Stats.Movement = MovementMemory;
             Wailed = false;
+            FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.General, $"Movement restored", transform.position);
         }
     }
 
@@ -318,7 +323,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            if (State == PlayerState.Shooting || State == PlayerState.Meleeing)
+            if (State == PlayerState.Shooting || State == PlayerState.Meleeing || State == PlayerState.Snipe || State == PlayerState.Flurry)
             {
                 State = PlayerState.Neutral;
                 Vector2 hotspot = new Vector2(mainCursor.width / 2, 0);
@@ -461,6 +466,7 @@ public class Player : MonoBehaviour
         {
             Stats.CurrentHealth += amount;
         }
+        FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Health, $"+{amount} Health", this.transform.position);
         hud.SetHealth(Stats.CurrentHealth);
     }
 
@@ -477,6 +483,7 @@ public class Player : MonoBehaviour
             Stats.CurrentHealth -= amount;
             StartCoroutine(BeforeHit());
         }
+        FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Health, $"-{amount} Health", this.transform.position);
         hud.SetHealth(Stats.CurrentHealth);
     }
 
@@ -571,6 +578,7 @@ public class Player : MonoBehaviour
         {
             Stats.CurrentToxicity -= amount;
         }
+        FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Toxicity, $"-{amount} Toxicity", this.transform.position);
         hud.SetToxicity(Stats.CurrentToxicity);
     }
 
@@ -586,6 +594,8 @@ public class Player : MonoBehaviour
         {
             Stats.CurrentToxicity += amount;
         }
+        if (amount != 0)
+            FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Toxicity, $"+{amount} Toxicity", this.transform.position);
         hud.SetToxicity(Stats.CurrentToxicity);
     }
 
@@ -624,10 +634,12 @@ public class Player : MonoBehaviour
         if (Stats.CurrentAP + amount >= Stats.MaxAP)
         {
             Stats.CurrentAP = Stats.MaxAP;
+            FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Ap, $"+{Stats.MaxAP - Stats.CurrentAP} AP", transform.position);
         }
         else
         {
             Stats.CurrentAP += amount;
+            FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Ap, $"+{amount} AP", transform.position);
         }
         hud.SetAp(Stats.CurrentAP);
     }
@@ -759,6 +771,7 @@ public class Player : MonoBehaviour
         {
             Stats.CurrentAP -= amount;
             hud.SetAp(Stats.CurrentAP);
+            FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Ap, $"-{amount} AP", transform.position);
             return true;
         }
         else
