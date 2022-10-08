@@ -243,7 +243,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 221564623267848009, guid: e90ac7984c7b2ff4181c0068bd48d9d2, type: 3}
       propertyPath: dialogues.Array.data[5].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 221564623267848009, guid: e90ac7984c7b2ff4181c0068bd48d9d2, type: 3}
       propertyPath: dialogues.Array.data[5].event1.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -271,7 +271,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 221564623267848009, guid: e90ac7984c7b2ff4181c0068bd48d9d2, type: 3}
       propertyPath: dialogues.Array.data[8].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 221564623267848009, guid: e90ac7984c7b2ff4181c0068bd48d9d2, type: 3}
       propertyPath: dialogues.Array.data[8].event1.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
@@ -622,6 +622,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 221564623267848009, guid: e90ac7984c7b2ff4181c0068bd48d9d2, type: 3}
+      propertyPath: dialogues.Array.data[5].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 221564623267848009, guid: e90ac7984c7b2ff4181c0068bd48d9d2, type: 3}
       propertyPath: dialogues.Array.data[5].event2.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
       value: 4
       objectReference: {fileID: 0}
@@ -635,7 +639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 221564623267848009, guid: e90ac7984c7b2ff4181c0068bd48d9d2, type: 3}
       propertyPath: dialogues.Array.data[8].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 221564623267848009, guid: e90ac7984c7b2ff4181c0068bd48d9d2, type: 3}
       propertyPath: dialogues.Array.data[0].event1.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

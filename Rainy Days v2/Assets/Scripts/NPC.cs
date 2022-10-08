@@ -23,7 +23,8 @@ public class NPC : MonoBehaviour
     private DialogueTrigger dialogue;
     private MainCanvas immortal;
     private Shadow shadow;
-    public static int firstGhostId = 1;
+    //public static int firstGhostId = 1;
+    //public static int secondGhostId = 4;
     public float timeForMove;
     public float timeForCornerMove;
     public float npcZ = 1.2f;
@@ -85,18 +86,18 @@ public class NPC : MonoBehaviour
         StartCoroutine(GhostEventCo());
     }
 
-    public void GhostDisappear()
+    public void GhostDisappear(int appearId)
     {
         shadow.CloseShadow();
-        StartCoroutine(GhostOpenShadow());
+        StartCoroutine(GhostOpenShadow(appearId));
     }
 
-    private IEnumerator GhostOpenShadow()
+    private IEnumerator GhostOpenShadow(int appearId)
     {
         yield return new WaitUntil(() => shadow.doneAnimating);
         FindObjectOfType<CameraFollow>().Setup(() => player.transform.position);
         shadow.OpenShadow();
-        immortal.Quests[firstGhostId] = 1;
+        immortal.Quests[appearId] = 1;
         player.State = PlayerState.Neutral;
         FindObjectOfType<HudFunctions>().ActivateHud();
         Destroy(this.gameObject);

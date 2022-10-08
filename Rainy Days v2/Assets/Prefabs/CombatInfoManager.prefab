@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56020620208b3f5478a0940197839594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthDamageColor: {r: 0.7529412, g: 0.1254902, b: 0.1254902, a: 0.5882353}
-  toxicityDamageColor: {r: 0.14901961, g: 0.67058825, b: 0.15686275, a: 0.5882353}
-  apCostColor: {r: 0.40942672, g: 0.31673193, b: 0.7735849, a: 0.5882353}
-  levelUpColor: {r: 0.7075472, g: 0.51613384, b: 0.102794565, a: 0.5882353}
-  generalColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 0.5882353}
+  healthDamageColor: {r: 0.764151, g: 0.3272873, b: 0.3272873, a: 0.47058824}
+  toxicityDamageColor: {r: 0.35007116, g: 0.6698113, b: 0.3548793, a: 0.47058824}
+  apCostColor: {r: 0.5172537, g: 0.45852616, b: 0.754717, a: 0.47058824}
+  levelUpColor: {r: 0.6792453, g: 0.5462257, b: 0.25247416, a: 0.47058824}
+  generalColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 0.47058824}
   prefab: {fileID: 1289167343942964917, guid: 6208931925e93c5459be3af8fc0189aa, type: 3}
   offset: {x: 0, y: 1, z: 0}
   target: {x: 0, y: 0, z: 0}
@@ -65,5 +65,5 @@ MonoBehaviour:
   yAp: 0
   yLevel: -0.1
   yGeneral: 0
-  xRandomMin: -0.1
-  xRandomMax: 0.1
+  xRandomMin: -0.05
+  xRandomMax: 0.05

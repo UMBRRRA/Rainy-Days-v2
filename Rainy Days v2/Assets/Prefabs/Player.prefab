@@ -211,17 +211,17 @@ MonoBehaviour:
   meleeMaxDice: 8
   meleeModifier: 2
   mainCursor: {fileID: 2800000, guid: 4777df351c4fd5f4aaf89147d280eda0, type: 3}
-  secondLevel: 50
-  thirdLevel: 100
-  fourthLevel: 150
-  fifthLevel: 400
-  sixthLevel: 500
-  seventhLevel: 600
-  eightLevel: 700
-  ninthLevel: 800
-  tenthLevel: 900
-  eleventhLevel: 1000
-  twelfthLevel: 1100
+  secondLevel: 400
+  thirdLevel: 1200
+  fourthLevel: 2000
+  fifthLevel: 2800
+  sixthLevel: 3600
+  seventhLevel: 4800
+  eightLevel: 5600
+  ninthLevel: 7000
+  tenthLevel: 8000
+  eleventhLevel: 9000
+  twelfthLevel: 10000
   snipeCooldown: 3
   hasteCooldown: 5
   flurryCooldown: 4
