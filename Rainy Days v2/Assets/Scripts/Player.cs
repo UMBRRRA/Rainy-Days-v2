@@ -475,7 +475,7 @@ public class Player : MonoBehaviour
         if (Stats.CurrentHealth - amount <= 0)
         {
             Stats.CurrentHealth = 0;
-            StopAllCoroutines();
+            //StopAllCoroutines();
             StartCoroutine(BeforeDeath());
         }
         else
@@ -491,7 +491,7 @@ public class Player : MonoBehaviour
     private IEnumerator BeforeDeath()
     {
         State = PlayerState.Dead;
-        yield return new WaitForSeconds(beforeHitTime);
+        yield return new WaitForSeconds(0.8f);
         animator.SetBool("Idle", false);
         animator.SetBool("Death", true);
         animator.SetInteger("IdleDirection", 0);
