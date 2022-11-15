@@ -121,7 +121,7 @@ MonoBehaviour:
   - {x: 0.03892839, y: 0.017054081, z: 0}
   m_ShapePathHash: 1792717929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 57474
+  m_InstanceId: 57060
 --- !u!1 &5960890699162566554
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +175,7 @@ MonoBehaviour:
   startMag: 4
   startInitative: 9
   startMovement: 0.2
-  unusedFeats: 0
+  unusedFeats: 2
   playerZ: 4
   timeForMove: 0.3
   timeForCornerMove: 0.5

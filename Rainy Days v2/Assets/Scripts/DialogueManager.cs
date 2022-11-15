@@ -4,8 +4,15 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
+public enum DialogueState
+{
+    Typing, Ready
+}
+
 public class DialogueManager : MonoBehaviour
 {
+    private DialogueState State { get; set; } = DialogueState.Typing;
+
     public GameObject child;
 
     public Text question, answer1, answer2, answer3;
@@ -59,6 +66,7 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator TypeDialogue(Dialogue dialogue)
     {
+        State = DialogueState.Typing;
         foreach (char letter in dialogue.question.ToCharArray())
         {
             question.text += letter;
@@ -76,6 +84,7 @@ public class DialogueManager : MonoBehaviour
             answer3.text = "3. " + dialogue.answer3;
         }
         event3 = dialogue.event3;
+        State = DialogueState.Ready;
     }
 
     public void FireEvent1()
@@ -83,6 +92,7 @@ public class DialogueManager : MonoBehaviour
         if (event1 != null)
         {
             event1.Invoke();
+            State = DialogueState.Typing;
         }
     }
 
@@ -91,6 +101,7 @@ public class DialogueManager : MonoBehaviour
         if (event2 != null)
         {
             event2.Invoke();
+            State = DialogueState.Typing;
         }
     }
 
@@ -99,7 +110,22 @@ public class DialogueManager : MonoBehaviour
         if (event3 != null)
         {
             event3.Invoke();
+            State = DialogueState.Typing;
         }
+    }
+
+    private void Update()
+    {
+        if (State == DialogueState.Ready)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                FireEvent1();
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+                FireEvent2();
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+                FireEvent3();
+        }
+
     }
 
 }
