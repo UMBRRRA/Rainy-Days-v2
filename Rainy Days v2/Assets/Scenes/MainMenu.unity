@@ -235,7 +235,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &35556843
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1870,6 +1870,7 @@ MonoBehaviour:
   prereqTitle: {fileID: 1864904590}
   prereq: {fileID: 1979490586}
   unlockButton: {fileID: 484642654}
+  shadowAccuracy: {fileID: 11400000, guid: feceb7ec9844ef847bd6c575b58e84bf, type: 2}
 --- !u!1 &193679558
 GameObject:
   m_ObjectHideFlags: 0
@@ -2111,7 +2112,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7900899144027390919, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.0027160645
+      value: -0.0026855469
       objectReference: {fileID: 0}
     - target: {fileID: 7900899144027390919, guid: 5297998670bdbd3498715e620b3ea1c5, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -9543,44 +9544,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1128454142}
   m_CullTransparentMesh: 1
---- !u!1 &1128962353 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2581561854765533782, guid: 94905d8ff1c148e4cb0397e7b3b1f058, type: 3}
-  m_PrefabInstance: {fileID: 340880067}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1128962357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1128962353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_AllowXRRendering: 1
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_Version: 2
 --- !u!1 &1157095964
 GameObject:
   m_ObjectHideFlags: 0
@@ -17524,7 +17487,7 @@ RectTransform:
   m_GameObject: {fileID: 2095357297}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 765558836}

@@ -460,13 +460,15 @@ public class Player : MonoBehaviour
     {
         if (Stats.CurrentHealth + amount >= Stats.MaxHealth)
         {
+            FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Health, $"+{Stats.MaxHealth - Stats.CurrentHealth} Health", this.transform.position);
             Stats.CurrentHealth = Stats.MaxHealth;
         }
         else
         {
             Stats.CurrentHealth += amount;
+            FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Health, $"+{amount} Health", this.transform.position);
         }
-        FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Health, $"+{amount} Health", this.transform.position);
+
         hud.SetHealth(Stats.CurrentHealth);
     }
 
@@ -572,13 +574,15 @@ public class Player : MonoBehaviour
     {
         if (Stats.CurrentToxicity - amount <= 0)
         {
+            FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Toxicity, $"-{Stats.CurrentToxicity} Toxicity", this.transform.position);
             Stats.CurrentToxicity = 0;
         }
         else
         {
             Stats.CurrentToxicity -= amount;
+            FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Toxicity, $"-{amount} Toxicity", this.transform.position);
         }
-        FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Toxicity, $"-{amount} Toxicity", this.transform.position);
+
         hud.SetToxicity(Stats.CurrentToxicity);
     }
 

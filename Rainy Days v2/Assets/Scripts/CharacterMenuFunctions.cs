@@ -41,6 +41,8 @@ public class CharacterMenuFunctions : MonoBehaviour
     private FeatObject currentFeat;
     private HudFunctions hud;
 
+    public FeatObject shadowAccuracy;
+
     public void RestartGame()
     {
         availableFeats = new();
@@ -127,6 +129,8 @@ public class CharacterMenuFunctions : MonoBehaviour
         else if (feat == psychopath)
             return $"Disregarding the dangers to your body and breaking your limits has made you utterly mad. " +
                 $"Your maximum action points is increased by {psychoMaxApBonus}.";
+        else if (feat == shadowAccuracy)
+            return "With a laser sight attached to your gun you're able to see beyond the dark. The range of your gun increases.";
         else
             return "";
     }
@@ -332,5 +336,11 @@ public class CharacterMenuFunctions : MonoBehaviour
     {
         yield return new WaitUntil(() => (hud = FindObjectOfType<HudFunctions>()) != null);
         hud.ActivateHaste();
+    }
+
+    public void ShadowAccuracy()
+    {
+        unlockedFeats.Add(shadowAccuracy);
+        player.gunRange += 1;
     }
 }
