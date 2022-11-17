@@ -450,7 +450,7 @@ public class Player : MonoBehaviour
         State = PlayerState.Neutral;
     }
 
-    private void IdleDirectionNoNeutral(int dir)
+    public void IdleDirectionNoNeutral(int dir)
     {
         animator.SetInteger("IdleDirection", dir);
         currentDirection = dir;

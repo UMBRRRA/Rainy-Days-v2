@@ -26,4 +26,5 @@ public class DialogueField : MonoBehaviour
     {
         mapManager.MovePlayerTodialogue(myGridPosition, trigger);
     }
+
 }

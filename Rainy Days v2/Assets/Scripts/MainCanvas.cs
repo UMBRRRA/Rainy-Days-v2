@@ -26,6 +26,7 @@ public class MainCanvas : MonoBehaviour
         Quests.Add(3, 0); // enginner
         Quests.Add(4, 0); // second ghost apperance
         Quests.Add(5, 0); // madman
+        Quests.Add(6, 0); // dynamite
     }
 
     private void Awake()
