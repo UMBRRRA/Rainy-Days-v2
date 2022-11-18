@@ -28,7 +28,7 @@ public class Engineer : MonoBehaviour
     {
         MapManager mapManager = FindObjectOfType<MapManager>();
         mapManager.OccupiedFields.Remove(mapManager.map.WorldToCell(this.transform.position));
-        FindObjectOfType<Player>().exp += engineerQuestId;
+        FindObjectOfType<Player>().exp += engineerQuestXP;
         shadow = FindObjectOfType<Shadow>();
         shadow.CloseShadow();
         StartCoroutine(WaitForShadow());

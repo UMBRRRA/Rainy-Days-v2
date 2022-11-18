@@ -135,7 +135,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BeastWalkNW
-  m_Speed: 2
+  m_Speed: 2.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -4927724012839250970}
@@ -354,7 +354,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BeastWalkW
-  m_Speed: 2
+  m_Speed: 2.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2123550659327470160}
@@ -431,7 +431,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BeastWalkN
-  m_Speed: 2
+  m_Speed: 2.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -8042454522649282599}
@@ -694,7 +694,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BeastWalkE
-  m_Speed: 2
+  m_Speed: 2.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 9016281345656777057}
@@ -1735,7 +1735,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BeastWalkSW
-  m_Speed: 2
+  m_Speed: 2.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8068651362392690930}
@@ -1814,7 +1814,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BeastWalkSE
-  m_Speed: 2
+  m_Speed: 2.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -404020172891382639}
@@ -2387,7 +2387,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BeastWalkNE
-  m_Speed: 2
+  m_Speed: 2.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 6822955051919932673}
@@ -2822,7 +2822,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: BeastWalkS
-  m_Speed: 2
+  m_Speed: 2.2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2249829000864357144}
