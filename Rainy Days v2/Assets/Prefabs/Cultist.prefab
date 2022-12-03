@@ -105,17 +105,17 @@ MonoBehaviour:
   m_SelfShadows: 1
   m_ApplyToSortingLayers: 00000000abbeaf127514d956
   m_ShapePath:
-  - {x: -0.17246972, y: -0.056531623, z: 0}
-  - {x: -0.16011283, y: 0.05802536, z: 0}
-  - {x: -0.05252447, y: 0.10240618, z: 0}
-  - {x: 0.078717664, y: 0.102406174, z: 0}
-  - {x: 0.16754135, y: 0.06888847, z: 0}
-  - {x: 0.16686349, y: -0.06342022, z: 0}
-  - {x: 0.06778082, y: -0.11086227, z: 0}
-  - {x: -0.06346131, y: -0.11086227, z: 0}
-  m_ShapePathHash: -2057454778
+  - {x: -0.11511582, y: -0.06131111, z: 0}
+  - {x: -0.11709742, y: -0.004108008, z: 0}
+  - {x: -0.02862702, y: 0.040272824, z: 0}
+  - {x: 0.073938176, y: 0.040272813, z: 0}
+  - {x: 0.14842339, y: -0.002803877, z: 0}
+  - {x: 0.1477455, y: -0.068199724, z: 0}
+  - {x: 0.067780815, y: -0.120421246, z: 0}
+  - {x: -0.034784365, y: -0.120421246, z: 0}
+  m_ShapePathHash: -553773203
   m_Mesh: {fileID: 0}
-  m_InstanceId: 39410
+  m_InstanceId: 140506
 --- !u!1 &2502098955424052998
 GameObject:
   m_ObjectHideFlags: 0
@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 2502098955424052999}
   - component: {fileID: 2502098955424052996}
   - component: {fileID: 4251465474195651595}
+  - component: {fileID: 144954264097022495}
   m_Layer: 0
   m_Name: Cultist
   m_TagString: Untagged
@@ -142,7 +143,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2502098955424052998}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 3.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -198,6 +199,41 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.6548544, y: 1.1581916}
   m_EdgeRadius: 0
+--- !u!114 &144954264097022495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2502098955424052998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb47c1b852e976d48a23502920f551bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyName: 
+  spawnDirection: 0
+  exp: 500
+  slider: {fileID: 2040520546158905833}
+  sliderParent: {fileID: 5040956826806142146}
+  timeForMove: 0.3
+  timeForCornerMove: 0.5
+  enemyZ: 3.8
+  type: 0
+  gunLight: {fileID: 6330280045455675298}
+  cultistMaxHealth: 80
+  cultistMaxAP: 35
+  cultistInitiative: 12
+  cultistMovement: 0.3
+  hitTime: 0.6
+  gunTime: 0.7
+  gunApCost: 15
+  gunMinDice: 10
+  gunMaxDice: 20
+  gunModifier: 5
+  gunRange: 4
+  beforeGunLight: 0.3
+  afterGunLight: 0.2
 --- !u!1 &6330280045455675298
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,7 +259,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6330280045455675298}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1, y: -2, z: 4}
+  m_LocalPosition: {x: 0, y: 0, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -378,8 +414,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1084a023661c2494d9166848ae5b5e05, type: 3}
+--- !u!114 &2040520546158905833 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6037612128162912781, guid: 1084a023661c2494d9166848ae5b5e05, type: 3}
+  m_PrefabInstance: {fileID: 5735486535727158244}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &2148537344927337063 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5929457065818036611, guid: 1084a023661c2494d9166848ae5b5e05, type: 3}
+  m_PrefabInstance: {fileID: 5735486535727158244}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5040956826806142146 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 751425055523723046, guid: 1084a023661c2494d9166848ae5b5e05, type: 3}
   m_PrefabInstance: {fileID: 5735486535727158244}
   m_PrefabAsset: {fileID: 0}
