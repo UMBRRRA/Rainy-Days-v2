@@ -1875,6 +1875,7 @@ MonoBehaviour:
   prereq: {fileID: 1979490586}
   unlockButton: {fileID: 484642654}
   shadowAccuracy: {fileID: 11400000, guid: feceb7ec9844ef847bd6c575b58e84bf, type: 2}
+  extendedMag: {fileID: 11400000, guid: 25e7785e49b26df4bbbdb9a91df43a18, type: 2}
 --- !u!1 &193679558
 GameObject:
   m_ObjectHideFlags: 0
@@ -4089,7 +4090,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &487790091
 RectTransform:
   m_ObjectHideFlags: 0

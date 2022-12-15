@@ -42,6 +42,7 @@ public class CharacterMenuFunctions : MonoBehaviour
     private HudFunctions hud;
 
     public FeatObject shadowAccuracy;
+    public FeatObject extendedMag;
 
     public void RestartGame()
     {
@@ -131,6 +132,8 @@ public class CharacterMenuFunctions : MonoBehaviour
                 $"Your maximum action points is increased by {psychoMaxApBonus}.";
         else if (feat == shadowAccuracy)
             return "With a laser sight attached to your gun you're able to see beyond the dark. The range of your gun increases.";
+        else if (feat == extendedMag)
+            return "This fancy extended magazine you found enables you to store 2 more bullets in your gun.";
         else
             return "";
     }
@@ -342,5 +345,11 @@ public class CharacterMenuFunctions : MonoBehaviour
     {
         unlockedFeats.Add(shadowAccuracy);
         player.gunRange += 1;
+    }
+
+    public void ExtendedMag()
+    {
+        player.Stats.MagazineSize += 2;
+        unlockedFeats.Add(extendedMag);
     }
 }

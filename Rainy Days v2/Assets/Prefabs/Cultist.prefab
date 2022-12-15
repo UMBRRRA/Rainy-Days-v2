@@ -115,7 +115,7 @@ MonoBehaviour:
   - {x: -0.034784365, y: -0.120421246, z: 0}
   m_ShapePathHash: -553773203
   m_Mesh: {fileID: 0}
-  m_InstanceId: 140506
+  m_InstanceId: 73936
 --- !u!1 &2502098955424052998
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,8 +228,8 @@ MonoBehaviour:
   hitTime: 0.6
   gunTime: 0.7
   gunApCost: 15
-  gunMinDice: 10
-  gunMaxDice: 20
+  gunMinDice: 9
+  gunMaxDice: 18
   gunModifier: 5
   gunRange: 4
   beforeGunLight: 0.3

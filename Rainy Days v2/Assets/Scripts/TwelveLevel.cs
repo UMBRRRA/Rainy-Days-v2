@@ -94,6 +94,7 @@ public class TwelveLevel : MonoBehaviour
         player.State = PlayerState.Neutral;
         FindObjectOfType<HudFunctions>().ActivateHud();
         shadow.OpenShadow();
+        rubble.GetComponent<OccupyingStaticObject>().FreeOccupation();
         rubble.SetActive(false);
     }
 }

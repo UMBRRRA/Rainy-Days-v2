@@ -27,6 +27,7 @@ public class MainCanvas : MonoBehaviour
         Quests.Add(4, 0); // second ghost apperance
         Quests.Add(5, 0); // madman
         Quests.Add(6, 0); // dynamite
+        Quests.Add(7, 0); // rebel cultist first talk
     }
 
     private void Awake()
