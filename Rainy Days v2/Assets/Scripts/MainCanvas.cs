@@ -28,6 +28,8 @@ public class MainCanvas : MonoBehaviour
         Quests.Add(5, 0); // madman
         Quests.Add(6, 0); // dynamite
         Quests.Add(7, 0); // rebel cultist first talk
+        Quests.Add(8, 0); // kidnapped villagers
+        Quests.Add(9, 0); // third ghost
     }
 
     private void Awake()

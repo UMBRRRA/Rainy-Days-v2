@@ -66,4 +66,9 @@ public class SeventeenthLevel : MonoBehaviour
     {
         FindObjectOfType<CharacterMenuFunctions>().ExtendedMag();
     }
+
+    public void RebelPasswordQuest()
+    {
+        immortal.Quests[rebelFirstTalkQuestId] = 2;
+    }
 }

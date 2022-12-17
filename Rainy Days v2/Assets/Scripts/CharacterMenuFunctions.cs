@@ -20,6 +20,8 @@ public class CharacterMenuFunctions : MonoBehaviour
     public int execDmgBonus = 2;
     public int execApReduc = 1;
     public int psychoMaxApBonus = 5;
+    public int laserSightBonus = 1;
+    public int extendedMagBonus = 2;
 
     public GameObject child;
     private Player player;
@@ -43,6 +45,7 @@ public class CharacterMenuFunctions : MonoBehaviour
 
     public FeatObject shadowAccuracy;
     public FeatObject extendedMag;
+    public FeatObject blessing;
 
     public void RestartGame()
     {
@@ -133,7 +136,9 @@ public class CharacterMenuFunctions : MonoBehaviour
         else if (feat == shadowAccuracy)
             return "With a laser sight attached to your gun you're able to see beyond the dark. The range of your gun increases.";
         else if (feat == extendedMag)
-            return "This fancy extended magazine you found enables you to store 2 more bullets in your gun.";
+            return $"This fancy extended magazine you found enables you to store {extendedMagBonus} more bullets in your gun.";
+        else if (feat == blessing)
+            return $"With their last breath, the mysterious projection bestowed a blessing on you.";
         else
             return "";
     }
@@ -344,12 +349,32 @@ public class CharacterMenuFunctions : MonoBehaviour
     public void ShadowAccuracy()
     {
         unlockedFeats.Add(shadowAccuracy);
-        player.gunRange += 1;
+        player = FindObjectOfType<Player>();
+        player.gunRange += laserSightBonus;
     }
 
     public void ExtendedMag()
     {
-        player.Stats.MagazineSize += 2;
+        player.Stats.MagazineSize += extendedMagBonus;
         unlockedFeats.Add(extendedMag);
+        StartCoroutine(UpdateMag());
+    }
+
+    private IEnumerator UpdateMag()
+    {
+        yield return new WaitUntil(() => (hud = FindObjectOfType<HudFunctions>()) != null);
+        hud.UpdateMagazine();
+    }
+
+    public void GhostBless()
+    {
+        unlockedFeats.Add(blessing);
+        player = FindObjectOfType<Player>();
+        player.Stats.MaxHealth += 10;
+        player.Stats.MaxToxicity += 10;
+        player.Stats.MaxAP += 2;
+        player.gunModifier += 1;
+        player.meleeModifier += 1;
+        StartCoroutine(SetHudBars());
     }
 }

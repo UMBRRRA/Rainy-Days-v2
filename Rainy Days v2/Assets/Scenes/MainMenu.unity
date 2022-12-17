@@ -1821,6 +1821,8 @@ MonoBehaviour:
   execDmgBonus: 2
   execApReduc: 1
   psychoMaxApBonus: 5
+  laserSightBonus: 1
+  extendedMagBonus: 2
   child: {fileID: 2095357297}
   levelText: {fileID: 1098397533}
   expText: {fileID: 1054213848}
@@ -1876,6 +1878,7 @@ MonoBehaviour:
   unlockButton: {fileID: 484642654}
   shadowAccuracy: {fileID: 11400000, guid: feceb7ec9844ef847bd6c575b58e84bf, type: 2}
   extendedMag: {fileID: 11400000, guid: 25e7785e49b26df4bbbdb9a91df43a18, type: 2}
+  blessing: {fileID: 11400000, guid: f1047fe97703bf0478e61df89c278533, type: 2}
 --- !u!1 &193679558
 GameObject:
   m_ObjectHideFlags: 0

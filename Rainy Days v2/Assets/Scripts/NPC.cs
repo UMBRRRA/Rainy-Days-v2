@@ -34,6 +34,7 @@ public class NPC : MonoBehaviour
     public Vector3Int CurrentGridPosition { get; set; }
     public Vector3Int ghostWalkDestination;
 
+    private CharacterMenuFunctions charMenu;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +49,16 @@ public class NPC : MonoBehaviour
     }
 
 
+    public void GhostBlessing()
+    {
+        StartCoroutine(GhostBlessingCo());
+    }
 
+    private IEnumerator GhostBlessingCo()
+    {
+        yield return new WaitUntil(() => (charMenu = FindObjectOfType<CharacterMenuFunctions>()) != null);
+        charMenu.GhostBless();
+    }
 
     private IEnumerator FindImmortal()
     {
