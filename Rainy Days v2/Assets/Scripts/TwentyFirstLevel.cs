@@ -14,12 +14,20 @@ public class TwentyFirstLevel : MonoBehaviour
     private static int knowsPassQuestId = 2;
     public DialogueTrigger trigger;
     private static int doorOpenDialogueId = 1;
+    private static int doorOpenExp = 1000;
+
+
     void Start()
     {
 
         GoNeutral();
         StartCoroutine(FindImmortal());
         StartCoroutine(OpenDoor());
+    }
+
+    public void DoorOpenQuestXP()
+    {
+        FindObjectOfType<Player>().exp += doorOpenExp;
     }
 
     private IEnumerator OpenDoor()

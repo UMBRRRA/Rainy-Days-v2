@@ -44,6 +44,20 @@ public class PauseMenuFunctions : MonoBehaviour
         FindObjectOfType<CharacterMenuFunctions>().ActivateCharacterMenu();
     }
 
+    public void GoToControls()
+    {
+        child.SetActive(false);
+        FindObjectOfType<ControlsMenuFunctions>().fromPause = true;
+        FindObjectOfType<ControlsMenuFunctions>().ActivateControlsMenu();
+    }
+
+    public void GoToOptions()
+    {
+        child.SetActive(false);
+        FindObjectOfType<OptionsMenuFunctions>().fromPause = true;
+        FindObjectOfType<OptionsMenuFunctions>().ActivateOptionsMenu();
+    }
+
     public void ReturnToMainMenu()
     {
         Shadow shadow = FindObjectOfType<Shadow>();

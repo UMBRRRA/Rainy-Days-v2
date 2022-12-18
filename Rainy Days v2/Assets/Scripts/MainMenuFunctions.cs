@@ -54,6 +54,19 @@ public class MainMenuFunctions : MonoBehaviour
         buttons.SetActive(false);
     }
 
+    public void GoToControls()
+    {
+        FindObjectOfType<ControlsMenuFunctions>().fromMain = true;
+        FindObjectOfType<ControlsMenuFunctions>().ActivateControlsMenu();
+        DeactivateButtons();
+    }
+    public void GoToOptions()
+    {
+        FindObjectOfType<OptionsMenuFunctions>().fromMain = true;
+        FindObjectOfType<OptionsMenuFunctions>().ActivateOptionsMenu();
+        DeactivateButtons();
+    }
+
     public void ExitGame()
     {
         Application.Quit(0);
