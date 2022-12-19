@@ -62,6 +62,7 @@ public class PauseMenuFunctions : MonoBehaviour
     {
         Shadow shadow = FindObjectOfType<Shadow>();
         shadow.CloseShadow();
+        FindObjectOfType<AudioManager>().ChangeLevel(0);
         StartCoroutine(ReturnToMM(shadow));
     }
 

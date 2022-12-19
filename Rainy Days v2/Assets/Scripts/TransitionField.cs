@@ -38,7 +38,7 @@ public class TransitionField : MonoBehaviour
         shadow.CloseShadow();
 
         FindObjectOfType<HudFunctions>().DeactivateHud();
-
+        FindObjectOfType<AudioManager>().ChangeLevel(level);
         StartCoroutine(WaitForShadow(shadow));
     }
 

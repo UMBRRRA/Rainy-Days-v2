@@ -1,5 +1,39 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!245 &-8151746805663053194
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hideout with Rain
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: 7dbfe012ab9e8ee49901c6f9cc7af439
+  m_FloatValues:
+    d2e5b953c418dec4f924feea642481aa: -80
+    b65457b5bdf9c16479b7e24628848d7e: -80
+    8e85660795f4959478671aab4dac09d5: -80
+    b5e2ebc878d39264f94e5dac111c2513: -79.700005
+    657a210a27ad7b947a2f16d515a70c5d: 0
+    cf4c8a0b01430144d8c8d26d2c8259a6: 0
+  m_TransitionOverrides: {}
+--- !u!245 &-7878663527857743606
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Woods without Rain
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: 158d582781f58e24fa0cf9e5c82f384a
+  m_FloatValues:
+    d2e5b953c418dec4f924feea642481aa: -80
+    b65457b5bdf9c16479b7e24628848d7e: -80
+    8e85660795f4959478671aab4dac09d5: -80
+    b5e2ebc878d39264f94e5dac111c2513: 0
+    657a210a27ad7b947a2f16d515a70c5d: -80
+    cf4c8a0b01430144d8c8d26d2c8259a6: -80
+  m_TransitionOverrides: {}
 --- !u!244 &-7515843891788522947
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -33,6 +67,23 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!245 &-6957577152680699818
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Hideout without Rain
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: f00c003f9447ba04aa3c80d90ff0cb58
+  m_FloatValues:
+    d2e5b953c418dec4f924feea642481aa: -80
+    b65457b5bdf9c16479b7e24628848d7e: -80
+    8e85660795f4959478671aab4dac09d5: -80
+    b5e2ebc878d39264f94e5dac111c2513: -79.700005
+    657a210a27ad7b947a2f16d515a70c5d: 0
+    cf4c8a0b01430144d8c8d26d2c8259a6: -80
+  m_TransitionOverrides: {}
 --- !u!243 &-6791303251772099239
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -127,6 +178,23 @@ AudioMixerEffectController:
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0
+--- !u!245 &-239416152445484495
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Temple
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: c63539b182881f34ba98c8ffa269d1bc
+  m_FloatValues:
+    d2e5b953c418dec4f924feea642481aa: 0
+    b65457b5bdf9c16479b7e24628848d7e: -80
+    8e85660795f4959478671aab4dac09d5: -80
+    b5e2ebc878d39264f94e5dac111c2513: -79.700005
+    657a210a27ad7b947a2f16d515a70c5d: -80
+    cf4c8a0b01430144d8c8d26d2c8259a6: -80
+  m_TransitionOverrides: {}
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -138,6 +206,12 @@ AudioMixerController:
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
   - {fileID: 24500006}
+  - {fileID: -7878663527857743606}
+  - {fileID: 3108226586461901272}
+  - {fileID: 4087925568048598361}
+  - {fileID: -6957577152680699818}
+  - {fileID: -8151746805663053194}
+  - {fileID: -239416152445484495}
   m_StartSnapshot: {fileID: 24500006}
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
@@ -163,7 +237,7 @@ AudioMixerController:
     - 590017d991d0de04592c9bbe0874c2b4
     name: View
   m_CurrentViewIndex: 0
-  m_TargetSnapshot: {fileID: 24500006}
+  m_TargetSnapshot: {fileID: -239416152445484495}
 --- !u!243 &24300002
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -205,11 +279,15 @@ AudioMixerSnapshotController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Snapshot
+  m_Name: MainMenu
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: d2536c17ffa4196449d5ff4524745bbe
   m_FloatValues:
-    d2e5b953c418dec4f924feea642481aa: 0
+    d2e5b953c418dec4f924feea642481aa: -80
+    8e85660795f4959478671aab4dac09d5: -80
+    b5e2ebc878d39264f94e5dac111c2513: -80
+    657a210a27ad7b947a2f16d515a70c5d: -80
+    cf4c8a0b01430144d8c8d26d2c8259a6: -80
   m_TransitionOverrides: {}
 --- !u!244 &44758170076351745
 AudioMixerEffectController:
@@ -268,6 +346,23 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!245 &3108226586461901272
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Woods with Rain
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: cde76eea2d330b942a6cf13017e98cc7
+  m_FloatValues:
+    d2e5b953c418dec4f924feea642481aa: -80
+    b65457b5bdf9c16479b7e24628848d7e: -80
+    8e85660795f4959478671aab4dac09d5: -80
+    b5e2ebc878d39264f94e5dac111c2513: 0
+    657a210a27ad7b947a2f16d515a70c5d: -80
+    cf4c8a0b01430144d8c8d26d2c8259a6: 0
+  m_TransitionOverrides: {}
 --- !u!243 &3989221522132897258
 AudioMixerGroupController:
   m_ObjectHideFlags: 0
@@ -287,6 +382,23 @@ AudioMixerGroupController:
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
+--- !u!245 &4087925568048598361
+AudioMixerSnapshotController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Caves
+  m_AudioMixer: {fileID: 24100000}
+  m_SnapshotID: bbad6d906eeddf24eb4499809eb915d8
+  m_FloatValues:
+    d2e5b953c418dec4f924feea642481aa: -80
+    b65457b5bdf9c16479b7e24628848d7e: -80
+    8e85660795f4959478671aab4dac09d5: 0
+    b5e2ebc878d39264f94e5dac111c2513: -79.700005
+    657a210a27ad7b947a2f16d515a70c5d: -80
+    cf4c8a0b01430144d8c8d26d2c8259a6: -80
+  m_TransitionOverrides: {}
 --- !u!243 &5758314224482933949
 AudioMixerGroupController:
   m_ObjectHideFlags: 0

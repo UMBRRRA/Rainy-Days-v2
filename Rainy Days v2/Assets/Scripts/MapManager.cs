@@ -139,6 +139,7 @@ public class MapManager : MonoBehaviour
     public void StartMoving(APath path)
     {
         player.State = PlayerState.Moving;
+        player.walkSound.Play();
         StopAllCoroutines();
         StartCoroutine(WalkPath(path));
     }
@@ -198,7 +199,7 @@ public class MapManager : MonoBehaviour
         player.currentGridPosition = fields[fields.Length - 1].GridPosition;
         Vector3Int idleDir = fields[fields.Length - 1].GridPosition - fields[fields.Length - 2].GridPosition;
         StartCoroutine(player.PlayIdle(idleDir, nf, toxicity));
-
+        player.walkSound.Stop();
     }
 
     public void MoveEnemy(Enemy enemy, APath path)

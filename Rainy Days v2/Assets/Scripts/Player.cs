@@ -180,6 +180,8 @@ public class Player : MonoBehaviour
     public int flurryHits = 3;
     private int flurryCounter = 0;
 
+    public AudioSource walkSound;
+
     public PlayerState State
     {
         get
