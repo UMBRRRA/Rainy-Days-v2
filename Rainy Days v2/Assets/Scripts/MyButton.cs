@@ -23,6 +23,7 @@ public class MyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         text.color = hoverColor;
+        FindObjectOfType<AudioManager>().hoverSound.Play();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -33,6 +34,7 @@ public class MyButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnClick()
     {
         text.color = normalColor;
+        FindObjectOfType<AudioManager>().clickSound.Play();
     }
 
 

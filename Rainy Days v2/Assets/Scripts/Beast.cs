@@ -469,4 +469,14 @@ public class Beast : Enemy
         State = EnemyState.Neutral;
 
     }
+
+    public override void PlayWalkSound()
+    {
+
+    }
+
+    public override void StopWalkSound()
+    {
+
+    }
 }

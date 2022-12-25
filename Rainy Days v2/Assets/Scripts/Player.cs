@@ -180,7 +180,9 @@ public class Player : MonoBehaviour
     public int flurryHits = 3;
     private int flurryCounter = 0;
 
-    public AudioSource walkSound;
+    public AudioSource walkSound, gunSound, swordSound, reloadSound, hitSound, deathSound, potionSound,
+        hasteSound;
+    public float beforeSwordSound, beforeReloadSound;
 
     public PlayerState State
     {
@@ -496,6 +498,7 @@ public class Player : MonoBehaviour
     {
         State = PlayerState.Dead;
         yield return new WaitForSeconds(0.8f);
+        deathSound.Play();
         animator.SetBool("Idle", false);
         animator.SetBool("Death", true);
         animator.SetInteger("IdleDirection", 0);
@@ -515,6 +518,7 @@ public class Player : MonoBehaviour
     private IEnumerator BeforeHit()
     {
         yield return new WaitForSeconds(beforeHitTime);
+        hitSound.Play();
         animator.SetBool("Idle", false);
         animator.SetBool("Hit", true);
         animator.SetInteger("IdleDirection", 0);
@@ -550,6 +554,8 @@ public class Player : MonoBehaviour
     private void DrinkPotionAfterCheck()
     {
         State = PlayerState.Action;
+        potionSound.Play();
+
         inventory.TakeItem(potion, 1);
         hud.UpdateAmounts();
         animator.SetInteger("IdleDirection", 0);
@@ -616,6 +622,7 @@ public class Player : MonoBehaviour
     private void HasteAfterCheck()
     {
         StartHasteCooldown();
+        hasteSound.Play();
         State = PlayerState.Action;
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
@@ -670,6 +677,8 @@ public class Player : MonoBehaviour
     private void DrinkAntidoteAfterCheck()
     {
         State = PlayerState.Action;
+        potionSound.Play();
+
         inventory.TakeItem(antidote, 1);
         hud.UpdateAmounts();
         animator.SetInteger("IdleDirection", 0);
@@ -711,6 +720,7 @@ public class Player : MonoBehaviour
 
     private void ReloadAfterCheck()
     {
+        reloadSound.PlayDelayed(beforeReloadSound);
         State = PlayerState.Action;
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
@@ -858,6 +868,7 @@ public class Player : MonoBehaviour
 
     private void ShootAfterChecks(Enemy enemy, bool snipe)
     {
+        gunSound.PlayDelayed(beforeGunLight);
         State = PlayerState.Action;
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
@@ -954,6 +965,7 @@ public class Player : MonoBehaviour
     {
         StartFlurryCooldown();
         State = PlayerState.Action;
+        swordSound.Play();
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
         animator.SetBool("Melee", true);
@@ -994,6 +1006,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(0.01f);
         animator.SetInteger("MeleeDirection", meleeDir);
+        swordSound.Play();
         enemy.TakeDamage(StaticHelpers.RollDamage(meleeMinDice, meleeMaxDice, meleeModifier));
         flurryCounter++;
         StartCoroutine(OneFlurryHit(enemy, meleeDir));
@@ -1035,6 +1048,7 @@ public class Player : MonoBehaviour
 
     private void MeleeAfterChecks(Enemy enemy)
     {
+        swordSound.PlayDelayed(beforeSwordSound);
         State = PlayerState.Action;
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);

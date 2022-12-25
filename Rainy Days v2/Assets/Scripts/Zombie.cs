@@ -54,6 +54,8 @@ public class Zombie : Enemy
     public static int wailCooldown = 3;
     private int wailCurrentCooldown = 0;
 
+    public AudioSource walkSound;
+
     public override void MakeTurn()
     {
         StartCoroutine(ZombieTurn());
@@ -675,4 +677,15 @@ public class Zombie : Enemy
         State = EnemyState.Neutral;
 
     }
+
+    public override void PlayWalkSound()
+    {
+        walkSound.Play();
+    }
+
+    public override void StopWalkSound()
+    {
+        walkSound.Stop();
+    }
+
 }

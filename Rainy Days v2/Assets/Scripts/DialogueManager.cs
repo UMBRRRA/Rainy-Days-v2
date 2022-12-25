@@ -17,6 +17,8 @@ public class DialogueManager : MonoBehaviour
 
     public Text question, answer1, answer2, answer3;
 
+    public GameObject button1, button2, button3;
+
     public UnityEvent event1, event2, event3;
 
     public float dialogueSpeed = 0.05f;
@@ -72,15 +74,18 @@ public class DialogueManager : MonoBehaviour
             question.text += letter;
             yield return new WaitForSeconds(dialogueSpeed);
         }
+        button1.SetActive(true);
         answer1.text = "1. " + dialogue.answer1;
         event1 = dialogue.event1;
         if (dialogue.answer2 != "")
         {
+            button2.SetActive(true);
             answer2.text = "2. " + dialogue.answer2;
         }
         event2 = dialogue.event2;
         if (dialogue.answer3 != "")
         {
+            button3.SetActive(true);
             answer3.text = "3. " + dialogue.answer3;
         }
         event3 = dialogue.event3;
@@ -93,6 +98,9 @@ public class DialogueManager : MonoBehaviour
         {
             event1.Invoke();
             State = DialogueState.Typing;
+            button1.SetActive(false);
+            button2.SetActive(false);
+            button3.SetActive(false);
         }
     }
 
@@ -102,6 +110,9 @@ public class DialogueManager : MonoBehaviour
         {
             event2.Invoke();
             State = DialogueState.Typing;
+            button1.SetActive(false);
+            button2.SetActive(false);
+            button3.SetActive(false);
         }
     }
 
@@ -111,6 +122,9 @@ public class DialogueManager : MonoBehaviour
         {
             event3.Invoke();
             State = DialogueState.Typing;
+            button1.SetActive(false);
+            button2.SetActive(false);
+            button3.SetActive(false);
         }
     }
 
@@ -119,11 +133,20 @@ public class DialogueManager : MonoBehaviour
         if (State == DialogueState.Ready)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+
                 FireEvent1();
+            }
             else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+
                 FireEvent2();
+            }
             else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+
                 FireEvent3();
+            }
         }
 
     }

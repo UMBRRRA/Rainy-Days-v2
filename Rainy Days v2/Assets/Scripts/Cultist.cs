@@ -527,4 +527,14 @@ public class Cultist : Enemy
         State = EnemyState.Neutral;
 
     }
+
+    public override void PlayWalkSound()
+    {
+
+    }
+
+    public override void StopWalkSound()
+    {
+
+    }
 }

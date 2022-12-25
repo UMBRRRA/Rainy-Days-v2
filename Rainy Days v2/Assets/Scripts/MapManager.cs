@@ -209,7 +209,7 @@ public class MapManager : MonoBehaviour
 
     private IEnumerator MoveEnemyCo(Enemy enemy, APath path)
     {
-        //OccupiedFields.Remove(enemy.CurrentGridPosition);
+        enemy.PlayWalkSound();
 
         Vector3 nf = new(0, 0, 0);
         Field[] fields = path.Fields.ToArray();
@@ -243,6 +243,7 @@ public class MapManager : MonoBehaviour
 
         OccupiedFields.Add(enemy.CurrentGridPosition);
 
+        enemy.StopWalkSound();
     }
 
     public void MoveNPC(NPC npc, APath path)

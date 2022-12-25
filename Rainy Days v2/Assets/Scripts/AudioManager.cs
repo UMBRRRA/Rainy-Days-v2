@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     public AudioSource mainMenuTheme, woodsTheme, cavesTheme, rain, hideoutTheme, templeTheme;
     public float transitionTime = 10f;
     public Dictionary<int, AudioMixerSnapshot> snapshots = new();
+    public AudioSource hoverSound, clickSound;
 
     void Start()
     {
@@ -29,7 +30,13 @@ public class AudioManager : MonoBehaviour
         snapshots.Add(12, cavesSnap);
         snapshots.Add(13, cavesSnap);
         snapshots.Add(14, cavesSnap);
-
+        snapshots.Add(15, hideoutWithRainSnap);
+        snapshots.Add(16, hideoutWithRainSnap);
+        snapshots.Add(17, hideoutWithoutRainSnap);
+        snapshots.Add(18, hideoutWithoutRainSnap);
+        snapshots.Add(19, hideoutWithRainSnap);
+        snapshots.Add(20, hideoutWithoutRainSnap);
+        snapshots.Add(21, hideoutWithRainSnap);
         snapshots.Add(22, templeSnap);
         snapshots.Add(23, templeSnap);
     }
@@ -44,6 +51,7 @@ public class AudioManager : MonoBehaviour
             StartCoroutine(WaitAndStopTrack(cavesTheme));
             StartCoroutine(WaitAndStopTrack(rain));
             StartCoroutine(WaitAndStopTrack(templeTheme));
+            StartCoroutine(WaitAndStopTrack(hideoutTheme));
         }
         else if (snapshots[levelId] == woodsWithoutRainSnap)
         {
@@ -52,6 +60,7 @@ public class AudioManager : MonoBehaviour
             StartCoroutine(WaitAndStopTrack(rain));
             StartCoroutine(WaitAndStopTrack(mainMenuTheme));
             StartCoroutine(WaitAndStopTrack(templeTheme));
+            StartCoroutine(WaitAndStopTrack(hideoutTheme));
         }
         else if (snapshots[levelId] == woodsWithRainSnap)
         {
@@ -60,6 +69,7 @@ public class AudioManager : MonoBehaviour
             StartCoroutine(WaitAndStopTrack(cavesTheme));
             StartCoroutine(WaitAndStopTrack(mainMenuTheme));
             StartCoroutine(WaitAndStopTrack(templeTheme));
+            StartCoroutine(WaitAndStopTrack(hideoutTheme));
         }
         else if (snapshots[levelId] == cavesSnap)
         {
@@ -68,6 +78,7 @@ public class AudioManager : MonoBehaviour
             StartCoroutine(WaitAndStopTrack(rain));
             StartCoroutine(WaitAndStopTrack(mainMenuTheme));
             StartCoroutine(WaitAndStopTrack(templeTheme));
+            StartCoroutine(WaitAndStopTrack(hideoutTheme));
         }
         else if (snapshots[levelId] == templeSnap)
         {
@@ -76,6 +87,25 @@ public class AudioManager : MonoBehaviour
             StartCoroutine(WaitAndStopTrack(rain));
             StartCoroutine(WaitAndStopTrack(mainMenuTheme));
             StartCoroutine(WaitAndStopTrack(cavesTheme));
+            StartCoroutine(WaitAndStopTrack(hideoutTheme));
+        }
+        else if (snapshots[levelId] == hideoutWithoutRainSnap)
+        {
+            StartCoroutine(WaitAndPlayTrack(hideoutTheme));
+            StartCoroutine(WaitAndStopTrack(woodsTheme));
+            StartCoroutine(WaitAndStopTrack(rain));
+            StartCoroutine(WaitAndStopTrack(mainMenuTheme));
+            StartCoroutine(WaitAndStopTrack(cavesTheme));
+            StartCoroutine(WaitAndStopTrack(templeTheme));
+        }
+        else if (snapshots[levelId] == hideoutWithRainSnap)
+        {
+            StartCoroutine(WaitAndPlayTrack(hideoutTheme));
+            StartCoroutine(WaitAndPlayTrack(rain));
+            StartCoroutine(WaitAndStopTrack(cavesTheme));
+            StartCoroutine(WaitAndStopTrack(mainMenuTheme));
+            StartCoroutine(WaitAndStopTrack(templeTheme));
+            StartCoroutine(WaitAndStopTrack(woodsTheme));
         }
     }
 
@@ -87,7 +117,7 @@ public class AudioManager : MonoBehaviour
 
     private IEnumerator WaitAndPlayTrack(AudioSource track)
     {
-        yield return new WaitForSeconds(transitionTime / 0.7f);
+        yield return new WaitForSeconds(transitionTime / 1.3f);
         PlayDontDisrupt(track);
     }
 

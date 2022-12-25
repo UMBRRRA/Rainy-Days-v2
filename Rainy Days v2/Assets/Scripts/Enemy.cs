@@ -55,4 +55,8 @@ public abstract class Enemy : MonoBehaviour
 
     public EnemyState State { get; set; } = EnemyState.Neutral;
 
+    public abstract void PlayWalkSound();
+
+    public abstract void StopWalkSound();
+
 }
