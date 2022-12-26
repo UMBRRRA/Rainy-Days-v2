@@ -36,7 +36,7 @@ public class TransitionField : MonoBehaviour
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
         shadow = FindObjectOfType<Shadow>();
         shadow.CloseShadow();
-
+        FindObjectOfType<AudioManager>().TransitionSound();
         FindObjectOfType<HudFunctions>().DeactivateHud();
         FindObjectOfType<AudioManager>().ChangeLevel(level);
         StartCoroutine(WaitForShadow(shadow));

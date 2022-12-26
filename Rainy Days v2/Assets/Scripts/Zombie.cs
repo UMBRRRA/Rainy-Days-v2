@@ -54,7 +54,8 @@ public class Zombie : Enemy
     public static int wailCooldown = 3;
     private int wailCurrentCooldown = 0;
 
-    public AudioSource walkSound;
+    public AudioSource walkSound, hitSound, deathSound, hammerSound, spitSound, scytheSound, wailSound;
+    public float beforeHammerSound, beforeSpitSound, beforeScytheSound, beforeWailSound;
 
     public override void MakeTurn()
     {
@@ -303,6 +304,10 @@ public class Zombie : Enemy
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
         animator.SetBool("Hammer", true);
+        if (type == ZombieType.Hammer)
+            hammerSound.PlayDelayed(beforeHammerSound);
+        else
+            scytheSound.PlayDelayed(beforeScytheSound);
         int meleeDir = StaticHelpers.ChooseDir(transform.position, player.transform.position);
         animator.SetInteger("HammerDirection", meleeDir);
         CurrentDirection = meleeDir;
@@ -376,6 +381,7 @@ public class Zombie : Enemy
 
     private void PukeAfterChecks()
     {
+        spitSound.PlayDelayed(beforeSpitSound);
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
         animator.SetBool("Puke", true);
@@ -450,6 +456,7 @@ public class Zombie : Enemy
 
     private void WailAfterChecks()
     {
+        wailSound.PlayDelayed(beforeWailSound);
         wailCurrentCooldown = wailCooldown;
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
@@ -514,8 +521,8 @@ public class Zombie : Enemy
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Death", true);
         animator.SetInteger("DeathDirection", CurrentDirection);
-
-
+        deathSound.Play();
+        FindObjectOfType<AudioManager>().BloodHit();
         GetComponent<BoxCollider2D>().enabled = false;
         DeactivateSlider();
         player.exp += exp;
@@ -534,6 +541,8 @@ public class Zombie : Enemy
     private IEnumerator BeforeHit()
     {
         yield return new WaitForSeconds(beforeHitTime);
+        hitSound.Play();
+        FindObjectOfType<AudioManager>().BloodHit();
         animator.SetBool("Idle", false);
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Hit", true);

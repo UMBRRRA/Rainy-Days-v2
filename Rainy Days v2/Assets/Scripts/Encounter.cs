@@ -66,6 +66,7 @@ public class Encounter : MonoBehaviour
     public IEnumerator FindEncounterManager()
     {
         yield return new WaitUntil(() => (encounterManager = FindObjectOfType<EncounterManager>()) != null);
+        FindObjectOfType<AudioManager>().EncounterSound();
         player.State = PlayerState.NotMyTurn;
         int playerRoll = Random.Range(1, 21);
         player.Stats.RolledInitiative = player.Stats.Initiative + playerRoll;

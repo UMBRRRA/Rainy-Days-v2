@@ -8,6 +8,7 @@ public class Chest : MonoBehaviour
     private Animator animator;
     private Item item;
     private DialogueManager dm;
+    public AudioSource chestSound;
 
     void Start()
     {
@@ -25,5 +26,6 @@ public class Chest : MonoBehaviour
     public void OpenChest()
     {
         animator.SetBool("chestOpen", true);
+        chestSound.Play();
     }
 }

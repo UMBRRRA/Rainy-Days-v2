@@ -24,6 +24,7 @@ public class MainMenuFunctions : MonoBehaviour
     {
         Shadow shadow = FindObjectOfType<Shadow>();
         shadow.CloseShadow();
+        FindObjectOfType<AudioManager>().TransitionSound();
         StartCoroutine(StartGameCoroutine(shadow));
     }
 

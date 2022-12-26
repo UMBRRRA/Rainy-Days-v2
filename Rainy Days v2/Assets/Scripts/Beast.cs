@@ -30,6 +30,9 @@ public class Beast : Enemy
 
     public float myTurnTime { get; set; } = 3f;
 
+    public AudioSource walkSound, biteSound, hitSound, deathSound;
+    public float beforeBiteSound;
+
     public override void MakeTurn()
     {
         StartCoroutine(BeastTurn());
@@ -240,6 +243,7 @@ public class Beast : Enemy
 
     private void MeleeAfterChecks()
     {
+        biteSound.PlayDelayed(beforeBiteSound);
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
         animator.SetBool("Melee", true);
@@ -302,6 +306,8 @@ public class Beast : Enemy
     private IEnumerator BeforeDead()
     {
         yield return new WaitForSeconds(beforeHitTime);
+        deathSound.Play();
+        FindObjectOfType<AudioManager>().BloodHit();
         animator.SetBool("Idle", false);
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Death", true);
@@ -326,6 +332,8 @@ public class Beast : Enemy
     private IEnumerator BeforeHit()
     {
         yield return new WaitForSeconds(beforeHitTime);
+        hitSound.Play();
+        FindObjectOfType<AudioManager>().BloodHit();
         animator.SetBool("Idle", false);
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Hit", true);
@@ -472,11 +480,11 @@ public class Beast : Enemy
 
     public override void PlayWalkSound()
     {
-
+        walkSound.Play();
     }
 
     public override void StopWalkSound()
     {
-
+        walkSound.Stop();
     }
 }

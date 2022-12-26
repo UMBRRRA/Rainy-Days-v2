@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
             if (value != _level && value != 1)
             {
                 FindObjectOfType<CombatInfoManager>().GenerateCombatInfo(CombatInfoType.Level, "Level Up!", this.transform.position);
+                levelUpSound.Play();
                 unusedFeats += (value - _level);
             }
             _level = value;
@@ -181,7 +182,7 @@ public class Player : MonoBehaviour
     private int flurryCounter = 0;
 
     public AudioSource walkSound, gunSound, swordSound, reloadSound, hitSound, deathSound, potionSound,
-        hasteSound;
+        hasteSound, levelUpSound;
     public float beforeSwordSound, beforeReloadSound;
 
     public PlayerState State
@@ -499,6 +500,7 @@ public class Player : MonoBehaviour
         State = PlayerState.Dead;
         yield return new WaitForSeconds(0.8f);
         deathSound.Play();
+        FindObjectOfType<AudioManager>().BloodHit();
         animator.SetBool("Idle", false);
         animator.SetBool("Death", true);
         animator.SetInteger("IdleDirection", 0);
@@ -519,6 +521,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(beforeHitTime);
         hitSound.Play();
+        FindObjectOfType<AudioManager>().BloodHit();
         animator.SetBool("Idle", false);
         animator.SetBool("Hit", true);
         animator.SetInteger("IdleDirection", 0);

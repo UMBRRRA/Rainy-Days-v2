@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour
     public float transitionTime = 10f;
     public Dictionary<int, AudioMixerSnapshot> snapshots = new();
     public AudioSource hoverSound, clickSound;
+    public AudioSource bloodHit;
+    public AudioSource encounterSound, transtionSound;
 
     void Start()
     {
@@ -125,5 +127,25 @@ public class AudioManager : MonoBehaviour
     {
         yield return new WaitForSeconds(transitionTime);
         track.Stop();
+    }
+
+    public void BloodHit()
+    {
+        bloodHit.Play();
+    }
+
+    public void ClickSound()
+    {
+        clickSound.Play();
+    }
+
+    public void TransitionSound()
+    {
+        transtionSound.Play();
+    }
+
+    public void EncounterSound()
+    {
+        encounterSound.Play();
     }
 }

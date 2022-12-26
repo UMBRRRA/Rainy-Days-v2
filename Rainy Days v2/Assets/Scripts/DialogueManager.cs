@@ -38,6 +38,7 @@ public class DialogueManager : MonoBehaviour
     public void StartDialogue(Dialogue dialogue)
     {
         ActivateDialogueWindow();
+        ClearDialogue();
         StopAllCoroutines();
         StartCoroutine(TypeDialogue(dialogue));
     }
@@ -81,14 +82,14 @@ public class DialogueManager : MonoBehaviour
         {
             button2.SetActive(true);
             answer2.text = "2. " + dialogue.answer2;
+            event2 = dialogue.event2;
         }
-        event2 = dialogue.event2;
         if (dialogue.answer3 != "")
         {
             button3.SetActive(true);
             answer3.text = "3. " + dialogue.answer3;
+            event3 = dialogue.event3;
         }
-        event3 = dialogue.event3;
         State = DialogueState.Ready;
     }
 
@@ -134,21 +135,26 @@ public class DialogueManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-
                 FireEvent1();
+                ClickSound();
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (Input.GetKeyDown(KeyCode.Alpha2) && event2 != null)
             {
-
                 FireEvent2();
+                ClickSound();
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if (Input.GetKeyDown(KeyCode.Alpha3) && event3 != null)
             {
-
+                ClickSound();
                 FireEvent3();
             }
         }
 
+    }
+
+    private void ClickSound()
+    {
+        FindObjectOfType<AudioManager>().ClickSound();
     }
 
 }

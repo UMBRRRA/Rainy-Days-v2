@@ -38,6 +38,7 @@ public class Cultist : Enemy
     public float beforeGunLight, afterGunLight;
     public float myTurnTime { get; set; } = 3f;
 
+    public AudioSource walkSound, gunSound, hitSound, deathSound;
 
     public override void MakeTurn()
     {
@@ -264,6 +265,7 @@ public class Cultist : Enemy
 
     private void GunAfterChecks()
     {
+        gunSound.PlayDelayed(beforeGunLight);
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
         animator.SetBool("Gun", true);
@@ -360,6 +362,8 @@ public class Cultist : Enemy
     private IEnumerator BeforeDead()
     {
         yield return new WaitForSeconds(beforeHitTime);
+        deathSound.Play();
+        FindObjectOfType<AudioManager>().BloodHit();
         animator.SetBool("Idle", false);
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Death", true);
@@ -384,6 +388,8 @@ public class Cultist : Enemy
     private IEnumerator BeforeHit()
     {
         yield return new WaitForSeconds(beforeHitTime);
+        hitSound.Play();
+        FindObjectOfType<AudioManager>().BloodHit();
         animator.SetBool("Idle", false);
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Hit", true);
@@ -530,11 +536,11 @@ public class Cultist : Enemy
 
     public override void PlayWalkSound()
     {
-
+        walkSound.Play();
     }
 
     public override void StopWalkSound()
     {
-
+        walkSound.Stop();
     }
 }
