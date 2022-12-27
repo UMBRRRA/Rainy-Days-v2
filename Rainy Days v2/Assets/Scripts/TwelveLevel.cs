@@ -16,6 +16,7 @@ public class TwelveLevel : MonoBehaviour
     public int dynamiteQuestXP = 500;
     public Vector3Int walkDynamiteQuestPos;
     private Shadow shadow;
+    public AudioSource explosionsSound;
     void Start()
     {
         GoNeutral();
@@ -82,6 +83,7 @@ public class TwelveLevel : MonoBehaviour
         yield return new WaitUntil(() => player.State == PlayerState.Neutral);
         player.IdleDirectionNoNeutral(3);
         player.State = PlayerState.Event;
+        explosionsSound.Play();
         rubble.GetComponent<Animator>().SetBool("blowingUp", true);
         player.exp += dynamiteQuestXP;
         shadow.CloseShadow();

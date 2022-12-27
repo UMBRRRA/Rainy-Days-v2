@@ -63,6 +63,7 @@ public class PauseMenuFunctions : MonoBehaviour
         Shadow shadow = FindObjectOfType<Shadow>();
         shadow.CloseShadow();
         FindObjectOfType<AudioManager>().ChangeLevel(0);
+        FindObjectOfType<AudioManager>().TransitionSound();
         StartCoroutine(ReturnToMM(shadow));
     }
 
@@ -80,6 +81,31 @@ public class PauseMenuFunctions : MonoBehaviour
     {
         yield return new WaitForSeconds(shadow.shadowTime);
         mainMenu.ActivateButtons();
+    }
+
+    public void FinishGame()
+    {
+        Shadow shadow = FindObjectOfType<Shadow>();
+        shadow.CloseShadow();
+        FindObjectOfType<AudioManager>().ChangeLevel(0);
+        FindObjectOfType<AudioManager>().TransitionSound();
+        StartCoroutine(ReturnToMainAndRollCredits(shadow));
+    }
+
+    private IEnumerator ReturnToMainAndRollCredits(Shadow shadow)
+    {
+        yield return new WaitUntil(() => shadow.doneAnimating);
+        StartCoroutine(DestroyPlayer());
+        DeactivatePauseMenuWhenQuitting();
+        SceneManager.LoadScene(0);
+        mainMenu.ActivateMainMenu();
+        StartCoroutine(WaitAndActivateRollCredits(shadow));
+    }
+
+    private IEnumerator WaitAndActivateRollCredits(Shadow shadow)
+    {
+        yield return new WaitForSeconds(shadow.shadowTime);
+        // Main Menu Open Credits Menu
     }
 
     public IEnumerator DestroyPlayer()

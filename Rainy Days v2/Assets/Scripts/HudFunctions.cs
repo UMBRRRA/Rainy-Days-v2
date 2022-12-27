@@ -374,7 +374,7 @@ public class HudFunctions : MonoBehaviour
     private IEnumerator SnipeCo()
     {
         yield return new WaitUntil(() => (player = FindObjectOfType<Player>()) != null);
-        if ((player.State == PlayerState.Neutral || player.State == PlayerState.Meleeing || player.State == PlayerState.Snipe
+        if ((player.State == PlayerState.Neutral || player.State == PlayerState.Meleeing || player.State == PlayerState.Shooting
             || player.State == PlayerState.Flurry)
             && player.inFight && player.Stats.CurrentMagazine != 0 && player.snipeCurrentCooldown == 0)
         {
