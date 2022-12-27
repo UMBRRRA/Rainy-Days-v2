@@ -36,6 +36,8 @@ public class Boss : Enemy
 
     public AudioSource hitSound, deathSound, teleportSound;
 
+    public GameObject lightningBolt;
+
     public override void MakeTurn()
     {
         StartCoroutine(BossTurn());

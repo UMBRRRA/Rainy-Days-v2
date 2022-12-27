@@ -105,7 +105,7 @@ public class PauseMenuFunctions : MonoBehaviour
     private IEnumerator WaitAndActivateRollCredits(Shadow shadow)
     {
         yield return new WaitForSeconds(shadow.shadowTime);
-        // Main Menu Open Credits Menu
+        FindObjectOfType<CreditsMenuFunctions>().ActivateCreditsMenu();
     }
 
     public IEnumerator DestroyPlayer()

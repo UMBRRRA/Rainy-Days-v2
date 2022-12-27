@@ -41,6 +41,7 @@ public class FeatSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnPointerEnter(PointerEventData eventData)
     {
         text.color = hoverColor;
+        FindObjectOfType<AudioManager>().hoverSound.Play();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -51,6 +52,7 @@ public class FeatSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void OnClick()
     {
         FindObjectOfType<CharacterMenuFunctions>().SetDetails(this);
+        FindObjectOfType<AudioManager>().clickSound.Play();
     }
 
 

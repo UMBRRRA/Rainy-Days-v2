@@ -113,7 +113,7 @@ MonoBehaviour:
   - {x: -0.09889835, y: -0.11298785, z: 0}
   m_ShapePathHash: 1221398404
   m_Mesh: {fileID: 0}
-  m_InstanceId: 162256
+  m_InstanceId: 154700
 --- !u!1 &2169707942566714501
 GameObject:
   m_ObjectHideFlags: 0
@@ -232,6 +232,7 @@ MonoBehaviour:
   hitSound: {fileID: 5785350033479809685}
   deathSound: {fileID: 1764078742133811876}
   teleportSound: {fileID: 4787922155576403372}
+  lightningBolt: {fileID: 9210569667559119409, guid: 59cc67873824b8a48bfba4c004dd9a67, type: 3}
 --- !u!114 &1139026151190277919
 MonoBehaviour:
   m_ObjectHideFlags: 0
