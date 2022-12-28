@@ -11,7 +11,8 @@ public static class StaticHelpers
         Vector3 newMe = new(me.x, me.y, 0);
         Vector3 newThey = new(they.x, they.y, 0);
         Vector3 normal = (newMe - newThey).normalized;
-        float lowPoint = 0.4f;
+        Debug.Log($"Choosing direction: normal x is {normal.x} normal y is {normal.y}");
+        float lowPoint = 0.28f;
         if (normal.x <= -lowPoint && normal.y >= lowPoint)
             return 1;
         else if (normal.x <= -lowPoint && (normal.y > -lowPoint && normal.y < lowPoint))

@@ -845,7 +845,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: 
   spawnDirection: 0
-  exp: 100
+  exp: 110
   slider: {fileID: 389086889627754646}
   sliderParent: {fileID: 6683941425667272125}
   timeForMove: 0.3
@@ -861,7 +861,7 @@ MonoBehaviour:
   hammerApCost: 10
   hammerMinDice: 2
   hammerMaxDice: 16
-  hammerModifier: 5
+  hammerModifier: 4
   pukeApCost: 6
   pukeTime: 0.97
   pukeMinDice: 1
@@ -1028,7 +1028,7 @@ MonoBehaviour:
   - {x: 0.07431846, y: -0.0003619641, z: 0}
   m_ShapePathHash: -1310603479
   m_Mesh: {fileID: 0}
-  m_InstanceId: 151352
+  m_InstanceId: 267162
 --- !u!1 &9088745034888746423
 GameObject:
   m_ObjectHideFlags: 0

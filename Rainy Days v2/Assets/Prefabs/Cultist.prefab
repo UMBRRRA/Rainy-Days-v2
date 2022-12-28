@@ -115,7 +115,7 @@ MonoBehaviour:
   - {x: -0.034784365, y: -0.120421246, z: 0}
   m_ShapePathHash: -553773203
   m_Mesh: {fileID: 0}
-  m_InstanceId: 61368
+  m_InstanceId: 265740
 --- !u!1 &2502098955424052998
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,16 +225,16 @@ MonoBehaviour:
   enemyZ: 3.8
   type: 0
   gunLight: {fileID: 6330280045455675298}
-  cultistMaxHealth: 80
+  cultistMaxHealth: 72
   cultistMaxAP: 35
   cultistInitiative: 12
-  cultistMovement: 0.3
+  cultistMovement: 0.26
   hitTime: 0.6
   gunTime: 0.7
-  gunApCost: 15
+  gunApCost: 12
   gunMinDice: 9
-  gunMaxDice: 18
-  gunModifier: 5
+  gunMaxDice: 16
+  gunModifier: 4
   gunRange: 4
   beforeGunLight: 0.3
   afterGunLight: 0.2
@@ -670,8 +670,8 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 2136036557688726017, guid: ab7d15407b7682c429fd8abe0a125e07, type: 2}
   m_audioClip: {fileID: 8300000, guid: 8bbebcb5e30ef5d44824bc397951e628, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.766
-  m_Pitch: 1
+  m_Volume: 0.738
+  m_Pitch: 1.1
   Loop: 0
   Mute: 0
   Spatialize: 0

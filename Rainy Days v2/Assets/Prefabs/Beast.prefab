@@ -369,7 +369,7 @@ MonoBehaviour:
   - {x: 0, y: -0.056860566, z: 0}
   m_ShapePathHash: 1958751033
   m_Mesh: {fileID: 0}
-  m_InstanceId: 61092
+  m_InstanceId: 256144
 --- !u!1 &6859229711780639063
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,7 +444,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyName: Beast
   spawnDirection: 1
-  exp: 300
+  exp: 340
   slider: {fileID: 902796132372302146}
   sliderParent: {fileID: 6134766265141134441}
   timeForMove: 0.25

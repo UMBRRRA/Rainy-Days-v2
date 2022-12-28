@@ -1017,7 +1017,7 @@ MonoBehaviour:
   - {x: 0.03892839, y: 0.017054081, z: 0}
   m_ShapePathHash: 1792717929
   m_Mesh: {fileID: 0}
-  m_InstanceId: 136164
+  m_InstanceId: 313908
 --- !u!1 &5960890699162566554
 GameObject:
   m_ObjectHideFlags: 0
@@ -1074,13 +1074,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4db21be359f0ed47aad117bad473d3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 160
-  startToxicity: 200
+  startHealth: 170
+  startToxicity: 190
   startAP: 35
   startMag: 4
   startInitative: 9
   startMovement: 0.2
-  unusedFeats: 9
+  unusedFeats: 0
   playerZ: 4
   timeForMove: 0.3
   timeForCornerMove: 0.5
@@ -1110,11 +1110,11 @@ MonoBehaviour:
   beforeHitTime: 0.2
   deathTime: 1.3
   gunMinDice: 4
-  gunMaxDice: 16
-  gunModifier: 1
+  gunMaxDice: 17
+  gunModifier: 2
   meleeMinDice: 2
-  meleeMaxDice: 8
-  meleeModifier: 2
+  meleeMaxDice: 9
+  meleeModifier: 3
   mainCursor: {fileID: 2800000, guid: 4777df351c4fd5f4aaf89147d280eda0, type: 3}
   secondLevel: 400
   thirdLevel: 1200
@@ -1122,11 +1122,11 @@ MonoBehaviour:
   fifthLevel: 2800
   sixthLevel: 3600
   seventhLevel: 4800
-  eightLevel: 5600
-  ninthLevel: 7000
+  eightLevel: 5800
+  ninthLevel: 6900
   tenthLevel: 8000
-  eleventhLevel: 9000
-  twelfthLevel: 10000
+  eleventhLevel: 9200
+  twelfthLevel: 10600
   snipeCooldown: 3
   hasteCooldown: 5
   flurryCooldown: 4

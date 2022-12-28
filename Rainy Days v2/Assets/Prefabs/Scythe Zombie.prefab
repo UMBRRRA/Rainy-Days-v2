@@ -13,7 +13,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1037796769832057196, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: m_InstanceId
-      value: -8850
+      value: -402126
       objectReference: {fileID: 0}
     - target: {fileID: 8874444021754101734, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: m_Name
@@ -65,7 +65,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8874444021754101752, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: exp
-      value: 300
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 8874444021754101752, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: type
@@ -85,7 +85,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8874444021754101752, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: hammerModifier
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 8874444021754101752, guid: 86d172f8b095efb45b3cc639fad45f1a, type: 3}
       propertyPath: zombieMovement

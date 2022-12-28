@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class Boss : Enemy
 {
-    //public GameObject electricLight;
-
     public int bossMaxHealth, bossMaxAP, bossInitiative;
     public float bossMovement;
     private Player player;
@@ -16,27 +14,28 @@ public class Boss : Enemy
     public float hitTime = 0.6f;
     private float beforeHitTime;
 
-    //public float gunTime = 1.2f;
-    //public int gunApCost = 1;
+    public float lightningTime = 1.2f;
+    public int lightningApCost = 1;
     private bool myTurn = false;
     private bool moveFinished = true;
 
-    //public int gunMinDice = 2;
-    //public int gunMaxDice = 16;
-    //public int gunModifier = 5;
+    public int lightningMinDice = 2;
+    public int lightningMaxDice = 16;
+    public int lightningModifier = 5;
     public int lightningRange = 4;
-
-    //public float beforeGunLight, afterGunLight;
     public float myTurnTime { get; set; } = 3f;
 
     public float dissappearTime = 0.5f;
     public float teleportTime = 1f;
+    public float beforeBoltSpawnTime = 0.67f;
+    public float boltFlyTimeTo = 0.2f;
 
     public DialogueTrigger endGameDialogue;
 
-    public AudioSource hitSound, deathSound, teleportSound;
+    public AudioSource hitSound, deathSound, teleportSound, shockSound;
 
     public GameObject lightningBolt;
+    public GameObject boltSpawnE, boltSpawnNE, boltSpawnN, boltSpawnNW, boltSpawnW, boltSpawnSW, boltSpawnS, boltSpawnSE;
 
     public override void MakeTurn()
     {
@@ -71,7 +70,8 @@ public class Boss : Enemy
 
     private void BossMove()
     {
-        UseResttoMoveUp();
+        if (!MoveUp())
+            Lightning();
     }
 
 
@@ -162,16 +162,14 @@ public class Boss : Enemy
     }
 
 
-    public bool UseResttoMoveUp()
+    public bool MoveUp()
     {
         mapManager.OccupiedFields.Remove(CurrentGridPosition);
         if (mapManager.FindNeighboursOfRange(player.currentGridPosition, lightningRange).Contains(CurrentGridPosition))
         {
-            myTurn = false;
-            moveFinished = true;
-            myTurnTime = 0.5f;
+            //myTurnTime = 0f;
             mapManager.OccupiedFields.Add(CurrentGridPosition);
-            return true;
+            return false;
         }
         APath path = mapManager.ChooseBestAPath(CurrentGridPosition, mapManager.FindNeighboursOfRange(player.currentGridPosition, lightningRange));
         if (path == null)
@@ -183,23 +181,11 @@ public class Boss : Enemy
         int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
         if (apcost == 0)
             apcost = 1;
-        while (!UseAP(apcost))
-        {
-            if (path.Fields.Count == 2)
-            {
-                myTurn = false;
-                moveFinished = true;
-                mapManager.OccupiedFields.Add(CurrentGridPosition);
-                return false;
-            }
-            Field[] pathFields = path.Fields.ToArray();
-            path = mapManager.FindAPath(CurrentGridPosition, pathFields[pathFields.Length - 2].GridPosition);
-            apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
-        }
-        myTurnTime = path.DijkstraScore * timeForCornerMove;
+        UseAP(apcost);
+        myTurnTime = teleportTime;
         State = EnemyState.Moving;
         Teleport(path);
-        StartCoroutine(WaitAndEndTurn());
+        //StartCoroutine(WaitAndEndPort());
         return true;
     }
 
@@ -236,128 +222,133 @@ public class Boss : Enemy
         CurrentDirection = StaticHelpers.ChooseDir(transform.position, player.transform.position);
         animator.SetInteger("IdleDirection", CurrentDirection);
         State = EnemyState.Neutral;
+        moveFinished = true;
     }
 
     private IEnumerator WaitAndEndTurn()
     {
         yield return new WaitUntil(() => State == EnemyState.Neutral);
-        IdleDirection(StaticHelpers.ChooseDir(transform.position, player.transform.position));
         myTurn = false;
         moveFinished = true;
     }
 
-    /*
-    public bool Gun()
+
+    public bool Lightning()
     {
-        if (StaticHelpers.CheckIfTargetIsInRange(player.currentGridPosition, CurrentGridPosition, gunRange))
+        if (UseAP(lightningApCost))
         {
-            if (UseAP(gunApCost))
-            {
-                GunAfterChecks();
-                myTurnTime = gunTime;
-                return true;
-            }
+            LightningAfterChecks();
+            myTurnTime = lightningTime;
+            return true;
         }
         else
         {
-            mapManager.OccupiedFields.Remove(CurrentGridPosition);
-            APath path = mapManager.ChooseBestAPath(CurrentGridPosition, mapManager.FindNeighboursOfRange(player.currentGridPosition, gunRange));
-            if (path == null)
-            {
-                mapManager.OccupiedFields.Add(CurrentGridPosition);
-                return false;
-            }
-            int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
-            if (apcost == 0)
-                apcost = 1;
-            apcost += gunApCost;
-            if (UseAP(apcost))
-            {
-                myTurnTime = path.DijkstraScore * timeForCornerMove + gunTime;
-                State = EnemyState.Moving;
-                mapManager.MoveEnemy(this, path);
-                StartCoroutine(WaitForMoveAndGun());
-                return true;
-            }
-            else
-            {
-                mapManager.OccupiedFields.Add(CurrentGridPosition);
-            }
+            StartCoroutine(WaitAndEndTurn());
+            return false;
         }
-        return false;
     }
 
-    private void GunAfterChecks()
+    private void LightningAfterChecks()
     {
-        gunSound.PlayDelayed(beforeGunLight);
+        shockSound.Play();
         animator.SetInteger("IdleDirection", 0);
         animator.SetBool("Idle", false);
-        animator.SetBool("Gun", true);
-        int gunDir = StaticHelpers.ChooseDir(transform.position, player.transform.position);
-        animator.SetInteger("GunDirection", gunDir);
-        CurrentDirection = gunDir;
-        SetGunLight();
-        player.beforeHitTime = 0.1f;
-        player.DamageHealth(StaticHelpers.RollDamage(gunMinDice, gunMaxDice, gunModifier));
-        StartCoroutine(WaitForGunLight());
-        StartCoroutine(WaitAndGoBackFromGun());
+        animator.SetBool("Shock", true);
+        int shockDir = StaticHelpers.ChooseDir(transform.position, player.transform.position);
+        animator.SetInteger("ShockDirection", shockDir);
+        CurrentDirection = shockDir;
+        StartCoroutine(SpawnBolt());
+        StartCoroutine(WaitAndGoBackFromLightning());
     }
 
-    public void SetGunLight()
+    private IEnumerator SpawnBolt()
     {
-        if (CurrentDirection == 1)
-            gunLight.transform.position = transform.position + new Vector3(0.4f, -0.2f, 0);
-        else if (CurrentDirection == 2)
-            gunLight.transform.position = transform.position + new Vector3(0.6f, 0, 0);
-        else if (CurrentDirection == 3)
-            gunLight.transform.position = transform.position + new Vector3(0.4f, 0.2f, 0);
-        else if (CurrentDirection == 4)
-            gunLight.transform.position = transform.position + new Vector3(0, 0.4f, 0);
-        else if (CurrentDirection == 5)
-            gunLight.transform.position = transform.position + new Vector3(-0.4f, 0.2f, 0);
-        else if (CurrentDirection == 6)
-            gunLight.transform.position = transform.position + new Vector3(-0.6f, 0, 0);
-        else if (CurrentDirection == 7)
-            gunLight.transform.position = transform.position + new Vector3(-0.4f, -0.2f, 0);
-        else
-            gunLight.transform.position = transform.position + new Vector3(0, -0.4f, 0);
+        yield return new WaitForSeconds(beforeBoltSpawnTime);
+        switch (CurrentDirection)
+        {
+            case 1:
+                GameObject boltE = Instantiate(lightningBolt, boltSpawnE.transform);
+                boltE.GetComponent<Animator>().SetInteger("Direction", 1);
+                StartCoroutine(SendBolt(boltE));
+                break;
+            case 2:
+                GameObject boltNE = Instantiate(lightningBolt, boltSpawnNE.transform);
+                boltNE.GetComponent<Animator>().SetInteger("Direction", 2);
+                StartCoroutine(SendBolt(boltNE));
+                break;
+            case 3:
+                GameObject boltN = Instantiate(lightningBolt, boltSpawnN.transform);
+                boltN.GetComponent<Animator>().SetInteger("Direction", 3);
+                StartCoroutine(SendBolt(boltN));
+                break;
+            case 4:
+                GameObject boltNW = Instantiate(lightningBolt, boltSpawnNW.transform);
+                boltNW.GetComponent<Animator>().SetInteger("Direction", 4);
+                StartCoroutine(SendBolt(boltNW));
+                break;
+            case 5:
+                GameObject boltW = Instantiate(lightningBolt, boltSpawnW.transform);
+                boltW.GetComponent<Animator>().SetInteger("Direction", 5);
+                StartCoroutine(SendBolt(boltW));
+                break;
+            case 6:
+                GameObject boltSW = Instantiate(lightningBolt, boltSpawnSW.transform);
+                boltSW.GetComponent<Animator>().SetInteger("Direction", 6);
+                StartCoroutine(SendBolt(boltSW));
+                break;
+            case 7:
+                GameObject boltS = Instantiate(lightningBolt, boltSpawnS.transform);
+                boltS.GetComponent<Animator>().SetInteger("Direction", 7);
+                StartCoroutine(SendBolt(boltS));
+                break;
+            case 8:
+                GameObject boltSE = Instantiate(lightningBolt, boltSpawnSE.transform);
+                boltSE.GetComponent<Animator>().SetInteger("Direction", 8);
+                StartCoroutine(SendBolt(boltSE));
+                break;
+        }
+
     }
 
-    private IEnumerator WaitForMoveAndGun()
+    private IEnumerator SendBolt(GameObject bolt)
     {
-        yield return new WaitUntil(() => State == EnemyState.Neutral);
-        StartCoroutine(WaitJustABitAndGun());
+        float timeTo = boltFlyTimeTo;
+        Vector3 currentPos = bolt.transform.position;
+        Vector3 playerPos = new(player.transform.position.x, player.transform.position.y + 0.25f, 10f);
+        float ti = 0f;
+        player.beforeHitTime = boltFlyTimeTo;
+        player.DamageHealth(StaticHelpers.RollDamage(lightningMinDice, lightningMaxDice, lightningModifier));
+        while (true)
+        {
+            ti += Time.deltaTime / timeTo;
+            bolt.transform.position = Vector3.Lerp(currentPos, playerPos, ti);
+
+            if (bolt.transform.position == playerPos)
+            {
+                bolt.GetComponent<Animator>().SetBool("Boom", true);
+                StartCoroutine(WaitAndDestroyBolt(bolt));
+                break;
+            }
+            yield return null;
+        }
     }
 
-    private IEnumerator WaitJustABitAndGun()
+    private IEnumerator WaitAndDestroyBolt(GameObject bolt)
     {
-        yield return new WaitForSeconds(0.05f);
-        GunAfterChecks();
+        yield return new WaitForSeconds(0.2f);
+        Destroy(bolt);
     }
 
-    public IEnumerator WaitAndGoBackFromGun()
+    public IEnumerator WaitAndGoBackFromLightning()
     {
-        yield return new WaitForSeconds(gunTime);
-        animator.SetBool("Gun", false);
+        yield return new WaitForSeconds(lightningTime);
+        animator.SetBool("Shock", false);
         animator.SetBool("Idle", true);
-        animator.SetInteger("GunDirection", 0);
+        animator.SetInteger("ShockDirection", 0);
         animator.SetInteger("IdleDirection", base.CurrentDirection);
         moveFinished = true;
     }
 
-    private IEnumerator WaitForGunLight()
-    {
-        yield return new WaitForSeconds(beforeGunLight);
-        gunLight.SetActive(true);
-        StartCoroutine(WaitForGunLightShut());
-    }
-
-    private IEnumerator WaitForGunLightShut()
-    {
-        yield return new WaitForSeconds(afterGunLight);
-        gunLight.SetActive(false);
-    }
-    */
 
     private void IdleDirection(int dir)
     {
