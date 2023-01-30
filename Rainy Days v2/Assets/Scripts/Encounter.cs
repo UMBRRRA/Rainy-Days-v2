@@ -47,11 +47,8 @@ public class Encounter : MonoBehaviour
         }
     }
 
-
-
     public void StartEncounter()
     {
-        Debug.Log("Starting Encounter");
         StartCoroutine(FindPlayer());
     }
 
@@ -61,7 +58,6 @@ public class Encounter : MonoBehaviour
         player.inFight = true;
         StartCoroutine(FindEncounterManager());
     }
-
 
     public IEnumerator FindEncounterManager()
     {

@@ -300,7 +300,6 @@ public class MapManager : MonoBehaviour
         lastY = firstY + map.size.y;
         Dictionary<Vector3Int, Field> fields = new();
         const float heuristicScale = 1.5f;
-        // browse all tiles
         for (int x = firstX; x <= lastX; x++)
         {
             for (int y = firstY; y <= lastY; y++)
@@ -319,9 +318,6 @@ public class MapManager : MonoBehaviour
 
             }
         }
-
-
-
         List<Field> done = new();
         Field startField = fields[start];
         Field finishField = fields[finish];
@@ -330,8 +326,6 @@ public class MapManager : MonoBehaviour
         startField.BestScore = 0 + startField.Heuristic;
         startField.DijkstraScore = 0;
         startField.Path.Add(startField);
-
-
 
         while (currentField != finishField)
         {
@@ -358,7 +352,6 @@ public class MapManager : MonoBehaviour
                 }
             }
             done.Add(currentField);
-
             if (queue.Entries.Count == 0)
             {
                 Debug.Log("Can't find path.");

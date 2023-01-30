@@ -4,19 +4,10 @@ using UnityEngine;
 
 public class EncounterManager : MonoBehaviour
 {
-
-
     public Encounter CurrentEncounter { get; set; }
-
     public StatsPriorityQueue Queue { get; set; } = new();
     public List<Stats> Stats { get; set; } = new();
-
     public List<Stats> DeadStats { get; set; } = new();
-
-    void Start()
-    {
-
-    }
 
     public void SomebodyDies(Stats stats)
     {
@@ -34,7 +25,6 @@ public class EncounterManager : MonoBehaviour
         FindObjectOfType<HudFunctions>().StartEncounter();
         Queue.Entries.Clear();
         Stats = stats;
-        //stats.ForEach(stat => stat.RolledInitiative = stat.Initiative + Random.Range(1, 21));
         NextRound();
     }
 
@@ -54,13 +44,9 @@ public class EncounterManager : MonoBehaviour
         {
             Stats next = Queue.Dequeue();
             if (!DeadStats.Contains(next))
-            {
                 next.MakeTurn();
-            }
             else
-            {
                 NextTurn();
-            }
         }
         else
             NextRound();

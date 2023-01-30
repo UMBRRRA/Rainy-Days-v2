@@ -811,17 +811,14 @@ public class Player : MonoBehaviour
             if (StaticHelpers.CheckIfTargetIsInRange(enemy.CurrentGridPosition, currentGridPosition, gunRange))
             {
                 if (UseAP(gunApCost))
-                {
                     ShootAfterChecks(enemy, snipe);
-                }
                 else
-                {
                     DidNotWork();
-                }
             }
             else
             {
-                APath path = mapManager.ChooseBestAPath(currentGridPosition, mapManager.FindNeighboursOfRange(enemy.CurrentGridPosition, gunRange));
+                APath path = mapManager.ChooseBestAPath(currentGridPosition,
+                    mapManager.FindNeighboursOfRange(enemy.CurrentGridPosition, gunRange));
                 int apcost = (int)Math.Round(path.DijkstraScore / Stats.Movement);
                 if (apcost == 0)
                     apcost = 1;
@@ -832,15 +829,11 @@ public class Player : MonoBehaviour
                     StartCoroutine(WaitForMoveAndShoot(enemy, snipe));
                 }
                 else
-                {
                     DidNotWork();
-                }
             }
         }
         else
-        {
             DidNotWork();
-        }
     }
 
     private void DidNotWork()

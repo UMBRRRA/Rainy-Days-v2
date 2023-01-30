@@ -4,7 +4,6 @@ using UnityEngine;
 
 public abstract class Stats
 {
-
     public int MaxHealth { get; set; }
     public int CurrentHealth { get; set; }
     public int MaxAP { get; set; }
@@ -12,7 +11,5 @@ public abstract class Stats
     public int Initiative { get; set; }
     public int RolledInitiative { get; set; }
     public float Movement { get; set; }
-
     public abstract void MakeTurn();
-
 }
